@@ -16,7 +16,7 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
 .deck::-webkit-scrollbar{display:none}
 .section{min-height:100vh;scroll-snap-align:start;scroll-snap-stop:normal;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 40px;text-align:center;position:relative}
 
-.progress{position:fixed;top:0;right:0;width:4px;height:100vh;background:#e4e4e4;opacity:.3;z-index:50}
+.progress{position:fixed;top:0;right:0;width:4px;height:100vh;background:#e4e4e4;opacity:.3;z-index:10}
 .progress-fill{width:100%;background:linear-gradient(180deg,#6d9d30,#9bbb59);height:0;transition:height .2s ease}
 
 .reveal{opacity:0;transform:translateY(80px);transition:opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1),transform 1.8s cubic-bezier(0.16, 1, 0.3, 1)}
@@ -62,9 +62,14 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
 .hero{position:relative;overflow:hidden}.hero>*{position:relative;z-index:1}
 .cta{position:relative;overflow:hidden}
 
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:1;box-shadow:inset 0 0 200px 50px rgba(0,0,0,.08)}
+.deck{position:relative;z-index:2}
 </style>
 </head>
 <body>
+<canvas id="particles"></canvas>
+
 <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
 <div class="deck" id="deck">
 
@@ -141,6 +146,27 @@ document.querySelectorAll('.video video').forEach(v=>{
   v.addEventListener('error',()=>{if(fb){fb.style.display='flex';v.style.display='none';}});
   if(v.readyState===4&&v.networkState===3&&fb){fb.style.display='flex';v.style.display='none';}
 });
+// === Ambient particles ===
+(function(){
+  const c=document.getElementById('particles');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  let w=0,h=0,parts=[];
+  function size(){w=c.width=innerWidth;h=c.height=innerHeight;}
+  function spawn(){const n=20+Math.floor(Math.random()*11);parts=[];for(let i=0;i<n;i++){parts.push({x:Math.random()*w,y:Math.random()*h,r:2+Math.random()*2,v:0.3+Math.random()*0.5,o:Math.random()});}}
+  function tick(){ctx.clearRect(0,0,w,h);
+    for(const p of parts){
+      p.y-=p.v;p.o+=Math.random()*0.01-0.005;if(p.o<0)p.o=0;if(p.o>1)p.o=1;
+      if(p.y+p.r<0){p.y=h+p.r;p.x=Math.random()*w;}
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(109,157,48,'+(p.o*0.15).toFixed(3)+')';ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  addEventListener('resize',size);
+  size();spawn();tick();
+})();
 </script>
+<div class="vignette"></div>
 </body>
 </html>

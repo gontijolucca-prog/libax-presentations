@@ -204,8 +204,8 @@ const VIDEOS = [
     steps: [
       { delay: 0, action: 'click', target: '.btn-client-file', label: 'Ficha de cliente' },
       { delay: 1500, action: 'show-tabs', items: ['Resumo', 'Apólices', 'Recibos', 'Simulações', 'Participações', 'Atividades', 'Posição Global'] },
-      { delay: 3500, action: 'click', target: '.tab-apolices', label: 'Ver apólices' },
-      { delay: 5000, action: 'click', target: '.tab-posicao', label: 'Posição global' },
+      { delay: 3500, action: 'click-tab', tabIndex: 1, label: 'Ver apólices' },
+      { delay: 5000, action: 'click-tab', tabIndex: 6, label: 'Posição global' },
       { delay: 7000, action: 'success', label: 'Ficha completa!' }
     ]
   },
@@ -843,6 +843,16 @@ video.steps.forEach(step => {
           });
         }
         break;
+      case 'click-tab':
+        const tabEl = document.getElementById('tab-' + step.tabIndex);
+        if (tabEl) {
+          const tabRect = tabEl.getBoundingClientRect();
+          clickAt(tabRect.left + tabRect.width/2, tabRect.top + tabRect.height/2, step.label, function(){
+            document.querySelectorAll('.tab.active').forEach(function(t){ t.classList.remove('active'); });
+            tabEl.classList.add('active');
+          });
+        }
+        break;
       case 'show-results':
         const rl = document.getElementById('resultsList');
         if (rl) {
@@ -927,9 +937,13 @@ async function generateVideo(browser, video) {
 }
 
 async function main() {
+  const onlyArg = process.argv.find(a => a.startsWith('--only='));
+  const onlyName = onlyArg ? onlyArg.split('=')[1] : null;
+  const videosToRun = onlyName ? VIDEOS.filter(v => v.name === onlyName) : VIDEOS;
+
   const browser = await chromium.launch({ headless: true });
 
-  for (const video of VIDEOS) {
+  for (const video of videosToRun) {
     try {
       await generateVideo(browser, video);
     } catch(e) {

@@ -171,7 +171,7 @@ body { width:1280px; height:720px; font-family:'Roboto',sans-serif; background:#
   <span id="successText"></span>
 </div>
 <script>
-const video = {"name":"seg-ficha-cliente","title":"Ficha do cliente","module":"Seguros","duration":8000,"steps":[{"delay":0,"action":"click","target":".btn-client-file","label":"Ficha de cliente"},{"delay":1500,"action":"show-tabs","items":["Resumo","Apólices","Recibos","Simulações","Participações","Atividades","Posição Global"]},{"delay":3500,"action":"click","target":".tab-apolices","label":"Ver apólices"},{"delay":5000,"action":"click","target":".tab-posicao","label":"Posição global"},{"delay":7000,"action":"success","label":"Ficha completa!"}]};
+const video = {"name":"seg-ficha-cliente","title":"Ficha do cliente","module":"Seguros","duration":8000,"steps":[{"delay":0,"action":"click","target":".btn-client-file","label":"Ficha de cliente"},{"delay":1500,"action":"show-tabs","items":["Resumo","Apólices","Recibos","Simulações","Participações","Atividades","Posição Global"]},{"delay":3500,"action":"click-tab","tabIndex":1,"label":"Ver apólices"},{"delay":5000,"action":"click-tab","tabIndex":6,"label":"Posição global"},{"delay":7000,"action":"success","label":"Ficha completa!"}]};
 const cursor = document.getElementById('cursor');
 const clickLabel = document.getElementById('clickLabel');
 const successBanner = document.getElementById('successBanner');
@@ -439,6 +439,16 @@ video.steps.forEach(step => {
             tab.textContent = item;
             tr.appendChild(tab);
             setTimeout(() => tab.classList.add('show'), i * 100);
+          });
+        }
+        break;
+      case 'click-tab':
+        const tabEl = document.getElementById('tab-' + step.tabIndex);
+        if (tabEl) {
+          const tabRect = tabEl.getBoundingClientRect();
+          clickAt(tabRect.left + tabRect.width/2, tabRect.top + tabRect.height/2, step.label, function(){
+            document.querySelectorAll('.tab.active').forEach(function(t){ t.classList.remove('active'); });
+            tabEl.classList.add('active');
           });
         }
         break;
