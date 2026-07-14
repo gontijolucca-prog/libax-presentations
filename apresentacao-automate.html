@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libax Automate — Automação de Processos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
+
+.deck{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
+.deck::-webkit-scrollbar{display:none}
+.section{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 40px;text-align:center}
+
+.progress{position:fixed;top:0;right:0;width:4px;height:100vh;background:#e4e4e4;opacity:.3;z-index:50}
+.progress-fill{width:100%;background:linear-gradient(180deg,#6d9d30,#9bbb59);height:0;transition:height .2s ease}
+
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+.hero{background:linear-gradient(135deg,#488500 0%,#6d9d30 50%,#9bbb59 100%);color:#fff}
+.hero img.logo{height:64px;margin-bottom:24px;filter:drop-shadow(2px 2px 6px rgba(0,0,0,.2))}
+.hero h1{font-size:56px;font-weight:700;letter-spacing:-1px;margin-bottom:10px}
+.hero .tagline{font-size:22px;font-weight:300;opacity:.95;margin-bottom:8px}
+.hero .sub{font-size:18px;font-weight:300;opacity:.85;margin-bottom:28px}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.45);border-radius:30px;padding:8px 26px;font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:300;opacity:.6;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+.overview{background:#fff}
+.overview.alt{background:#f2f2f4}
+.overview h2{font-size:38px;font-weight:500;color:#488500;margin-bottom:10px}
+.overview .subtitle{font-size:16px;font-weight:300;color:#888;margin-bottom:40px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;width:100%}
+.card{background:#fff;border-radius:12px;padding:28px 22px;text-align:center;box-shadow:4px 4px 2px #e4e4e4;border:1px solid #eee;transition:transform .3s ease,box-shadow .3s ease}
+.card:hover{transform:translateY(-4px);box-shadow:6px 6px 4px #e4e4e4}
+.card .icon{font-size:38px;margin-bottom:10px;display:block}
+.card h3{font-size:16px;font-weight:500;color:#6d9d30;margin-bottom:6px}
+.card p{font-size:13px;font-weight:300;color:#777;line-height:1.5}
+
+.video{background:#f2f2f4}
+.video.alt{background:#fff}
+.video h2{font-size:30px;font-weight:500;color:#488500;margin-bottom:6px}
+.video .tag{display:inline-block;background:#6d9d30;color:#fff;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:26px}
+.video video{max-width:960px;width:100%;aspect-ratio:16/9;border-radius:12px;box-shadow:4px 4px 2px #e4e4e4;background:#ddd;object-fit:cover}
+.video .fallback{max-width:960px;width:100%;aspect-ratio:16/9;border-radius:12px;box-shadow:4px 4px 2px #e4e4e4;background:linear-gradient(135deg,#9bbb59,#6d9d30);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:500}
+
+.cta h2{font-size:48px;font-weight:700;margin-bottom:14px}
+.cta .price{font-size:22px;font-weight:300;opacity:.95;margin-bottom:34px}
+.btn{display:inline-block;background:#5fb000;color:#fff;border:2px solid #5fb000;border-radius:30px;padding:14px 40px;font-size:16px;font-weight:500;text-decoration:none;transition:all .3s ease}
+.btn:hover{background:#fff;color:#5fb000;border-color:#fff}
+
+@media(max-width:768px){
+  .grid{grid-template-columns:1fr}
+  .hero h1{font-size:38px}
+  .video h2{font-size:24px}
+}
+</style>
+</head>
+<body>
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+<div class="deck" id="deck">
+
+  <!-- 1. Hero -->
+  <section class="section hero reveal">
+    <img src="assets/libax-logo-small.png" alt="Libax" class="logo">
+    <h1>Libax Automate</h1>
+    <p class="tagline">Módulo de Automação</p>
+    <p class="sub">Automação de Processos</p>
+    <span class="badge">Simplifique. Automatize. Evolua.</span>
+    <div class="scroll-hint">Role para ver ↓</div>
+  </section>
+
+  <!-- 2. Overview -->
+  <section class="section overview alt reveal">
+    <h2>Automatize o seu trabalho</h2>
+    <p class="subtitle">Poupe tempo com fluxos inteligentes</p>
+    <div class="grid">
+      <div class="card"><span class="icon">⚙️</span><h3>Automação de Tarefas</h3><p>Crie fluxos que executam tarefas repetitivas automaticamente.</p></div>
+      <div class="card"><span class="icon">🔗</span><h3>Integrações com Aplicações</h3><p>Ligue o Libax a outras ferramentas que já utiliza no dia a dia.</p></div>
+      <div class="card"><span class="icon">🗓️</span><h3>Agendamentos</h3><p>Programa execuções em datas e horários definidos por si.</p></div>
+      <div class="card"><span class="icon">⚡</span><h3>Tarefas em Tempo Real</h3><p>Ações desencadeadas instantaneamente por eventos do sistema.</p></div>
+      <div class="card"><span class="icon">📐</span><h3>Modelos Pre-definidos</h3><p>Templates prontos a usar para automatizações comuns.</p></div>
+      <div class="card"><span class="icon">🧩</span><h3>Regras Personalizadas</h3><p>Defina condições e ações à medida do seu processo de negócio.</p></div>
+    </div>
+  </section>
+
+  <!-- 3. Video: Mostrar aplicacoes -->
+  <section class="section video reveal">
+    <h2>Mostrar aplicações</h2>
+    <span class="tag">Demonstração</span>
+    <video autoplay muted loop controls>
+      <source src="video-generator/videos/mostrar-aplicacoes.webm" type="video/webm">
+    </video>
+    <div class="fallback" style="display:none">Mostrar aplicações</div>
+  </section>
+
+  <!-- 4. Video: Mostrar modelos -->
+  <section class="section video alt reveal">
+    <h2>Mostrar modelos</h2>
+    <span class="tag">Demonstração</span>
+    <video autoplay muted loop controls>
+      <source src="video-generator/videos/mostrar-modelos.webm" type="video/webm">
+    </video>
+    <div class="fallback" style="display:none">Mostrar modelos</div>
+  </section>
+
+  <!-- 5. Video: Sugestao de configuracao -->
+  <section class="section video reveal">
+    <h2>Sugestão de configuração</h2>
+    <span class="tag">Demonstração</span>
+    <video autoplay muted loop controls>
+      <source src="video-generator/videos/sugestao-configuracao.webm" type="video/webm">
+    </video>
+    <div class="fallback" style="display:none">Sugestão de configuração</div>
+  </section>
+
+  <!-- 6. CTA -->
+  <section class="section hero cta reveal">
+    <h2>Automatize já o seu negócio</h2>
+    <p class="price">desde 9 euros/mês</p>
+    <a href="https://www.libax.pt" class="btn">Registar</a>
+  </section>
+
+</div>
+<script>
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.25});
+document.querySelectorAll('.reveal').forEach(s=>io.observe(s));
+const deck=document.getElementById('deck');
+const fill=document.getElementById('progressFill');
+deck.addEventListener('scroll',()=>{const m=deck.scrollHeight-deck.clientHeight;const p=deck.scrollTop/m*100;fill.style.height=p+'%';});
+document.querySelectorAll('.video video').forEach(v=>{
+  const fb=v.parentElement.querySelector('.fallback');
+  v.addEventListener('error',()=>{if(fb){fb.style.display='flex';v.style.display='none';}});
+  if(v.readyState===4&&v.networkState===3&&fb){fb.style.display='flex';v.style.display='none';}
+});
+</script>
+</body>
+</html>

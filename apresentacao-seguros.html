@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libax Seguros - Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde-escuro: #488500;
+  --verde-medio: #5fb000;
+  --verde-claro: #9bbb59;
+  --verde-suave: #6d9d30;
+  --cinza-fundo: #f2f2f4;
+  --sombra: 4px 4px 2px #e4e4e4;
+  --sombra-video: 0 8px 24px rgba(0,0,0,0.18);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #222;
+  background: #fff;
+}
+
+section {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+  text-align: center;
+}
+
+section.alt { background: var(--cinza-fundo); }
+
+/* Indicador de progresso */
+#progress {
+  position: fixed;
+  top: 0; right: 0;
+  width: 4px;
+  height: 100vh;
+  background: rgba(72,133,0,0.15);
+  z-index: 100;
+  opacity: 0.3;
+}
+#progress-bar {
+  width: 100%;
+  background: var(--verde-medio);
+  height: 0%;
+  transition: height 0.1s linear;
+}
+
+/* Transições */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #488500 0%, #6d9d30 50%, #9bbb59 100%);
+  color: #fff;
+}
+.hero img { width: 140px; margin-bottom: 28px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2)); }
+.hero h1 { font-size: 64px; font-weight: 900; letter-spacing: -1px; margin-bottom: 16px; }
+.hero p { font-size: 26px; font-weight: 300; opacity: 0.95; }
+
+/* OVERVIEW cards */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1000px;
+  margin-top: 32px;
+}
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px 22px;
+  box-shadow: var(--sombra);
+  border-top: 4px solid var(--verde-medio);
+  text-align: left;
+}
+.card .icon {
+  font-size: 30px;
+  margin-bottom: 12px;
+  color: var(--verde-escuro);
+}
+.card h3 { font-size: 18px; font-weight: 700; color: var(--verde-escuro); margin-bottom: 8px; }
+.card p { font-size: 14px; font-weight: 300; line-height: 1.5; color: #555; }
+
+.section-title {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--verde-escuro);
+  margin-bottom: 8px;
+}
+.section-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: #666;
+  margin-bottom: 28px;
+}
+
+/* VIDEO sections */
+.video-wrap {
+  max-width: 960px;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  box-shadow: var(--sombra-video);
+  overflow: hidden;
+  background: #000;
+}
+.video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* SEPARADORES */
+.separator {
+  background: var(--cinza-fundo);
+}
+.separator .sep-title {
+  font-size: 52px;
+  font-weight: 700;
+  color: var(--verde-escuro);
+  margin-bottom: 24px;
+  letter-spacing: -0.5px;
+}
+.separator .sep-line {
+  width: 120px;
+  height: 5px;
+  background: var(--verde-medio);
+  border-radius: 4px;
+  margin: 0 auto;
+}
+
+/* CTA */
+.cta {
+  background: linear-gradient(135deg, #488500 0%, #5fb000 100%);
+  color: #fff;
+}
+.cta .price { font-size: 20px; font-weight: 300; opacity: 0.9; margin-bottom: 12px; }
+.cta .price strong { font-size: 48px; font-weight: 900; display: block; }
+.cta .btn {
+  display: inline-block;
+  margin-top: 32px;
+  padding: 18px 56px;
+  background: #fff;
+  color: var(--verde-escuro);
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease;
+}
+.cta .btn:hover { transform: scale(1.05); }
+
+@media (max-width: 768px) {
+  .overview-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 44px; }
+  .separator .sep-title { font-size: 38px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"><div id="progress-bar"></div></div>
+
+<!-- SECAO 1: HERO -->
+<section class="hero" id="s1">
+  <div class="fade-up">
+    <img src="assets/libax-logo-small.png" alt="Libax">
+    <h1>Libax Seguros</h1>
+    <p>Gestão de Carteira de Seguros</p>
+  </div>
+</section>
+
+<!-- SECAO 2: OVERVIEW -->
+<section class="alt" id="s2">
+  <div class="fade-up">
+    <h2 class="section-title">Visão Geral</h2>
+    <p class="section-sub">Tudo o que precisa para gerir a sua carteira de seguros</p>
+    <div class="overview-grid">
+      <div class="card"><div class="icon">&#128218;</div><h3>Gestão de Apólices</h3><p>Registo completo de apólices, coberturas e sinistros num só lugar.</p></div>
+      <div class="card"><div class="icon">&#128231;</div><h3>Comunicação com Seguradoras</h3><p>Fidelidade, Ageas, Liberty e Allianz integradas e sempre atualizadas.</p></div>
+      <div class="card"><div class="icon">&#128202;</div><h3>Análises e Dashboards</h3><p>Indicadores de produção, carteira e variação com visualização clara.</p></div>
+      <div class="card"><div class="icon">&#128179;</div><h3>Tesouraria Integrada</h3><p>Cobranças, folha de caixa e depósitos bancários totalmente ligados.</p></div>
+      <div class="card"><div class="icon">&#129309;</div><h3>Gestão de Parceiros</h3><p>Configuração de parceiros, códigos de mediação e pagamentos.</p></div>
+      <div class="card"><div class="icon">&#128270;</div><h3>Pesquisa Avançada</h3><p>Encontre rapidamente qualquer apólice, cliente ou recibo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 3: SEPARADOR -->
+<section class="separator" id="s3">
+  <div class="fade-up">
+    <div class="sep-title">Recibos e Importação</div>
+    <div class="sep-line"></div>
+  </div>
+</section>
+
+<!-- SECAO 4 -->
+<section id="s4">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Obter recibo em tempo real</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-recibo-tempo-real.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 5 -->
+<section class="alt" id="s5">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Importação de ficheiro de carteira</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-importar-carteira.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 6: SEPARADOR -->
+<section class="separator" id="s6">
+  <div class="fade-up">
+    <div class="sep-title">Clientes e Apólices</div>
+    <div class="sep-line"></div>
+  </div>
+</section>
+
+<!-- SECAO 7 -->
+<section id="s7">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Como registar cliente</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-registar-cliente.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 8 -->
+<section class="alt" id="s8">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Registo manual de apólice</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-manual-apolice.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 9 -->
+<section id="s9">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Ficha do cliente</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-ficha-cliente.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 10: SEPARADOR -->
+<section class="separator" id="s10">
+  <div class="fade-up">
+    <div class="sep-title">Tesouraria</div>
+    <div class="sep-line"></div>
+  </div>
+</section>
+
+<!-- SECAO 11 -->
+<section class="alt" id="s11">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Cobrança na tesouraria</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-cobranca-tesouraria.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 12 -->
+<section id="s12">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Tesouraria - Folha de caixa</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-folha-caixa.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 13 -->
+<section class="alt" id="s13">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Depósito para banco, despesas e análises</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-deposito-banco.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 14: SEPARADOR -->
+<section class="separator" id="s14">
+  <div class="fade-up">
+    <div class="sep-title">Parceiros</div>
+    <div class="sep-line"></div>
+  </div>
+</section>
+
+<!-- SECAO 15 -->
+<section class="alt" id="s15">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Criação e configuração do parceiro</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-criar-parceiro.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 16 -->
+<section id="s16">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Códigos de mediação no parceiro</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-codigos-mediacao.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 17 -->
+<section class="alt" id="s17">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Novo pagamento ao parceiro</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-pagamento-parceiro.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 18 -->
+<section id="s18">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Importação de prestação de contas</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-importacao-contas.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 19: SEPARADOR -->
+<section class="separator" id="s19">
+  <div class="fade-up">
+    <div class="sep-title">Análises</div>
+    <div class="sep-line"></div>
+  </div>
+</section>
+
+<!-- SECAO 20 -->
+<section class="alt" id="s20">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Análises: Carteira</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-analise-carteira.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 21 -->
+<section id="s21">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Análises: Produção total</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-analise-prod-total.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 22 -->
+<section class="alt" id="s22">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Análises: Produção nova</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-analise-prod-nova.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 23 -->
+<section id="s23">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Variação de recibos</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-variacao-recibos.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 24 -->
+<section class="alt" id="s24">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Beyondata</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-beyondata.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 25 -->
+<section id="s25">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Dashboards</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-dashboards.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 26: SEPARADOR -->
+<section class="separator" id="s26">
+  <div class="fade-up">
+    <div class="sep-title">Pesquisa e Controlo</div>
+    <div class="sep-line"></div>
+  </div>
+</section>
+
+<!-- SECAO 27 -->
+<section class="alt" id="s27">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Pesquisa simples e avançada</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-pesquisa-avancada.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 28 -->
+<section id="s28">
+  <div class="fade-up" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <h2 class="section-title">Controlo de informação fidedigna</h2>
+    <div class="video-wrap" style="margin-top:20px;">
+      <video autoplay muted loop controls src="video-generator/videos/seg-controlo-info.webm" type="video/webm"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 29: CTA -->
+<section class="cta" id="s29">
+  <div class="fade-up">
+    <img src="assets/libax-logo-small.png" alt="Libax" style="width:110px;margin-bottom:24px;filter:brightness(0) invert(1);">
+    <div class="price">desde<strong>12,60 €/mês</strong></div>
+    <a href="#" class="btn">Registar</a>
+  </div>
+</section>
+
+<script>
+// Transições fade + slide-up via IntersectionObserver
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Barra de progresso
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = (scrollTop / docHeight) * 100;
+  bar.style.height = pct + '%';
+});
+</script>
+
+</body>
+</html>

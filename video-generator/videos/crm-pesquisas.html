@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1280px; height:720px; font-family:'Roboto',sans-serif; background:#f2f2f4; overflow:hidden; }
+
+/* App window */
+.app { width:1280px; height:720px; display:flex; flex-direction:column; }
+
+/* Top bar */
+.topbar { height:52px; background:linear-gradient(135deg,#488500,#6d9d30); display:flex; align-items:center; padding:0 24px; gap:16px; }
+.topbar .logo { color:#fff; font-weight:700; font-size:18px; letter-spacing:1px; }
+.topbar .module-tag { background:rgba(255,255,255,.2); color:#fff; font-size:11px; padding:4px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:1px; }
+.topbar .nav-item { color:rgba(255,255,255,.7); font-size:13px; margin-left:auto; }
+
+/* Sidebar */
+.body-area { display:flex; flex:1; }
+.sidebar { width:200px; background:#fff; border-right:1px solid #e4e4e4; padding:20px 0; }
+.sidebar-item { padding:12px 24px; font-size:13px; color:#666; cursor:pointer; transition:all .2s; }
+.sidebar-item:hover { background:#f2f2f4; color:#6d9d30; }
+.sidebar-item.active { background:#f2f2f4; color:#6d9d30; font-weight:500; border-left:3px solid #6d9d30; }
+
+/* Main content */
+.main { flex:1; padding:32px; overflow:hidden; position:relative; }
+.main h2 { font-size:22px; font-weight:500; color:#488500; margin-bottom:20px; }
+
+/* Buttons */
+.btn { display:inline-block; background:#6d9d30; color:#fff; border:none; padding:10px 24px; border-radius:6px; font-size:14px; font-weight:500; cursor:pointer; font-family:inherit; box-shadow:2px 2px 1px #e4e4e4; transition:all .2s; }
+.btn:hover { background:#5fb000; transform:translateY(-1px); }
+.btn-big { padding:14px 32px; font-size:16px; }
+
+/* Form fields */
+.form-group { margin-bottom:16px; }
+.form-label { font-size:12px; color:#888; margin-bottom:4px; display:block; }
+.form-input { width:100%; max-width:400px; padding:10px 14px; border:1px solid #ddd; border-radius:6px; font-size:14px; font-family:inherit; background:#fff; transition:border-color .2s; }
+.form-input:focus { border-color:#6d9d30; outline:none; box-shadow:0 0 0 2px rgba(109,157,48,.15); }
+.form-input.filled { background:#f0f8e8; border-color:#9bbb59; }
+
+/* Select */
+.form-select { width:100%; max-width:400px; padding:10px 14px; border:1px solid #ddd; border-radius:6px; font-size:14px; background:#fff; cursor:pointer; }
+.form-select.filled { background:#f0f8e8; border-color:#9bbb59; }
+
+/* Cursor */
+.cursor { position:fixed; width:20px; height:20px; z-index:9999; transition:all .3s ease; pointer-events:none; }
+.cursor svg { width:100%; height:100%; }
+.cursor .ring { position:absolute; top:-4px; left:-4px; width:28px; height:28px; border:2px solid #6d9d30; border-radius:50%; opacity:0; }
+.cursor.clicking .ring { animation:ring-pulse .4s ease-out; }
+@keyframes ring-pulse { 0%{transform:scale(.5);opacity:1} 100%{transform:scale(1.5);opacity:0} }
+
+/* Click label */
+.click-label { position:fixed; background:#6d9d30; color:#fff; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:500; z-index:9998; opacity:0; transform:translateY(-10px); transition:all .3s; box-shadow:0 2px 8px rgba(0,0,0,.15); pointer-events:none; }
+.click-label.show { opacity:1; transform:translateY(0); }
+
+/* Success banner */
+.success-banner { position:fixed; bottom:40px; left:50%; transform:translateX(-50%) translateY(60px); background:#488500; color:#fff; padding:16px 40px; border-radius:8px; font-size:16px; font-weight:500; z-index:9997; opacity:0; transition:all .4s ease; box-shadow:0 4px 20px rgba(72,133,0,.3); display:flex; align-items:center; gap:10px; }
+.success-banner.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.success-banner .check { width:24px; height:24px; background:rgba(255,255,255,.2); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; }
+
+/* App grid */
+.app-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:600px; margin-top:20px; }
+.app-card { background:#fff; border:1px solid #e4e4e4; border-radius:10px; padding:24px 16px; text-align:center; box-shadow:2px 2px 1px #e4e4e4; transition:all .2s; opacity:0; transform:translateY(20px); }
+.app-card.show { opacity:1; transform:translateY(0); }
+.app-card .icon { font-size:32px; margin-bottom:8px; }
+.app-card .name { font-size:13px; font-weight:500; color:#333; }
+.app-card.highlight { border-color:#6d9d30; background:#f0f8e8; transform:translateY(-4px); }
+
+/* Progress bar */
+.progress-container { margin-top:30px; max-width:500px; }
+.progress-track { height:8px; background:#e4e4e4; border-radius:4px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,#6d9d30,#9bbb59); width:0%; transition:width 1.5s ease; border-radius:4px; }
+.progress-label { font-size:13px; color:#888; margin-top:8px; }
+
+/* Data table */
+.data-table { width:100%; max-width:600px; border-collapse:collapse; margin-top:20px; }
+.data-table th { background:#6d9d30; color:#fff; padding:10px 16px; font-size:12px; text-align:left; font-weight:500; }
+.data-table td { padding:10px 16px; border-bottom:1px solid #e4e4e4; font-size:13px; }
+.data-table tr.show { animation:fade-in .3s ease; }
+
+/* Chart area */
+.chart-area { width:100%; max-width:600px; height:300px; background:#fff; border:1px solid #e4e4e4; border-radius:10px; margin-top:20px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; box-shadow:2px 2px 1px #e4e4e4; }
+
+/* Pie chart */
+.pie-chart { width:200px; height:200px; border-radius:50%; background:conic-gradient(#6d9d30 0% 43%, #9bbb59 43% 60%, #5fb000 60% 75%, #488500 75% 100%); opacity:0; transition:opacity .5s; }
+.pie-chart.show { opacity:1; }
+
+/* Bar chart */
+.bar-chart { display:flex; align-items:flex-end; gap:20px; height:200px; padding:20px; }
+.bar { width:40px; background:linear-gradient(180deg,#6d9d30,#9bbb59); border-radius:4px 4px 0 0; opacity:0; transition:height .8s ease, opacity .3s; }
+.bar.show { opacity:1; }
+
+/* Line chart */
+.line-chart { width:100%; height:100%; opacity:0; transition:opacity .5s; }
+.line-chart.show { opacity:1; }
+.line-chart svg { width:100%; height:100%; }
+
+/* Stats */
+.stats-list { margin-top:20px; display:flex; flex-direction:column; gap:12px; }
+.stat-item { background:#fff; padding:14px 20px; border-radius:8px; border:1px solid #e4e4e4; font-size:14px; color:#333; opacity:0; transform:translateX(-20px); transition:all .3s; box-shadow:2px 2px 1px #e4e4e4; }
+.stat-item.show { opacity:1; transform:translateX(0); }
+.stat-item strong { color:#6d9d30; }
+
+/* Tabs */
+.tabs-row { display:flex; gap:4px; margin-bottom:20px; flex-wrap:wrap; }
+.tab { padding:8px 16px; background:#fff; border:1px solid #e4e4e4; border-radius:6px; font-size:12px; color:#666; cursor:pointer; transition:all .2s; opacity:0; transform:translateY(10px); }
+.tab.show { opacity:1; transform:translateY(0); }
+.tab.active { background:#6d9d30; color:#fff; border-color:#6d9d30; }
+
+/* File import */
+.file-box { background:#fff; border:2px dashed #9bbb59; border-radius:10px; padding:40px; text-align:center; max-width:400px; margin-top:20px; opacity:0; transform:scale(.9); transition:all .3s; }
+.file-box.show { opacity:1; transform:scale(1); }
+.file-box .file-icon { font-size:48px; margin-bottom:12px; }
+.file-box .file-name { font-size:16px; font-weight:500; color:#333; }
+.file-box .file-size { font-size:12px; color:#888; margin-top:4px; }
+
+/* Dashboard widgets */
+.dashboard-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:20px; max-width:600px; }
+.widget { background:#fff; border:1px solid #e4e4e4; border-radius:10px; padding:20px; height:120px; box-shadow:2px 2px 1px #e4e4e4; opacity:0; transform:scale(.9); transition:all .3s; display:flex; flex-direction:column; justify-content:center; }
+.widget.show { opacity:1; transform:scale(1); }
+.widget .w-title { font-size:11px; color:#888; margin-bottom:8px; }
+.widget .w-value { font-size:24px; font-weight:700; color:#6d9d30; }
+.widget .w-bar { height:4px; background:linear-gradient(90deg,#6d9d30,#9bbb59); border-radius:2px; margin-top:8px; }
+
+/* Checklist */
+.checklist { margin-top:20px; display:flex; flex-direction:column; gap:10px; max-width:400px; }
+.check-item { background:#fff; padding:12px 20px; border-radius:8px; border:1px solid #e4e4e4; font-size:14px; display:flex; align-items:center; gap:10px; opacity:0; transform:translateX(-20px); transition:all .3s; box-shadow:2px 2px 1px #e4e4e4; }
+.check-item.show { opacity:1; transform:translateX(0); }
+.check-item .check-icon { font-size:18px; }
+.check-item.ok .check-icon { color:#488500; }
+.check-item.warn .check-icon { color:#e07a3a; }
+
+/* Results list */
+.results-list { margin-top:20px; display:flex; flex-direction:column; gap:8px; max-width:500px; }
+.result-item { background:#fff; padding:12px 20px; border-radius:8px; border:1px solid #e4e4e4; font-size:13px; color:#333; opacity:0; transform:translateX(-20px); transition:all .3s; box-shadow:2px 2px 1px #e4e4e4; cursor:pointer; }
+.result-item.show { opacity:1; transform:translateX(0); }
+.result-item.highlight { border-color:#6d9d30; background:#f0f8e8; }
+
+@keyframes fade-in { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="logo">Libax</div>
+    <div class="module-tag">CRM</div>
+    <div class="nav-item">Mostrar pesquisas</div>
+  </div>
+  <div class="body-area">
+    <div class="sidebar">
+      <div class="sidebar-item active">Início</div>
+      <div class="sidebar-item">Clientes</div>
+      <div class="sidebar-item">Documentos</div>
+      <div class="sidebar-item">Relatórios</div>
+      <div class="sidebar-item">Configurações</div>
+    </div>
+    <div class="main" id="main">
+      <h2>Mostrar pesquisas</h2>
+      <div id="content"></div>
+    </div>
+  </div>
+</div>
+<div class="cursor" id="cursor">
+  <svg viewBox="0 0 24 24"><path d="M7 2l14 8-6 2-2 6z" fill="#6d9d30" stroke="#fff" stroke-width="1.5"/></svg>
+  <div class="ring"></div>
+</div>
+<div class="click-label" id="clickLabel"></div>
+<div class="success-banner" id="successBanner">
+  <div class="check">✓</div>
+  <span id="successText"></span>
+</div>
+<script>
+const video = {"name":"crm-pesquisas","title":"Mostrar pesquisas","module":"CRM","duration":8000,"steps":[{"delay":0,"action":"click","target":".btn-search","label":"Pesquisar"},{"delay":1500,"action":"type","target":".field-search","text":"TechBody"},{"delay":3000,"action":"show-results","items":["Ana Costa — TechBody","Pedro Santos — TechBody","Reunião 15/07 — TechBody"]},{"delay":5500,"action":"click","target":".result-1","label":"Ver contacto"},{"delay":7000,"action":"success","label":"Resultados encontrados!"}]};
+const cursor = document.getElementById('cursor');
+const clickLabel = document.getElementById('clickLabel');
+const successBanner = document.getElementById('successBanner');
+const successText = document.getElementById('successText');
+const content = document.getElementById('content');
+
+let cursorX = 640, cursorY = 360;
+
+function moveCursor(x, y) {
+  cursorX = x; cursorY = y;
+  cursor.style.left = x + 'px';
+  cursor.style.top = y + 'px';
+}
+
+function clickAt(x, y, label, cb) {
+  moveCursor(x, y);
+  setTimeout(() => {
+    cursor.classList.add('clicking');
+    if (label) {
+      clickLabel.textContent = label;
+      clickLabel.style.left = (x + 25) + 'px';
+      clickLabel.style.top = (y - 10) + 'px';
+      clickLabel.classList.add('show');
+    }
+    setTimeout(() => {
+      cursor.classList.remove('clicking');
+      if (label) setTimeout(() => clickLabel.classList.remove('show'), 1000);
+      if (cb) cb();
+    }, 400);
+  }, 300);
+}
+
+function typeIn(selector, text, cb) {
+  const el = document.querySelector(selector);
+  if (!el) { if(cb)cb(); return; }
+  el.focus();
+  el.classList.add('filled');
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < text.length) {
+      el.value = text.substring(0, i+1);
+      i++;
+    } else {
+      clearInterval(interval);
+      if (cb) cb();
+    }
+  }, 30);
+}
+
+function selectIn(selector, text, cb) {
+  const el = document.querySelector(selector);
+  if (!el) { if(cb)cb(); return; }
+  el.classList.add('filled');
+  // Simulate dropdown
+  const options = el.querySelectorAll('option');
+  options.forEach(o => { if(o.textContent.includes(text)) o.selected = true; });
+  el.value = text;
+  if (cb) cb();
+}
+
+function showSuccess(text) {
+  successText.textContent = text;
+  successBanner.classList.add('show');
+}
+
+// Render content based on video
+function renderContent() {
+  const hasForm = video.steps.some(s => s.action === 'type' || s.action === 'select');
+  const hasGrid = video.steps.some(s => s.action === 'show-grid');
+  const hasFile = video.steps.some(s => s.action === 'show-file');
+  const hasProgress = video.steps.some(s => s.action === 'progress');
+  const hasTable = video.steps.some(s => s.action === 'show-table');
+  const hasChart = video.steps.some(s => s.action === 'show-chart');
+  const hasStats = video.steps.some(s => s.action === 'show-stats');
+  const hasTabs = video.steps.some(s => s.action === 'show-tabs');
+  const hasResults = video.steps.some(s => s.action === 'show-results');
+  const hasDashboard = video.steps.some(s => s.action === 'show-dashboard');
+  const hasChecklist = video.steps.some(s => s.action === 'show-checklist');
+
+  let html = '';
+
+  // Render buttons for click actions
+  video.steps.filter(s => s.action === 'click').forEach(s => {
+    html += '<button class="btn btn-big" id="' + s.target.replace(/[.#]/g,'') + '" style="margin-bottom:20px">' + s.label + '</button>';
+  });
+
+  // Render form fields
+  video.steps.filter(s => s.action === 'type').forEach((s, i) => {
+    html += '<div class="form-group"><label class="form-label">' + (s.text.split(':')[0] || 'Campo') + '</label>';
+    html += '<input class="form-input" id="' + s.target.replace(/[.#]/g,'') + '" type="text" placeholder="' + (s.text.split(':')[0] || '') + '"></div>';
+  });
+
+  // Render selects
+  video.steps.filter(s => s.action === 'select').forEach(s => {
+    html += '<div class="form-group"><label class="form-label">Seleccionar</label>';
+    html += '<select class="form-select" id="' + s.target.replace(/[.#]/g,'') + '"><option value="">Escolher...</option><option>' + s.text + '</option></select></div>';
+  });
+
+  // Render grid container
+  if (hasGrid) {
+    html += '<div class="app-grid" id="appGrid"></div>';
+  }
+
+  // Render file box
+  if (hasFile) {
+    const fileStep = video.steps.find(s => s.action === 'show-file');
+    html += '<div class="file-box" id="fileBox"><div class="file-icon">📄</div><div class="file-name">' + fileStep.filename + '</div><div class="file-size">2.4 MB • Excel</div></div>';
+  }
+
+  // Render progress
+  if (hasProgress) {
+    const progStep = video.steps.find(s => s.action === 'progress');
+    html += '<div class="progress-container"><div class="progress-track"><div class="progress-fill" id="progFill"></div></div><div class="progress-label" id="progLabel">' + progStep.label + '</div></div>';
+  }
+
+  // Render table
+  if (hasTable) {
+    const tableStep = video.steps.find(s => s.action === 'show-table');
+    html += '<table class="data-table" id="dataTable"><thead><tr>';
+    html += '<th>Tipo</th><th>Valor</th><th>Referência</th></tr></thead><tbody id="tableBody"></tbody></table>';
+  }
+
+  // Render chart
+  if (hasChart) {
+    const chartStep = video.steps.find(s => s.action === 'show-chart');
+    if (chartStep.type === 'pie') {
+      html += '<div class="chart-area"><div class="pie-chart" id="pieChart"></div></div>';
+    } else if (chartStep.type === 'bar') {
+      html += '<div class="chart-area"><div class="bar-chart" id="barChart"></div></div>';
+    } else if (chartStep.type === 'line') {
+      html += '<div class="chart-area" id="lineChartArea"><svg class="line-chart" id="lineChart" viewBox="0 0 600 280" preserveAspectRatio="none"><polyline points="0,200 100,150 200,170 300,100 400,120 500,60 600,80" fill="none" stroke="#6d9d30" stroke-width="3"/><polyline points="0,200 100,150 200,170 300,100 400,120 500,60 600,80" fill="none" stroke="#9bbb59" stroke-width="1" opacity=".3"/></svg></div>';
+    }
+  }
+
+  // Render stats
+  if (hasStats) {
+    html += '<div class="stats-list" id="statsList"></div>';
+  }
+
+  // Render tabs
+  if (hasTabs) {
+    html += '<div class="tabs-row" id="tabsRow"></div>';
+  }
+
+  // Render results
+  if (hasResults) {
+    html += '<div class="results-list" id="resultsList"></div>';
+  }
+
+  // Render dashboard
+  if (hasDashboard) {
+    html += '<div class="dashboard-grid" id="dashboardGrid"></div>';
+  }
+
+  // Render checklist
+  if (hasChecklist) {
+    html += '<div class="checklist" id="checklist"></div>';
+  }
+
+  content.innerHTML = html;
+}
+
+renderContent();
+moveCursor(640, 360);
+
+// Execute steps
+video.steps.forEach(step => {
+  setTimeout(() => {
+    switch(step.action) {
+      case 'click':
+        const el = document.getElementById(step.target.replace(/[.#]/g,''));
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          clickAt(rect.left + rect.width/2, rect.top + rect.height/2, step.label, () => {
+            el.style.background = '#5fb000';
+            el.style.transform = 'scale(0.95)';
+            setTimeout(() => { el.style.background = ''; el.style.transform = ''; }, 200);
+          });
+        }
+        break;
+      case 'type':
+        typeIn(step.target, step.text);
+        break;
+      case 'select':
+        selectIn(step.target, step.text);
+        break;
+      case 'show-grid':
+        const grid = document.getElementById('appGrid');
+        if (grid) {
+          const icons = ['📧','📱','📄','📊','🔌','⚡'];
+          step.items.forEach((item, i) => {
+            const card = document.createElement('div');
+            card.className = 'app-card';
+            card.id = 'app-card-' + i;
+            card.innerHTML = '<div class="icon">' + (icons[i] || '🔗') + '</div><div class="name">' + item + '</div>';
+            grid.appendChild(card);
+            setTimeout(() => card.classList.add('show'), i * 150);
+          });
+        }
+        break;
+      case 'show-file':
+        const fb = document.getElementById('fileBox');
+        if (fb) fb.classList.add('show');
+        break;
+      case 'progress':
+        const pf = document.getElementById('progFill');
+        if (pf) { pf.style.width = '100%'; }
+        break;
+      case 'show-table':
+        const tb = document.getElementById('tableBody');
+        if (tb) {
+          step.rows.forEach((row, i) => {
+            const tr = document.createElement('tr');
+            tr.className = 'show';
+            tr.innerHTML = '<td>' + row[0] + '</td><td>' + row[1] + '</td><td>' + row[2] + '</td>';
+            tb.appendChild(tr);
+          });
+        }
+        break;
+      case 'show-chart':
+        if (step.type === 'pie') {
+          const pc = document.getElementById('pieChart');
+          if (pc) pc.classList.add('show');
+        } else if (step.type === 'bar') {
+          const bc = document.getElementById('barChart');
+          if (bc) {
+            const heights = [60, 40, 80, 55, 90, 70];
+            heights.forEach((h, i) => {
+              const bar = document.createElement('div');
+              bar.className = 'bar';
+              bar.style.height = '0px';
+              bc.appendChild(bar);
+              setTimeout(() => { bar.classList.add('show'); bar.style.height = h * 2 + 'px'; }, i * 100);
+            });
+          }
+        } else if (step.type === 'line') {
+          const lc = document.getElementById('lineChart');
+          if (lc) lc.classList.add('show');
+        }
+        break;
+      case 'show-stats':
+        const sl = document.getElementById('statsList');
+        if (sl) {
+          step.items.forEach((item, i) => {
+            const div = document.createElement('div');
+            div.className = 'stat-item';
+            const parts = item.split(':');
+            if (parts.length > 1) {
+              div.innerHTML = '<strong>' + parts[0] + ':</strong> ' + parts[1].trim();
+            } else {
+              div.innerHTML = item;
+            }
+            sl.appendChild(div);
+            setTimeout(() => div.classList.add('show'), i * 200);
+          });
+        }
+        break;
+      case 'show-tabs':
+        const tr = document.getElementById('tabsRow');
+        if (tr) {
+          step.items.forEach((item, i) => {
+            const tab = document.createElement('div');
+            tab.className = 'tab';
+            tab.id = 'tab-' + i;
+            tab.textContent = item;
+            tr.appendChild(tab);
+            setTimeout(() => tab.classList.add('show'), i * 100);
+          });
+        }
+        break;
+      case 'show-results':
+        const rl = document.getElementById('resultsList');
+        if (rl) {
+          step.items.forEach((item, i) => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            if (i === 0) div.id = 'result-1';
+            div.textContent = item;
+            rl.appendChild(div);
+            setTimeout(() => div.classList.add('show'), i * 200);
+          });
+        }
+        break;
+      case 'show-dashboard':
+        const dg = document.getElementById('dashboardGrid');
+        if (dg) {
+          const values = ['89.450€', '+12%', '247', '98%'];
+          step.items.forEach((item, i) => {
+            const w = document.createElement('div');
+            w.className = 'widget';
+            w.innerHTML = '<div class="w-title">' + item + '</div><div class="w-value">' + (values[i] || '—') + '</div><div class="w-bar"></div>';
+            dg.appendChild(w);
+            setTimeout(() => w.classList.add('show'), i * 200);
+          });
+        }
+        break;
+      case 'show-checklist':
+        const cl = document.getElementById('checklist');
+        if (cl) {
+          step.items.forEach((item, i) => {
+            const div = document.createElement('div');
+            div.className = 'check-item ' + (item.startsWith('⚠') ? 'warn' : 'ok');
+            div.innerHTML = '<span class="check-icon">' + (item.startsWith('⚠') ? '⚠' : '✓') + '</span><span>' + item.replace(/[✓⚠]s*/, '') + '</span>';
+            cl.appendChild(div);
+            setTimeout(() => div.classList.add('show'), i * 200);
+          });
+        }
+        break;
+      case 'success':
+        showSuccess(step.label);
+        break;
+    }
+  }, step.delay);
+});
+</script>
+</body>
+</html>
