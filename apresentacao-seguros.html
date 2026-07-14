@@ -185,7 +185,7 @@ section.alt { background: var(--cinza-fundo); }
 }
 .hero,.cta{position:relative;overflow:hidden}.hero>*,.cta>*{position:relative;z-index:1}
 
-#particles{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4}
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.7}
 .vignette{position:fixed;inset:0;pointer-events:none;z-index:1;box-shadow:inset 0 0 200px 50px rgba(0,0,0,.08)}
 section{z-index:2}
 </style>
@@ -505,13 +505,13 @@ window.addEventListener('scroll', () => {
   const ctx=c.getContext('2d');
   let w=0,h=0,parts=[];
   function size(){w=c.width=innerWidth;h=c.height=innerHeight;}
-  function spawn(){const n=20+Math.floor(Math.random()*11);parts=[];for(let i=0;i<n;i++){parts.push({x:Math.random()*w,y:Math.random()*h,r:2+Math.random()*2,v:0.3+Math.random()*0.5,o:Math.random()});}}
+  function spawn(){const n=20+Math.floor(Math.random()*11);parts=[];for(let i=0;i<n;i++){parts.push({x:Math.random()*w,y:Math.random()*h,r:3+Math.random()*3,v:0.3+Math.random()*0.5,o:Math.random()});}}
   function tick(){ctx.clearRect(0,0,w,h);
     for(const p of parts){
       p.y-=p.v;p.o+=Math.random()*0.01-0.005;if(p.o<0)p.o=0;if(p.o>1)p.o=1;
       if(p.y+p.r<0){p.y=h+p.r;p.x=Math.random()*w;}
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(109,157,48,'+(p.o*0.15).toFixed(3)+')';ctx.fill();
+      ctx.fillStyle='rgba(109,157,48,'+(p.o*0.45).toFixed(3)+')';ctx.fill();
     }
     requestAnimationFrame(tick);
   }
