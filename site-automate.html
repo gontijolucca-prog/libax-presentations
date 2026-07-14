@@ -26,18 +26,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 img{display:block}
 .noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:multiply}
 .vignette{position:fixed;inset:0;pointer-events:none;z-index:99;box-shadow:inset 0 0 240px 60px rgba(228,228,228,.6)}
-
-.site-header{position:sticky;top:0;z-index:100;background:#6d9d30;border-bottom:1px solid var(--green-dark);box-shadow:0 1px 0 rgba(0,0,0,.04)}
-.site-header .inner{max-width:1280px;margin:0 auto;padding:18px 40px;display:flex;align-items:center;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
-.site-header .brand img{height:24px;width:auto;display:block;filter:brightness(0)}
 .brand-text{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.85)}
 .brand-text strong{color:#fff;font-weight:500;margin-left:6px}
-.site-nav{display:flex;gap:32px;flex-wrap:wrap}
-.site-nav a{text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.85);transition:color .18s ease-in-out cubic-bezier(.16,1,.3,1);position:relative}
-.site-nav a:hover{color:#fff}
-.site-nav a::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:1px;background:#fff;transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.site-nav a:hover::after{transform:scaleX(1);transform-origin:left}
 
 section{position:relative;padding:120px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .bg{position:absolute;inset:0;z-index:0;pointer-events:none}
@@ -54,12 +45,7 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
 .hero .tagline{font-weight:200;font-size:24px;color:var(--ink-soft);max-width:680px;line-height:1.45;margin-bottom:8px}
 .hero .tagline strong{font-weight:800;color:var(--ink)}
 .hero .sub{font-family:var(--mono);font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);margin-bottom:48px}
-.cta-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:12px;padding:18px 32px;font-family:var(--sans);font-weight:800;font-size:15px;letter-spacing:-.01em;text-decoration:none;border-radius:6px;cursor:pointer;transition:all .4s cubic-bezier(.16,1,.3,1);border:1px solid transparent}
-.btn-primary{background:var(--green-btn);color:#fff}
-.btn-primary:hover{background:var(--green);transform:translateY(-2px);box-shadow:0 16px 32px -8px rgba(95,176,0,.35)}
-.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line-strong)}
-.btn-ghost:hover{border-color:var(--green);color:var(--green);transform:translateY(-2px)}
 
 .overview .wrap{max-width:1180px;width:100%;margin:0 auto}
 .overview .heading{margin-bottom:80px;text-align:center}
@@ -100,11 +86,6 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
 .cta .price strong{color:#fff;font-weight:500}
 .cta .footer-note{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-dim);margin-top:32px;text-transform:uppercase}
 
-.site-footer{background:#f2f2f4;border-top:1px solid var(--line);padding:56px 40px;text-align:center}
-.site-footer .inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
-.site-footer .brand-text{color:var(--ink-dim)}
-.site-footer .copy{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
-
 .r{opacity:0;transform:translateY(30px);transition:opacity 1.2s cubic-bezier(.16,1,.3,1), transform 1.2s cubic-bezier(.16,1,.3,1)}
 .r.in{opacity:1;transform:translateY(0)}
 .r.d1{transition-delay:.08s}
@@ -126,65 +107,16 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
   .r{opacity:1;transform:none;transition:none}
   .feat,.feat .accent,.btn,.site-nav a,.site-nav a::after{transition:none}
 }
-
-/* === OFFICIAL LIBAX HEADER === */
-.libax-topbar{background:#6d9d30;color:#fff;padding:8px 24px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
-.libax-topbar .topbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.libax-topbar nav{display:flex;gap:24px;flex-wrap:wrap}
-.libax-topbar nav a{color:#fff;text-decoration:none;border-bottom:3px solid transparent;padding-bottom:2px;transition:all .18s ease-in-out}
-.libax-topbar nav a:hover,.libax-topbar nav a.active{border-bottom-color:#fff}
-.libax-mainmenu{background:#fff;border-bottom:1px solid var(--line);padding:15px 40px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
-.libax-mainmenu .mainmenu-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
 .libax-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
 .libax-brand img{height:24px;width:auto;display:block}
 .libax-brand .brand-sep{color:var(--ink-dim);margin:0 4px}
 .libax-brand .brand-name{color:rgba(109,157,48,.75);font-weight:700}
-.libax-mainmenu nav{display:flex;gap:32px;flex-wrap:wrap}
-.libax-mainmenu nav a{color:rgba(109,157,48,.75);font-weight:700;text-decoration:none;border-bottom:3px solid transparent;padding-bottom:5px;transition:all .18s ease-in-out}
-.libax-mainmenu nav a:hover,.libax-mainmenu nav a.active{color:#6d9d30;border-bottom-color:#6d9d30}
-
-/* Legacy site-header suppressed in favor of the official Libax header */
-.site-header{display:none}
 </style>
 </head>
 <body>
 <svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
 
 <!-- OFFICIAL LIBAX HEADER -->
-<header class="libax-topbar">
-  <div class="topbar-inner">
-    <span>Libax — Software certificado AT</span>
-    <nav>
-      <a href="index.html">Início</a>
-      <a href="site-business.html">Business</a>
-      <a href="site-automate.html">Automate</a>
-      <a href="site-crm.html">CRM</a>
-      <a href="site-seguros.html">Seguros</a>
-    </nav>
-  </div>
-</header>
-<header class="libax-mainmenu">
-  <div class="mainmenu-inner">
-    <a href="index.html" class="libax-brand"><img src="assets/libax-logo-dark.svg" alt="Libax"><span class="brand-sep">/</span><span class="brand-name">Automate</span></a>
-    <nav>
-      <a href="#overview">Funcionalidades</a>
-      <a href="#videos">Vídeos</a>
-      <a href="#cta">Preços</a>
-      <a href="#cta">Contacto</a>
-    </nav>
-  </div>
-</header>
-<header class="site-header">
-  <div class="inner">
-    <a href="#hero" class="brand"><img src="assets/libax-logo-dark.svg" alt="Libax"><span class="brand-text">Libax <strong>Automate</strong></span></a>
-    <nav class="site-nav">
-      <a href="#overview">Funcionalidades</a>
-      <a href="#videos">Vídeos</a>
-      <a href="#cta">Registar</a>
-    </nav>
-  </div>
-</header>
-
 <section class="hero" id="hero">
   <div class="bg mesh"></div>
   <div class="grid-overlay"></div>
@@ -192,11 +124,7 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
   <h1 class="r d1">Libax<br><em>Automate</em></h1>
   <p class="tagline r d2">Automação de processos para equipas que querem <strong>escalar sem perder o controlo</strong>.</p>
   <p class="sub r d3">Workflows · Integrações · Tempo real</p>
-  <div class="cta-row r d4">
-    <a href="#cta" class="btn btn-primary">Começar agora →</a>
-    <a href="#overview" class="btn btn-ghost">Ver funcionalidades</a>
-  </div>
-</section>
+  </section>
 
 <section class="overview" id="overview">
   <div class="bg mesh"></div>
@@ -290,27 +218,6 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
   </div>
   <div class="caption r d2"><span>03</span> · Sugestão de configuração</div>
 </section>
-<section class="cta" id="cta">
-  <div class="bg mesh"></div>
-  <div class="grid-overlay"></div>
-  <div class="wrap">
-    <h2 class="r">Pronto para <em>automatizar</em>?</h2>
-    <p class="sub r d1">Sem compromissos. Cancele quando quiser.</p>
-    <p class="price r d2">Planos a partir de <strong>9€ / mês</strong></p>
-    <div class="cta-row r d3">
-      <a href="#" class="btn btn-primary" onclick="alert('Redirecionar para registo...');return false">Registar agora →</a>
-    </div>
-    <div class="footer-note r d4">Sem fidelização · Suporte incluído · Atualizações gratuitas</div>
-  </div>
-</section>
-
-<footer class="site-footer">
-  <div class="inner">
-    <a href="#hero" class="brand"><img src="assets/libax-logo-dark.svg" alt="Libax"><span class="brand-text">Libax <strong>Automate</strong></span></a>
-    <div class="copy">© <span id="year"></span> Libax · Todos os direitos reservados</div>
-  </div>
-</footer>
-
 <script>
 document.getElementById('year').textContent=new Date().getFullYear();
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});

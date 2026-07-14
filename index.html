@@ -68,28 +68,6 @@ main{
   padding:48px 64px;
   max-width:1480px;margin:0 auto;
 }
-/* === OFFICIAL LIBAX HEADER === */
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  background:#6d9d30;color:#fff;
-  padding:8px 24px;
-  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-}
-.topbar a{color:#fff;text-decoration:none;transition:opacity .18s ease-in-out;border-bottom:3px solid transparent}
-.topbar a:hover,.topbar a.active{border-bottom-color:#fff;opacity:.95}
-.mainmenu{
-  background:#fff;
-  border-bottom:1px solid var(--line);
-  padding:15px 24px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.mainmenu nav{display:flex;gap:32px}
-.mainmenu nav a{
-  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(109,157,48,.75);font-weight:700;text-decoration:none;
-  padding-bottom:5px;border-bottom:3px solid transparent;transition:all .18s ease-in-out;
-}
-.mainmenu nav a:hover,.mainmenu nav a.active{color:#6d9d30;border-bottom-color:#6d9d30}
 header{display:none}  /* legacy header hidden — see topbar + mainmenu */
 .brand{display:flex;align-items:center;gap:10px}
 .brand .dot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 0 0 transparent}
@@ -189,26 +167,6 @@ footer{
 <div class="grid-lines"></div>
 
 <main>
-  <div class="topbar r">
-    <div class="brand"><span class="dot"></span><span>Libax — Software certificado AT</span></div>
-    <nav>
-      <a href="index.html" class="active">Início</a>
-      <a href="site-business.html">Business</a>
-      <a href="site-automate.html">Automate</a>
-      <a href="site-crm.html">CRM</a>
-      <a href="site-seguros.html">Seguros</a>
-    </nav>
-  </div>
-  <div class="mainmenu r">
-    <a class="brand" href="index.html"><img src="assets/libax-logo-dark.svg" alt="Libax" style="height:24px;display:block"></a>
-    <nav>
-      <a href="site-business.html">Funcionalidades</a>
-      <a href="site-automate.html">Demonstração</a>
-      <a href="site-seguros.html">Preços</a>
-      <a href="site-crm.html">Contacto</a>
-    </nav>
-  </div>
-
   <section class="hero">
     <div class="hero-left">
       <div class="eyebrow r">Quatro módulos · Uma plataforma</div>
@@ -240,12 +198,7 @@ footer{
     </nav>
   </section>
 
-  <footer class="r">
-    <div>Software certificado AT</div>
-    <div>Use ↑ ↓ ou clique</div>
-    <div>© Libax</div>
-  </footer>
-</main>
+  </main>
 
 <script>
 (function(){

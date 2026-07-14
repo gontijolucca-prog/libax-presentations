@@ -36,10 +36,6 @@ body{font-family:var(--sans);background:#fff;color:#000;-webkit-font-smoothing:a
 
 .progress{position:fixed;top:0;right:0;width:3px;height:100vh;background:rgba(109,157,48,.06);z-index:10}
 .progress-fill{width:100%;background:linear-gradient(180deg,var(--green-light),var(--green));height:0;transition:height .25s cubic-bezier(.16,1,.3,1)}
-
-.cornav{position:fixed;top:32px;left:32px;z-index:11;display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);text-decoration:none}
-.cornav img{height:22px;width:auto;display:block}
-.cornav .sep{color:var(--ink-dim);margin:0 4px}
 .counter{position:fixed;top:32px;right:60px;z-index:11;font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-dim)}
 
 .r{opacity:0;transform:translateY(40px);transition:opacity 1.4s cubic-bezier(.16,1,.3,1), transform 1.4s cubic-bezier(.16,1,.3,1)}
@@ -114,24 +110,10 @@ body{font-family:var(--sans);background:#fff;color:#000;-webkit-font-smoothing:a
   .r{opacity:1;transform:none;transition:none}
   .scroll-hint .line{animation:none}
 }
-
-/* === OFFICIAL LIBAX HEADER === */
-.libax-topbar{position:sticky;top:0;z-index:50;background:#6d9d30;color:#fff;padding:8px 24px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
-.libax-topbar .topbar-inner{max-width:1480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.libax-topbar nav{display:flex;gap:24px;flex-wrap:wrap}
-.libax-topbar nav a{color:#fff;text-decoration:none;border-bottom:3px solid transparent;padding-bottom:2px;transition:all .18s ease-in-out}
-.libax-topbar nav a:hover,.libax-topbar nav a.active{border-bottom-color:#fff}
-.libax-mainmenu{position:sticky;top:32px;z-index:49;background:#fff;border-bottom:1px solid var(--line);padding:15px 24px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
-.libax-mainmenu .mainmenu-inner{max-width:1480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
 .libax-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .libax-brand img{height:24px;width:auto;display:block}
 .libax-brand .brand-sep{color:var(--ink-dim);margin:0 4px}
 .libax-brand .brand-name{color:rgba(109,157,48,.75);font-weight:700}
-.libax-mainmenu nav{display:flex;gap:32px;flex-wrap:wrap}
-.libax-mainmenu nav a{color:rgba(109,157,48,.75);font-weight:700;text-decoration:none;border-bottom:3px solid transparent;padding-bottom:5px;transition:all .18s ease-in-out}
-.libax-mainmenu nav a:hover,.libax-mainmenu nav a.active{color:#6d9d30;border-bottom-color:#6d9d30}
-/* The dark cornav on the existing files becomes a small floating element below the sticky header */
-.cornav{z-index:40}
 
 </style>
 </head>
@@ -140,30 +122,6 @@ body{font-family:var(--sans);background:#fff;color:#000;-webkit-font-smoothing:a
 
 <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
 <!-- OFFICIAL LIBAX HEADER -->
-<header class="libax-topbar">
-  <div class="topbar-inner">
-    <span>Libax — Software certificado AT</span>
-    <nav>
-      <a href="index.html">Início</a>
-      <a href="site-business.html">Business</a>
-      <a href="site-automate.html">Automate</a>
-      <a href="site-crm.html">CRM</a>
-      <a href="site-seguros.html">Seguros</a>
-    </nav>
-  </div>
-</header>
-<header class="libax-mainmenu">
-  <div class="mainmenu-inner">
-    <a href="index.html" class="libax-brand"><img src="assets/libax-logo-dark.svg" alt="Libax"><span class="brand-sep">/</span><span class="brand-name">Automate</span></a>
-    <nav>
-      <a href="#overview">Funcionalidades</a>
-      <a href="#videos">Vídeos</a>
-      <a href="#cta">Preços</a>
-      <a href="#cta">Contacto</a>
-    </nav>
-  </div>
-</header>
-<a class="cornav" href="index.html"><img src="assets/libax-logo-dark.svg" alt="Libax"><span class="sep">/</span> Automate</a>
 <div class="counter" id="counter">01 / 05</div>
 
 <div class="deck" id="deck">
