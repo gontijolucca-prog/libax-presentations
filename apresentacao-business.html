@@ -65,7 +65,7 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
   .hero h1{font-size:38px}
   .video h2{font-size:24px}
 }
-.hero{position:relative;overflow:hidden}
+.hero{position:relative;overflow:hidden}.hero::before{z-index:0}.hero::after{z-index:0}.hero>*{position:relative;z-index:1}
 .hero::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(255,255,255,.08) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(155,187,89,.15) 0%,transparent 50%);animation:bgFloat 12s ease-in-out infinite alternate}
 .hero::after{content:"";position:absolute;top:10%;right:5%;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.06);filter:blur(40px);animation:bgPulse 6s ease-in-out infinite alternate}
 @keyframes bgFloat{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(-30px,-20px) rotate(2deg)}}
