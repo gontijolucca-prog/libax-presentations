@@ -10,7 +10,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:Roboto,sans-serif;color:#333;background:transparent}
+body{font-family:Roboto,sans-serif;color:#333;background:#1a1f2e}
 
 .deck{height:100vh;overflow-y:scroll;scroll-snap-type:y proximity;scrollbar-width:none}
 .deck::-webkit-scrollbar{display:none}
@@ -31,8 +31,8 @@ body{font-family:Roboto,sans-serif;color:#333;background:transparent}
 .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:300;opacity:.6;animation:bounce 2s infinite}
 @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
 
-.overview{background:rgba(255,255,255,0.92)}
-.overview.alt{background:rgba(242,242,244,0.92)}
+.overview{background:rgba(255,255,255,0.88)}
+.overview.alt{background:rgba(242,242,244,0.88)}
 .overview h2{font-size:38px;font-weight:500;color:#488500;margin-bottom:10px}
 .overview .subtitle{font-size:16px;font-weight:300;color:#888;margin-bottom:40px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;width:100%}
@@ -42,8 +42,8 @@ body{font-family:Roboto,sans-serif;color:#333;background:transparent}
 .card h3{font-size:16px;font-weight:500;color:#6d9d30;margin-bottom:6px}
 .card p{font-size:13px;font-weight:300;color:#777;line-height:1.5}
 
-.video{background:rgba(242,242,244,0.92)}
-.video.alt{background:rgba(255,255,255,0.92)}
+.video{background:rgba(242,242,244,0.88)}
+.video.alt{background:rgba(255,255,255,0.88)}
 .video h2{font-size:30px;font-weight:500;color:#488500;margin-bottom:6px}
 .video .tag{display:inline-block;background:#6d9d30;color:#fff;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:26px}
 .video video{max-width:960px;width:100%;aspect-ratio:16/9;border-radius:12px;box-shadow:4px 4px 2px #e4e4e4;background:#ddd;object-fit:cover}
@@ -149,8 +149,8 @@ document.querySelectorAll('.video video').forEach(v=>{
       p.y-=p.v;p.o+=Math.random()*0.01-0.005;if(p.o<0)p.o=0;if(p.o>1)p.o=1;
       if(p.y+p.r<0){p.y=h+p.r;p.x=Math.random()*w;}
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.shadowBlur=3;ctx.shadowColor='rgba(109,157,48,0.3)';
-      ctx.fillStyle='rgba(109,157,48,'+(0.1+p.o*0.15).toFixed(3)+')';ctx.fill();
+      ctx.shadowBlur=4;ctx.shadowColor='rgba(109,157,48,0.3)';
+      ctx.fillStyle='rgba(109,157,48,'+(0.15+p.o*0.25).toFixed(3)+')';ctx.fill();
     }
     requestAnimationFrame(tick);
   }
