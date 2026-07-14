@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libax Seguros — Gestão de Carteira de Seguros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Roboto',sans-serif; background:#fff; color:#333; line-height:1.5; }
+img { display:block; }
+
+:root {
+  --green:#6d9d30;
+  --green-light:#9bbb59;
+  --green-btn:#5fb000;
+  --green-dark:#488500;
+  --alt:#f2f2f4;
+  --shadow:4px 4px 2px #e4e4e4;
+}
+
+/* ===== STICKY HEADER ===== */
+.site-header {
+  position:sticky; top:0; z-index:100;
+  background:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  padding:14px 0;
+}
+.header-inner {
+  max-width:1100px; margin:0 auto; padding:0 24px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.header-logo img { width:120px; height:37px; }
+.site-nav { display:flex; gap:28px; flex-wrap:wrap; }
+.site-nav a {
+  text-decoration:none; color:#333; font-size:14px; font-weight:500;
+  transition:color 0.3s;
+}
+.site-nav a:hover { color:var(--green); }
+
+/* ===== SECTIONS ===== */
+.section {
+  padding:80px 24px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.section.alt { background:var(--alt); }
+
+/* ===== HERO ===== */
+.hero {
+  min-height:90vh;
+  background:linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+  color:#fff; text-align:center; padding:100px 24px;
+}
+.hero .hero-logo { margin-bottom:30px; display:flex; justify-content:center; }
+.hero .hero-logo img { width:160px; height:auto; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.2)); }
+.hero h1 { font-size:64px; font-weight:700; letter-spacing:4px; margin-bottom:14px; }
+.hero .hero-sub { font-size:18px; font-weight:300; letter-spacing:8px; text-transform:uppercase; color:var(--green-light); margin-bottom:30px; }
+.hero .decor-line { width:80px; height:3px; background:#fff; margin:20px auto; opacity:0.7; }
+.hero .tagline { font-size:28px; font-weight:300; letter-spacing:2px; }
+
+/* ===== OVERVIEW ===== */
+.overview { text-align:center; }
+.overview h2 { font-size:36px; font-weight:500; color:var(--green); margin-bottom:40px; text-align:center; }
+.overview-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1000px; width:100%;
+}
+.overview-item {
+  background:#fff; border-radius:10px; padding:24px 20px; text-align:center;
+  box-shadow:var(--shadow); transition:transform 0.3s, box-shadow 0.3s;
+}
+.overview-item:hover { transform:translateY(-4px); box-shadow:6px 6px 4px #d8d8d8; }
+.overview-item .icon { font-size:36px; margin-bottom:12px; }
+.overview-item h3 { font-size:15px; font-weight:500; color:#333; margin-bottom:6px; }
+.overview-item p { font-size:12px; color:#888; line-height:1.4; }
+
+/* ===== SECTION DIVIDER (title) ===== */
+.section-divider {
+  text-align:center;
+  background:linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+  color:#fff; padding:70px 24px;
+}
+.section-divider .section-icon { font-size:56px; margin-bottom:16px; }
+.section-divider h2 { font-size:40px; font-weight:500; }
+.section-divider .section-line { width:60px; height:3px; background:rgba(255,255,255,0.5); margin:18px auto; }
+.section-divider .section-sub { font-size:15px; font-weight:300; color:rgba(255,255,255,0.85); letter-spacing:2px; text-transform:uppercase; }
+
+/* ===== VIDEO GRID ===== */
+.video-grid {
+  max-width:1100px; margin:0 auto; width:100%;
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:24px;
+}
+.video-wrapper {
+  aspect-ratio:16/9; background:#e0e0e0; border-radius:12px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  position:relative; box-shadow:var(--shadow); cursor:pointer;
+  transition:transform 0.3s, box-shadow 0.3s; overflow:hidden;
+}
+.video-wrapper:hover { transform:scale(1.01); box-shadow:6px 6px 4px #d8d8d8; }
+.video-wrapper .play-btn {
+  width:72px; height:72px; background:var(--green); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:32px; color:#fff; z-index:2;
+  box-shadow:0 4px 15px rgba(109,157,48,0.4);
+  transition:background 0.3s, transform 0.3s;
+}
+.video-wrapper:hover .play-btn { background:var(--green-btn); transform:scale(1.1); }
+.video-wrapper .play-btn::after { content:'\u25b6'; margin-left:4px; }
+.video-title {
+  position:absolute; bottom:0; left:0; right:0;
+  background:linear-gradient(transparent, rgba(0,0,0,0.7));
+  padding:50px 24px 18px; text-align:center;
+}
+.video-title h3 { font-size:17px; font-weight:500; color:#fff; line-height:1.35; }
+.video-title h3 span { display:block; font-weight:300; font-size:13px; margin-top:4px; }
+.video-tag {
+  position:absolute; top:14px; right:14px; background:var(--green); color:#fff;
+  font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px;
+  letter-spacing:1px; text-transform:uppercase;
+}
+.video-number { position:absolute; top:14px; left:14px; color:#aaa; font-size:12px; font-weight:500; }
+
+/* ===== CTA ===== */
+.cta {
+  text-align:center;
+  background:linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+  color:#fff; padding:100px 24px;
+}
+.cta .cta-logo { font-size:24px; font-weight:700; letter-spacing:4px; margin-bottom:20px; }
+.cta .cta-price { font-size:60px; font-weight:700; color:#fff; margin-bottom:8px; }
+.cta .cta-label { font-size:18px; font-weight:300; letter-spacing:3px; text-transform:uppercase; color:var(--green-light); margin-bottom:40px; }
+.cta-btn {
+  display:inline-block; padding:16px 50px; background:var(--green-btn); color:#fff;
+  font-size:20px; font-weight:500; text-decoration:none; border:2px solid var(--green-btn);
+  border-radius:6px; transition:background 0.3s, color 0.3s;
+}
+.cta-btn:hover { background:#fff; color:var(--green-dark); border-color:#fff; }
+.cta .cta-sub { margin-top:24px; font-size:14px; font-weight:300; color:rgba(255,255,255,0.85); }
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background:#333; color:#ccc; text-align:center; padding:40px 24px;
+}
+.site-footer img { width:120px; height:37px; margin:0 auto 14px; opacity:0.9; }
+.site-footer p { font-size:13px; font-weight:300; }
+
+/* ===== SCROLL ANIMATIONS ===== */
+.reveal { opacity:0; transform:translateY(40px); transition:opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:768px) {
+  .site-nav { display:none; }
+  .hero h1 { font-size:42px; }
+  .hero .tagline { font-size:20px; }
+  .overview-grid { grid-template-columns:1fr; }
+  .section-divider h2 { font-size:30px; }
+  .cta-price { font-size:44px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== STICKY HEADER ===== -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#hero" class="header-logo"><img src="assets/libax-logo-small.png" alt="Libax" width="120" height="37"></a>
+    <nav class="site-nav">
+      <a href="#overview">Funcionalidades</a>
+      <a href="#recibos">Recibos</a>
+      <a href="#clientes">Clientes</a>
+      <a href="#tesouraria">Tesouraria</a>
+      <a href="#parceiros">Parceiros</a>
+      <a href="#analises">Análises</a>
+      <a href="#pesquisa">Pesquisa</a>
+      <a href="#cta">Registar</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== HERO ===== -->
+  <section class="section hero" id="hero">
+    <div class="hero-logo"><img src="assets/libax-logo-small.png" alt="Libax"></div>
+    <h1>Libax Seguros</h1>
+    <div class="hero-sub">Seguros</div>
+    <div class="decor-line"></div>
+    <div class="tagline">Gestão de Carteira de Seguros</div>
+  </section>
+
+  <!-- ===== OVERVIEW ===== -->
+  <section class="section alt overview reveal" id="overview">
+    <h2>Funcionalidades</h2>
+    <div class="overview-grid">
+      <div class="overview-item">
+        <div class="icon">📋</div>
+        <h3>Gestão de Apólices</h3>
+        <p>Registo, edição e acompanhamento de apólices de seguros</p>
+      </div>
+      <div class="overview-item">
+        <div class="icon">🏢</div>
+        <h3>Seguradoras</h3>
+        <p>Comunicação direta com Fidelidade, Ageas, Liberty e Allianz</p>
+      </div>
+      <div class="overview-item">
+        <div class="icon">📊</div>
+        <h3>Análises &amp; Dashboards</h3>
+        <p>Relatórios de carteira, produção e variação de recibos</p>
+      </div>
+      <div class="overview-item">
+        <div class="icon">💰</div>
+        <h3>Tesouraria Integrada</h3>
+        <p>Cobranças, folha de caixa, depósitos e reconciliação bancária</p>
+      </div>
+      <div class="overview-item">
+        <div class="icon">🤝</div>
+        <h3>Gestão de Parceiros</h3>
+        <p>Configuração, mediação, pagamentos e prestação de contas</p>
+      </div>
+      <div class="overview-item">
+        <div class="icon">🔍</div>
+        <h3>Pesquisa Avançada</h3>
+        <p>Pesquisa simples e avançada com controlo de informação fidedigna</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RECIBOS E IMPORTAÇÃO ===== -->
+  <div class="section-divider reveal" id="recibos">
+    <div class="section-icon">📄</div>
+    <h2>Recibos e Importação</h2>
+    <div class="section-line"></div>
+    <div class="section-sub">2 Vídeos</div>
+  </div>
+  <section class="section reveal">
+    <div class="video-grid">
+      <div class="video-wrapper">
+        <div class="video-number">01</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Obter recibo em tempo real</h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">02</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Importação de ficheiro de carteira</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CLIENTES E APÓLICES ===== -->
+  <div class="section-divider reveal" id="clientes">
+    <div class="section-icon">👤</div>
+    <h2>Clientes e Apólices</h2>
+    <div class="section-line"></div>
+    <div class="section-sub">3 Vídeos</div>
+  </div>
+  <section class="section alt reveal">
+    <div class="video-grid">
+      <div class="video-wrapper">
+        <div class="video-number">03</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Como registar cliente</h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">04</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Registo manual de apólice</h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">05</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Ficha do cliente<span>Resumo · Apólices · Recibos · Simulações · Participações · Atividades · Posição Global</span></h3></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESOURARIA ===== -->
+  <div class="section-divider reveal" id="tesouraria">
+    <div class="section-icon">💳</div>
+    <h2>Tesouraria</h2>
+    <div class="section-line"></div>
+    <div class="section-sub">3 Vídeos</div>
+  </div>
+  <section class="section reveal">
+    <div class="video-grid">
+      <div class="video-wrapper">
+        <div class="video-number">06</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Cobrança na tesouraria<span>Recibo com opção em tempo real</span></h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">07</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Tesouraria – Folha de caixa</h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">08</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Depósito para banco, despesas e análises</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PARCEIROS ===== -->
+  <div class="section-divider reveal" id="parceiros">
+    <div class="section-icon">🤝</div>
+    <h2>Parceiros</h2>
+    <div class="section-line"></div>
+    <div class="section-sub">4 Vídeos</div>
+  </div>
+  <section class="section alt reveal">
+    <div class="video-grid">
+      <div class="video-wrapper">
+        <div class="video-number">09</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Criação e configuração do parceiro<span>Incidência</span></h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">10</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Códigos de mediação no parceiro</h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">11</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Novo pagamento ao parceiro<span>Apurar e enviar por e-mail</span></h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">12</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Importação de prestação de contas e acerto de diferenças</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ANÁLISES ===== -->
+  <div class="section-divider reveal" id="analises">
+    <div class="section-icon">📊</div>
+    <h2>Análises</h2>
+    <div class="section-line"></div>
+    <div class="section-sub">6 Vídeos</div>
+  </div>
+  <section class="section reveal">
+    <div class="video-grid">
+      <div class="video-wrapper">
+        <div class="video-number">13</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Análises: Carteira</h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">14</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Análises: Produção total</h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">15</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Análises: Produção nova</h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">16</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Variação de recibos</h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">17</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Beyondata</h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">18</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Dashboards</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PESQUISA E CONTROLO ===== -->
+  <div class="section-divider reveal" id="pesquisa">
+    <div class="section-icon">🔍</div>
+    <h2>Pesquisa e Controlo</h2>
+    <div class="section-line"></div>
+    <div class="section-sub">2 Vídeos</div>
+  </div>
+  <section class="section alt reveal">
+    <div class="video-grid">
+      <div class="video-wrapper">
+        <div class="video-number">19</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Pesquisa simples e avançada</h3></div>
+      </div>
+      <div class="video-wrapper">
+        <div class="video-number">20</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Controlo de informação fidedigna</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="section cta reveal" id="cta">
+    <div class="cta-logo">LIBAX SEGUROS</div>
+    <div class="cta-price">desde 12,60€/mês</div>
+    <div class="cta-label">Solução completa de gestão</div>
+    <a href="#" class="cta-btn" onclick="alert('Registo iniciado. Será contactado em breve.');return false;">Registar</a>
+    <div class="cta-sub">Sem compromissos · Ativação imediata · Suporte dedicado</div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <img src="assets/libax-logo-small.png" alt="Libax" width="120" height="37">
+  <p>&copy; 2026 Libax · Todos os direitos reservados</p>
+</footer>
+
+<script>
+(function(){
+  // Scroll reveal animation
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('visible'); });
+  }
+
+  // Video placeholder click
+  document.querySelectorAll('.video-wrapper').forEach(function(el){
+    el.addEventListener('click', function(){
+      var title = this.querySelector('.video-title h3') ? this.querySelector('.video-title h3').childNodes[0].nodeValue.trim() : 'vídeo';
+      alert('🎬 Reproduzir vídeo: ' + title + '\n\n(Placeholder — o vídeo real será inserido aqui)');
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libax CRM — Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Roboto',sans-serif;background:#fff;color:#333;line-height:1.5}
+
+/* ===== STICKY HEADER ===== */
+.site-header{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #eee;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.site-header .inner{max-width:1100px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between}
+.site-header img{height:37px;display:block}
+.site-nav{display:flex;gap:28px}
+.site-nav a{text-decoration:none;font-size:14px;font-weight:500;color:#488500;letter-spacing:.5px;transition:color .25s ease}
+.site-nav a:hover{color:#5fb000}
+
+/* ===== SECTIONS ===== */
+section{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 80px 80px;text-align:center}
+.sec-hero{background:linear-gradient(135deg,#6d9d30 0%,#488500 50%,#2d5a00 100%);color:#fff}
+.sec-overview{background:#f2f2f4}
+.sec-video{background:#fff}
+.sec-video.alt{background:#f2f2f4}
+.sec-cta{background:linear-gradient(135deg,#6d9d30 0%,#488500 50%,#2d5a00 100%);color:#fff}
+
+/* ===== HERO ===== */
+.sec-hero .logo{font-size:72px;font-weight:700;letter-spacing:2px;margin-bottom:16px;text-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.sec-hero .logo span{color:#9bbb59}
+.sec-hero .deco-line{width:80px;height:3px;background:#9bbb59;margin:0 auto 24px;border-radius:2px}
+.sec-hero .tagline{font-size:24px;font-weight:300;letter-spacing:4px;opacity:.9;margin-bottom:40px}
+.sec-hero .subtitle{font-size:16px;font-weight:300;opacity:.6;letter-spacing:6px;text-transform:uppercase}
+
+/* ===== OVERVIEW ===== */
+.sec-overview h2{font-size:40px;font-weight:500;color:#2d2d2d;margin-bottom:12px}
+.sec-overview .subhead{font-size:16px;color:#888;font-weight:300;margin-bottom:48px}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:960px;width:100%}
+.feature-card{background:#fff;border-radius:12px;padding:32px 20px;box-shadow:4px 4px 2px #e4e4e4;transition:transform .3s ease,box-shadow .3s ease;cursor:default}
+.feature-card:hover{transform:translateY(-4px);box-shadow:6px 8px 4px #e4e4e4}
+.feature-card .icon{font-size:40px;margin-bottom:16px}
+.feature-card h3{font-size:18px;font-weight:500;color:#6d9d30;margin-bottom:8px}
+.feature-card p{font-size:14px;color:#666;font-weight:300;line-height:1.5}
+
+/* ===== VIDEO ===== */
+.video-container{position:relative;width:100%;max-width:800px;aspect-ratio:16/9;background:linear-gradient(135deg,#3a3a3a 0%,#222 100%);border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 2px #e4e4e4,0 8px 32px rgba(0,0,0,0.15);cursor:pointer;transition:transform .3s ease;overflow:hidden}
+.video-container:hover{transform:scale(1.02)}
+.video-container::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(109,157,48,0.15) 0%,transparent 60%);border-radius:16px}
+.play-icon{width:100px;height:100px;background:rgba(109,157,48,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:2;transition:transform .3s ease,background .3s ease;box-shadow:0 4px 20px rgba(109,157,48,0.4)}
+.play-icon::after{content:'\25B6';font-size:40px;color:#fff;margin-left:6px}
+.video-container:hover .play-icon{transform:scale(1.15);background:#5fb000}
+.video-tag{position:absolute;top:20px;left:20px;background:#6d9d30;color:#fff;font-size:13px;font-weight:700;padding:6px 16px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;z-index:3;box-shadow:0 2px 8px rgba(109,157,48,0.3)}
+.video-title{position:absolute;bottom:24px;left:0;right:0;text-align:center;color:#fff;font-size:22px;font-weight:500;z-index:3;text-shadow:0 2px 12px rgba(0,0,0,0.5);padding:0 20px}
+.video-number{position:absolute;bottom:24px;right:24px;color:rgba(255,255,255,0.2);font-size:48px;font-weight:700;z-index:1}
+
+/* ===== CTA ===== */
+.sec-cta h2{font-size:48px;font-weight:500;margin-bottom:12px}
+.sec-cta p{font-size:18px;font-weight:300;opacity:.85;margin-bottom:40px;max-width:500px}
+.btn-cta{display:inline-block;padding:18px 48px;background:#fff;color:#6d9d30;font-size:18px;font-weight:700;border:2px solid #fff;border-radius:50px;cursor:pointer;text-decoration:none;letter-spacing:1px;transition:all .3s ease;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.btn-cta:hover{background:transparent;color:#fff;transform:translateY(-2px)}
+.sec-cta .contact-info{margin-top:32px;font-size:14px;font-weight:300;opacity:.6}
+.sec-cta .contact-info span{margin:0 12px}
+
+/* ===== FOOTER ===== */
+.site-footer{background:#488500;color:#fff;text-align:center;padding:40px 32px}
+.site-footer img{height:37px;display:block;margin:0 auto 14px}
+.site-footer .copy{font-size:13px;font-weight:300;opacity:.8}
+
+/* ===== ANIMATIONS ON SCROLL ===== */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:768px){
+  section{padding:110px 24px 60px}
+  .site-header .inner{padding:12px 18px}
+  .site-nav{gap:16px}
+  .features-grid{grid-template-columns:1fr;gap:16px}
+  .feature-card{padding:20px 16px}
+  .video-container{width:100%}
+  .play-icon{width:70px;height:70px}
+  .play-icon::after{font-size:28px}
+  .video-title{font-size:16px}
+  .sec-hero .logo{font-size:44px}
+  .sec-hero .tagline{font-size:16px;letter-spacing:2px}
+  .sec-cta h2{font-size:32px}
+  .btn-cta{padding:14px 32px;font-size:16px}
+}
+@media (max-width:480px){
+  .sec-hero .logo{font-size:30px}
+  .sec-hero .tagline{font-size:14px}
+  .sec-overview h2{font-size:28px}
+  .video-number{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a href="#hero"><img src="assets/libax-logo-small.png" alt="Libax"></a>
+    <nav class="site-nav">
+      <a href="#overview">Funcionalidades</a>
+      <a href="#video-1">Vídeos</a>
+      <a href="#cta">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="sec-hero" id="hero">
+  <div class="logo reveal">Libax <span>CRM</span></div>
+  <div class="deco-line reveal"></div>
+  <div class="tagline reveal">Gestão de Relacionamento com Clientes</div>
+  <div class="subtitle reveal">Módulo CRM · Libax ERP</div>
+</section>
+
+<!-- ===== OVERVIEW ===== -->
+<section class="sec-overview" id="overview">
+  <h2 class="reveal">Funcionalidades</h2>
+  <p class="subhead reveal">Tudo o que precisa para gerir o relacionamento com os seus clientes</p>
+  <div class="features-grid">
+    <div class="feature-card reveal"><div class="icon">👥</div><h3>Gestão de Contactos</h3><p>Centralize todos os contactos da sua empresa com informação completa e segmentação inteligente.</p></div>
+    <div class="feature-card reveal"><div class="icon">📊</div><h3>Negócios &amp; Oportunidades</h3><p>Acompanhe o pipeline de vendas, desde a prospeção até ao fecho, com visibilidade total.</p></div>
+    <div class="feature-card reveal"><div class="icon">🎫</div><h3>Tickets de Suporte</h3><p>Registe e acompanhe pedidos de suporte com atribuição automática e SLAs configuráveis.</p></div>
+    <div class="feature-card reveal"><div class="icon">✅</div><h3>Tarefas &amp; Lembretes</h3><p>Organize o seu dia com tarefas associadas a contactos, negócios ou tickets, com notificações.</p></div>
+    <div class="feature-card reveal"><div class="icon">🔍</div><h3>Pesquisas Poderosas</h3><p>Encontre qualquer registo em segundos com pesquisa global inteligente e filtros avançados.</p></div>
+    <div class="feature-card reveal"><div class="icon">📈</div><h3>Relatórios &amp; Dashboards</h3><p>Visualize métricas de desempenho comercial com dashboards interativos e relatórios exportáveis.</p></div>
+  </div>
+</section>
+
+<!-- ===== VIDEO 1 ===== -->
+<section class="sec-video" id="video-1">
+  <div class="video-container reveal" onclick="alert('🎬 Vídeo: Como criar cliente\n\nPlaceholder — o vídeo real será inserido aqui.')">
+    <span class="video-tag">CRM</span>
+    <div class="play-icon"></div>
+    <div class="video-title">Como criar cliente</div>
+    <div class="video-number">01</div>
+  </div>
+</section>
+
+<!-- ===== VIDEO 2 ===== -->
+<section class="sec-video alt" id="video-2">
+  <div class="video-container reveal" onclick="alert('🎬 Vídeo: Como criar negócio e tarefa\n\nPlaceholder — o vídeo real será inserido aqui.')">
+    <span class="video-tag">CRM</span>
+    <div class="play-icon"></div>
+    <div class="video-title">Como criar negócio e tarefa</div>
+    <div class="video-number">02</div>
+  </div>
+</section>
+
+<!-- ===== VIDEO 3 ===== -->
+<section class="sec-video" id="video-3">
+  <div class="video-container reveal" onclick="alert('🎬 Vídeo: Mostrar pesquisas\n\nPlaceholder — o vídeo real será inserido aqui.')">
+    <span class="video-tag">CRM</span>
+    <div class="play-icon"></div>
+    <div class="video-title">Mostrar pesquisas</div>
+    <div class="video-number">03</div>
+  </div>
+</section>
+
+<!-- ===== VIDEO 4 ===== -->
+<section class="sec-video alt" id="video-4">
+  <div class="video-container reveal" onclick="alert('🎬 Vídeo: Como criar ticket e tarefa\n\nPlaceholder — o vídeo real será inserido aqui.')">
+    <span class="video-tag">CRM</span>
+    <div class="play-icon"></div>
+    <div class="video-title">Como criar ticket e tarefa</div>
+    <div class="video-number">04</div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="sec-cta" id="cta">
+  <h2 class="reveal">Contacte-nos</h2>
+  <p class="reveal">Descubra como o Libax CRM pode transformar a gestão dos seus clientes.</p>
+  <button class="btn-cta reveal" onclick="alert('📞 Falar com vendas\n\nLigue: 800 200 482\nOu visite: libax.pt')">Falar com vendas</button>
+  <div class="contact-info reveal">
+    <span>📞 800 200 482</span>
+    <span>✉️ crm@libax.pt</span>
+    <span>🌐 libax.pt</span>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <img src="assets/libax-logo-small.png" alt="Libax">
+  <div class="copy">&copy; <span id="year"></span> Libax — Todos os direitos reservados</div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+</script>
+</body>
+</html>
