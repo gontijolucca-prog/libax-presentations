@@ -9,11 +9,13 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,400;9..40,800&family=Fraunces:opsz,wght@9..144,200;9..144,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#e8efe2;--ink-soft:#a8b29f;--ink-dim:#6b7466;
-  --bg:#0a0d09;--bg-2:#0f140d;--surface:#131a12;
-  --line:rgba(168,178,159,.10);--line-strong:rgba(168,178,159,.22);
-  --green:#6d9d30;--green-bright:#9bbb59;--green-deep:#3d6600;
-  --lime:#c6f24e;
+  --ink:#000000;--ink-soft:#777777;--ink-dim:#999999;
+  --bg:#ffffff;--bg-2:#f2f2f4;--surface:#ffffff;
+  --line:#f0f0f0;--line-strong:#e4e4e4;
+  --green:#6d9d30;--green-light:#9bbb59;--green-dark:#488500;
+  --green-btn:#5fb000;--green-pale:#7cb731;
+  --green-bright:#9bbb59;
+  --lime:#6d9d30;
   --serif:'Fraunces',ui-serif,Georgia,serif;
   --sans:'DM Sans',ui-sans-serif,Helvetica,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -22,31 +24,31 @@
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5}
 img{display:block}
-.noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:overlay}
-.vignette{position:fixed;inset:0;pointer-events:none;z-index:99;box-shadow:inset 0 0 240px 60px rgba(0,0,0,.4)}
+.noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:multiply}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:99;box-shadow:inset 0 0 240px 60px rgba(228,228,228,.6)}
 
-.site-header{position:sticky;top:0;z-index:100;background:rgba(10,13,9,.7);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border-bottom:1px solid var(--line)}
+.site-header{position:sticky;top:0;z-index:100;background:#6d9d30;border-bottom:1px solid var(--green-dark);box-shadow:0 1px 0 rgba(0,0,0,.04)}
 .site-header .inner{max-width:1280px;margin:0 auto;padding:18px 40px;display:flex;align-items:center;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
-.site-header .brand img{height:24px;width:auto;display:block;filter:brightness(1.05)}
-.brand-text{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
-.brand-text strong{color:var(--ink);font-weight:500;margin-left:6px}
+.site-header .brand img{height:24px;width:auto;display:block;filter:brightness(0)}
+.brand-text{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.brand-text strong{color:#fff;font-weight:500;margin-left:6px}
 .site-nav{display:flex;gap:32px;flex-wrap:wrap}
-.site-nav a{text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);transition:color .3s cubic-bezier(.16,1,.3,1);position:relative}
-.site-nav a:hover{color:var(--lime)}
-.site-nav a::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--lime);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.site-nav a{text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.85);transition:color .18s ease-in-out cubic-bezier(.16,1,.3,1);position:relative}
+.site-nav a:hover{color:#fff}
+.site-nav a::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:1px;background:#fff;transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.16,1,.3,1)}
 .site-nav a:hover::after{transform:scaleX(1);transform-origin:left}
 
 section{position:relative;padding:120px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-.bg.mesh{background:radial-gradient(ellipse 80% 60% at 15% 20%, rgba(109,157,48,.22), transparent 55%),radial-gradient(ellipse 60% 50% at 90% 80%, rgba(61,102,0,.35), transparent 60%)}
-.grid-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;background-image:linear-gradient(to right, rgba(168,178,159,.035) 1px, transparent 1px),linear-gradient(to bottom, rgba(168,178,159,.035) 1px, transparent 1px);background-size:96px 96px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%)}
+.bg.mesh{background:radial-gradient(ellipse 80% 60% at 15% 20%, rgba(109,157,48,.06), transparent 55%),radial-gradient(ellipse 60% 50% at 90% 80%, rgba(155,187,89,.10), transparent 60%)}
+.grid-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;background-image:linear-gradient(to right, rgba(109,157,48,.05) 1px, transparent 1px),linear-gradient(to bottom, rgba(109,157,48,.05) 1px, transparent 1px);background-size:96px 96px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%)}
 section>*:not(.bg):not(.grid){position:relative;z-index:2}
 
 .hero{min-height:100vh;text-align:center;overflow:hidden}
-.hero .bg{background:radial-gradient(ellipse 80% 60% at 30% 30%, rgba(109,157,48,.35), transparent 55%),radial-gradient(ellipse 50% 50% at 80% 80%, rgba(61,102,0,.45), transparent 60%),linear-gradient(160deg,#0d1408 0%,#0a0d09 100%)}
+.hero .bg{background:radial-gradient(ellipse 80% 60% at 30% 30%, rgba(109,157,48,.12), transparent 55%),radial-gradient(ellipse 50% 50% at 80% 80%, rgba(109,157,48,.10), transparent 60%),linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
 .hero .badge{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-soft);margin-bottom:40px}
-.hero .badge::before{content:'';width:6px;height:6px;background:var(--lime);border-radius:50%;box-shadow:0 0 12px var(--lime)}
+.hero .badge::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 0 0 transparent}
 .hero h1{font-family:var(--serif);font-weight:200;font-size:clamp(64px,9vw,160px);line-height:.92;letter-spacing:-.035em;margin-bottom:28px}
 .hero h1 em{font-style:italic;font-weight:800;color:var(--lime)}
 .hero .tagline{font-weight:200;font-size:24px;color:var(--ink-soft);max-width:680px;line-height:1.45;margin-bottom:8px}
@@ -54,10 +56,10 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
 .hero .sub{font-family:var(--mono);font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);margin-bottom:48px}
 .cta-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:12px;padding:18px 32px;font-family:var(--sans);font-weight:800;font-size:15px;letter-spacing:-.01em;text-decoration:none;border-radius:6px;cursor:pointer;transition:all .4s cubic-bezier(.16,1,.3,1);border:1px solid transparent}
-.btn-primary{background:var(--lime);color:var(--bg)}
-.btn-primary:hover{background:#d4ff60;transform:translateY(-2px);box-shadow:0 16px 32px -8px rgba(198,242,78,.3)}
-.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong)}
-.btn-ghost:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-2px)}
+.btn-primary{background:var(--green-btn);color:#fff}
+.btn-primary:hover{background:var(--green);transform:translateY(-2px);box-shadow:0 16px 32px -8px rgba(95,176,0,.35)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line-strong)}
+.btn-ghost:hover{border-color:var(--green);color:var(--green);transform:translateY(-2px)}
 
 .overview .wrap{max-width:1180px;width:100%;margin:0 auto}
 .overview .heading{margin-bottom:80px;text-align:center}
@@ -68,7 +70,7 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
 
 .features{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
 .feat{grid-column:span 4;background:var(--bg-2);padding:36px 28px;text-align:left;position:relative;overflow:hidden;transition:background .5s cubic-bezier(.16,1,.3,1)}
-.feat:hover{background:var(--surface)}
+.feat:hover{background:#fff}
 .feat .num{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--ink-dim);margin-bottom:32px;display:block}
 .feat .title{font-family:var(--sans);font-weight:800;font-size:22px;letter-spacing:-.02em;color:var(--ink);margin-bottom:10px}
 .feat .desc{font-weight:200;font-size:14px;line-height:1.55;color:var(--ink-soft)}
@@ -83,22 +85,22 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
 .video h2{font-family:var(--serif);font-weight:200;font-size:clamp(36px,4.4vw,60px);line-height:1;letter-spacing:-.025em;margin-bottom:8px}
 .video h2 em{font-style:italic;font-weight:800;color:var(--lime)}
 .video .tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);padding:6px 12px;border:1px solid var(--line);border-radius:999px;margin-bottom:32px}
-.video .frame{width:100%;max-width:1080px;aspect-ratio:16/9;background:var(--bg-2);border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;position:relative;box-shadow:0 40px 80px -20px rgba(0,0,0,.6)}
+.video .frame{width:100%;max-width:1080px;aspect-ratio:16/9;background:var(--bg-2);border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;position:relative;box-shadow:4px 4px 2px #e4e4e4}
 .video video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
 .video .caption{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--ink-dim);margin-top:24px;text-transform:uppercase}
 .video .caption span{color:var(--lime)}
 
 .cta{text-align:center;overflow:hidden}
-.cta .bg{background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(109,157,48,.30), transparent 60%),linear-gradient(160deg,#0d1408 0%,#0a0d09 100%)}
+.cta .bg{background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(109,157,48,.06), transparent 60%),linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
 .cta .wrap{max-width:880px;margin:0 auto}
 .cta h2{font-family:var(--serif);font-weight:200;font-size:clamp(56px,7vw,120px);line-height:.95;letter-spacing:-.03em;margin-bottom:24px}
 .cta h2 em{font-style:italic;font-weight:800;color:var(--lime)}
 .cta .sub{font-weight:200;font-size:20px;color:var(--ink-soft);margin-bottom:12px}
 .cta .price{font-family:var(--mono);font-size:13px;letter-spacing:.2em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:48px}
-.cta .price strong{color:var(--ink);font-weight:500}
+.cta .price strong{color:#fff;font-weight:500}
 .cta .footer-note{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-dim);margin-top:32px;text-transform:uppercase}
 
-.site-footer{background:var(--bg-2);border-top:1px solid var(--line);padding:56px 40px;text-align:center}
+.site-footer{background:#f2f2f4;border-top:1px solid var(--line);padding:56px 40px;text-align:center}
 .site-footer .inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
 .site-footer .brand-text{color:var(--ink-dim)}
 .site-footer .copy{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
@@ -124,14 +126,57 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
   .r{opacity:1;transform:none;transition:none}
   .feat,.feat .accent,.btn,.site-nav a,.site-nav a::after{transition:none}
 }
+
+/* === OFFICIAL LIBAX HEADER === */
+.libax-topbar{background:#6d9d30;color:#fff;padding:8px 24px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.libax-topbar .topbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.libax-topbar nav{display:flex;gap:24px;flex-wrap:wrap}
+.libax-topbar nav a{color:#fff;text-decoration:none;border-bottom:3px solid transparent;padding-bottom:2px;transition:all .18s ease-in-out}
+.libax-topbar nav a:hover,.libax-topbar nav a.active{border-bottom-color:#fff}
+.libax-mainmenu{background:#fff;border-bottom:1px solid var(--line);padding:15px 40px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.libax-mainmenu .mainmenu-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.libax-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.libax-brand img{height:24px;width:auto;display:block}
+.libax-brand .brand-sep{color:var(--ink-dim);margin:0 4px}
+.libax-brand .brand-name{color:rgba(109,157,48,.75);font-weight:700}
+.libax-mainmenu nav{display:flex;gap:32px;flex-wrap:wrap}
+.libax-mainmenu nav a{color:rgba(109,157,48,.75);font-weight:700;text-decoration:none;border-bottom:3px solid transparent;padding-bottom:5px;transition:all .18s ease-in-out}
+.libax-mainmenu nav a:hover,.libax-mainmenu nav a.active{color:#6d9d30;border-bottom-color:#6d9d30}
+
+/* Legacy site-header suppressed in favor of the official Libax header */
+.site-header{display:none}
 </style>
 </head>
 <body>
 <svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
 
+<!-- OFFICIAL LIBAX HEADER -->
+<header class="libax-topbar">
+  <div class="topbar-inner">
+    <span>Libax — Software certificado AT</span>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="site-business.html">Business</a>
+      <a href="site-automate.html">Automate</a>
+      <a href="site-crm.html">CRM</a>
+      <a href="site-seguros.html">Seguros</a>
+    </nav>
+  </div>
+</header>
+<header class="libax-mainmenu">
+  <div class="mainmenu-inner">
+    <a href="index.html" class="libax-brand"><img src="assets/libax-logo-dark.svg" alt="Libax"><span class="brand-sep">/</span><span class="brand-name">Seguros</span></a>
+    <nav>
+      <a href="#overview">Funcionalidades</a>
+      <a href="#videos">Vídeos</a>
+      <a href="#cta">Preços</a>
+      <a href="#cta">Contacto</a>
+    </nav>
+  </div>
+</header>
 <header class="site-header">
   <div class="inner">
-    <a href="#hero" class="brand"><img src="assets/libax-logo-white.svg" alt="Libax"><span class="brand-text">Libax <strong>Seguros</strong></span></a>
+    <a href="#hero" class="brand"><img src="assets/libax-logo-dark.svg" alt="Libax"><span class="brand-text">Libax <strong>Seguros</strong></span></a>
     <nav class="site-nav">
       <a href="#overview">Funcionalidades</a>
       <a href="#recibos">Recibos</a>
@@ -209,7 +254,7 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
 
 <style>
 .section-divider{text-align:center;overflow:hidden}
-.section-divider .bg{background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(109,157,48,.22), transparent 65%),linear-gradient(160deg,#0d1408 0%,#0a0d09 100%)}
+.section-divider .bg{background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(109,157,48,.08), transparent 65%),linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
 .section-divider .wrap{max-width:880px;margin:0 auto}
 .section-divider .index{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:24px}
 .section-divider h2{font-family:var(--serif);font-weight:200;font-size:clamp(48px,6.4vw,96px);line-height:1;letter-spacing:-.025em;margin-bottom:20px}
@@ -219,12 +264,11 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
 .video-card{background:var(--bg-2);border:1px solid var(--line);border-radius:6px;overflow:hidden;text-align:left;transition:all .5s cubic-bezier(.16,1,.3,1);position:relative}
 .video-card:hover{border-color:var(--lime);transform:translateY(-3px);box-shadow:0 24px 48px -16px rgba(198,242,78,.18)}
 .video-card .num{position:absolute;top:16px;left:16px;z-index:3;font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--lime);background:rgba(10,13,9,.7);backdrop-filter:blur(8px);padding:4px 10px;border-radius:999px}
-.video-card .frame{aspect-ratio:16/9;background:linear-gradient(135deg,#0c1108 0%,#0a0d09 100%);position:relative;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+.video-card .frame{aspect-ratio:16/9;background:linear-gradient(135deg,#f2f2f4 0%,#e4e4e4 100%);position:relative;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
 .video-card .frame video{width:100%;height:100%;object-fit:cover;display:block}
 .video-card .info{padding:20px 22px}
 .video-card .info h3{font-family:var(--sans);font-weight:800;font-size:16px;letter-spacing:-.01em;color:var(--ink);margin-bottom:6px;line-height:1.3}
-.video-card .info p{font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--ink-dim);text-transform:uppercase}
-</style>
+.video-card .info p{font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--ink-dim);text-transform:uppercase}</style>
 
 <section class="section section-divider" id="recibos">
   <div class="bg"></div>
@@ -546,7 +590,7 @@ section>*:not(.bg):not(.grid){position:relative;z-index:2}
 
 <footer class="site-footer">
   <div class="inner">
-    <a href="#hero" class="brand"><img src="assets/libax-logo-white.svg" alt="Libax"><span class="brand-text">Libax <strong>Seguros</strong></span></a>
+    <a href="#hero" class="brand"><img src="assets/libax-logo-dark.svg" alt="Libax"><span class="brand-text">Libax <strong>Seguros</strong></span></a>
     <div class="copy">© <span id="year"></span> Libax · Todos os direitos reservados</div>
   </div>
 </footer>
