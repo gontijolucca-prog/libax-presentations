@@ -12,14 +12,14 @@
 html{scroll-behavior:smooth}
 body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
 
-.deck{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
+.deck{height:100vh;overflow-y:scroll;scroll-snap-type:y proximity;scrollbar-width:none}
 .deck::-webkit-scrollbar{display:none}
-.section{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 40px;text-align:center;position:relative}
+.section{min-height:100vh;scroll-snap-align:start;scroll-snap-stop:normal;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 40px;text-align:center;position:relative}
 
 .progress{position:fixed;top:0;right:0;width:4px;height:100vh;background:#e4e4e4;opacity:.3;z-index:50}
 .progress-fill{width:100%;background:linear-gradient(180deg,#6d9d30,#9bbb59);height:0;transition:height .2s ease}
 
-.reveal{opacity:0;transform:translateY(60px);transition:opacity 1.2s cubic-bezier(0.25,0.1,0.25,1),transform 1.2s cubic-bezier(0.25,0.1,0.25,1)}
+.reveal{opacity:0;transform:translateY(80px);transition:opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1),transform 1.8s cubic-bezier(0.16, 1, 0.3, 1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 .hero{background:linear-gradient(135deg,#488500 0%,#6d9d30 50%,#9bbb59 100%);color:#fff}
@@ -59,13 +59,8 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
   .hero h1{font-size:38px}
   .video h2{font-size:24px}
 }
-.hero{position:relative;overflow:hidden}.hero::before{z-index:0}.hero::after{z-index:0}.hero>*{position:relative;z-index:1}
-.hero::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(255,255,255,.08) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(155,187,89,.15) 0%,transparent 50%);animation:bgFloat 12s ease-in-out infinite alternate}
-.hero::after{content:"";position:absolute;top:10%;right:5%;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.06);filter:blur(40px);animation:bgPulse 6s ease-in-out infinite alternate}
-@keyframes bgFloat{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(-30px,-20px) rotate(2deg)}}
-@keyframes bgPulse{0%{transform:scale(1);opacity:.4}100%{transform:scale(1.3);opacity:.7}}
+.hero{position:relative;overflow:hidden}.hero>*{position:relative;z-index:1}
 .cta{position:relative;overflow:hidden}
-.cta::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 70% 30%,rgba(255,255,255,.06) 0%,transparent 50%);animation:bgFloat 10s ease-in-out infinite alternate}
 
 </style>
 </head>
@@ -75,7 +70,7 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
 
   <!-- 1. Hero -->
   <section class="section hero reveal">
-    <div style="background:#fff;border-radius:40px;padding:12px 28px;box-shadow:0 4px 20px rgba(0,0,0,.15);margin-bottom:28px;display:inline-block"><img src="assets/libax-logo-small.png?v=2" alt="Libax" style="width:180px;height:auto;display:block"></div>
+    <div style="background:#fff;border-radius:40px;padding:16px 36px;box-shadow:0 4px 20px rgba(0,0,0,.15);margin-bottom:28px;display:inline-block;text-align:center;align-items:center"><img src="assets/libax-logo-small.png?v=2" alt="Libax" style="width:240px;height:auto;display:block;margin:0 auto"></div>
     <h1>Libax CRM</h1>
     <p class="tagline">Gestão de Relacionamento com Clientes</p>
     <div class="scroll-hint">Role para ver ↓</div>
