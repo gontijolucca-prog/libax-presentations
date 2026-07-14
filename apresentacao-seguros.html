@@ -156,35 +156,12 @@ section.alt { background: var(--cinza-fundo); }
   margin: 0 auto;
 }
 
-/* CTA */
-.cta {
-  background: linear-gradient(135deg, #488500 0%, #5fb000 100%);
-  color: #fff;
-}
-.cta .price { font-size: 20px; font-weight: 300; opacity: 0.9; margin-bottom: 12px; }
-.cta .price strong { font-size: 48px; font-weight: 900; display: block; }
-.cta .btn {
-  display: inline-block;
-  margin-top: 32px;
-  padding: 18px 56px;
-  background: #fff;
-  color: var(--verde-escuro);
-  font-size: 20px;
-  font-weight: 700;
-  border-radius: 50px;
-  text-decoration: none;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-  transition: transform 0.2s ease;
-}
-.cta .btn:hover { transform: scale(1.05); }
-
 @media (max-width: 768px) {
   .overview-grid { grid-template-columns: 1fr; }
   .hero h1 { font-size: 44px; }
   .separator .sep-title { font-size: 38px; }
 }
-.hero,.cta{position:relative}.hero>*,.cta>*{position:relative;z-index:1}
-
+.hero,
 #particles{position:fixed;inset:0;pointer-events:none;z-index:3;opacity:1}
 .vignette{position:fixed;inset:0;pointer-events:none;z-index:1;box-shadow:inset 0 0 200px 50px rgba(0,0,0,.08)}
 section{z-index:2}
@@ -466,14 +443,6 @@ section{z-index:2}
     <div class="video-wrap" style="margin-top:20px;">
       <video autoplay muted loop controls src="video-generator/videos/seg-controlo-info.webm" type="video/webm"></video>
     </div>
-  </div>
-</section>
-
-<!-- SECAO 29: CTA -->
-<section class="cta" id="s29">
-  <div class="fade-up">
-    <div style="background:#fff;border-radius:40px;padding:16px 36px;box-shadow:0 4px 20px rgba(0,0,0,.15);margin-bottom:28px;display:inline-block;text-align:center;align-items:center"><img src="assets/libax-logo-small.png?v=2" alt="Libax" style="width:240px;height:auto;display:block;margin:0 auto"></div>
-    <a href="#" class="btn">Registar</a>
   </div>
 </section>
 

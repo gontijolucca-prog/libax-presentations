@@ -47,10 +47,6 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
 .video video{max-width:960px;width:100%;aspect-ratio:16/9;border-radius:12px;box-shadow:4px 4px 2px #e4e4e4;background:#ddd;object-fit:cover}
 .video .fallback{max-width:960px;width:100%;aspect-ratio:16/9;border-radius:12px;box-shadow:4px 4px 2px #e4e4e4;background:linear-gradient(135deg,#9bbb59,#6d9d30);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:500}
 
-.cta h2{font-size:44px;font-weight:700;margin-bottom:14px}
-.cta .lead{font-size:20px;font-weight:300;opacity:.95;margin-bottom:24px}
-.cta .contact{font-size:18px;font-weight:300;opacity:.9;line-height:1.8}
-.cta .contact a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.5)}
 .btn{display:inline-block;background:#5fb000;color:#fff;border:2px solid #5fb000;border-radius:30px;padding:14px 40px;font-size:16px;font-weight:500;text-decoration:none;transition:all .3s ease;margin-bottom:28px}
 .btn:hover{background:#fff;color:#5fb000;border-color:#fff}
 
@@ -60,7 +56,6 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
   .video h2{font-size:24px}
 }
 .hero{position:relative}.hero>*{position:relative;z-index:1}
-.cta{position:relative}
 
 #particles{position:fixed;inset:0;pointer-events:none;z-index:3;opacity:1}
 .vignette{position:fixed;inset:0;pointer-events:none;z-index:1;box-shadow:inset 0 0 200px 50px rgba(0,0,0,.08)}
@@ -135,14 +130,7 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
     <div class="fallback" style="display:none">Como criar ticket e tarefa</div>
   </section>
 
-  <!-- 7. CTA -->
-  <section class="section hero cta reveal">
-    <h2>Contacte-nos</h2>
-    <a href="mailto:crm@libax.pt" class="btn">Falar com vendas</a>
-    <p class="contact">800 200 482<br><a href="mailto:crm@libax.pt">crm@libax.pt</a><br><a href="https://www.libax.pt">libax.pt</a></p>
-  </section>
-
-</div>
+  </div>
 <script>
 const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(s=>io.observe(s));
