@@ -5,571 +5,380 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Libax CRM — Apresentação</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,400;9..40,800&family=Fraunces:opsz,wght@9..144,200;9..144,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root{
+  --ink:#e8efe2;--ink-soft:#a8b29f;--ink-dim:#6b7466;
+  --bg:#0a0d09;--bg-2:#0f140d;--surface:#131a12;
+  --line:rgba(168,178,159,.10);--line-strong:rgba(168,178,159,.22);
+  --green:#6d9d30;--green-bright:#9bbb59;--green-deep:#3d6600;
+  --lime:#c6f24e;
+  --serif:'Fraunces',ui-serif,Georgia,serif;
+  --sans:'DM Sans',ui-sans-serif,Helvetica,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+.noise{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.05;mix-blend-mode:overlay}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:60;box-shadow:inset 0 0 240px 60px rgba(0,0,0,.4)}
 
-  html, body {
-    width:100%; height:100%; overflow:hidden;
-    font-family:'Roboto', sans-serif;
-    background:#fff;
-  }
+/* Decks container */
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+.slides{position:relative;width:100%;height:100%}
+.slides-track,.slides-wrapper{display:flex;width:100%;height:100%;height:100vh;transition:transform .8s cubic-bezier(.65,0,.35,1);will-change:transform}
+.slide{flex:0 0 100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:60px 80px;text-align:center}
 
-  /* ===== SLIDES CONTAINER ===== */
-  .slides-wrapper {
-    position:relative;
-    width:100%; height:100%;
-    overflow:hidden;
-  }
+/* Slide backgrounds */
+.bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.bg.mesh{background:radial-gradient(ellipse 80% 60% at 15% 20%, rgba(109,157,48,.22), transparent 55%),radial-gradient(ellipse 60% 50% at 90% 80%, rgba(61,102,0,.35), transparent 60%)}
+.grid-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;background-image:linear-gradient(to right, rgba(168,178,159,.035) 1px, transparent 1px),linear-gradient(to bottom, rgba(168,178,159,.035) 1px, transparent 1px);background-size:96px 96px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%)}
+.slide>*:not(.bg):not(.grid){position:relative;z-index:2}
 
-  .slides-track {
-    display:flex;
-    width:100%; height:100%;
-    transition:transform 0.7s cubic-bezier(0.65,0,0.35,1);
-    will-change:transform;
-  }
+/* Slide transitions (for transition-based decks like business) */
+.slide.trans{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity .7s cubic-bezier(.65,0,.35,1),transform .7s cubic-bezier(.65,0,.35,1);z-index:1}
+.slide.trans.active{opacity:1;pointer-events:auto;z-index:10}
+.slide.trans.exit-left{opacity:0;transform:translateX(-80px)}
+.slide.trans.exit-right{opacity:0;transform:translateX(80px)}
+.slide.trans.enter-left{opacity:0;transform:translateX(80px)}
+.slide.trans.enter-right{opacity:0;transform:translateX(-80px)}
+.slide.trans.active.enter-left,.slide.trans.active.enter-right{opacity:1;transform:translateX(0)}
 
-  .slide {
-    flex:0 0 100%; height:100%;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    position:relative;
-    padding:60px 80px;
-    text-align:center;
-    overflow:hidden;
-  }
+/* Title slide */
+.slide-title{color:var(--ink)}
+.slide-title .bg{background:radial-gradient(ellipse 80% 60% at 30% 30%, rgba(109,157,48,.35), transparent 55%),radial-gradient(ellipse 50% 50% at 80% 80%, rgba(61,102,0,.45), transparent 60%),linear-gradient(160deg,#0d1408 0%,#0a0d09 100%)}
+.slide-title .badge{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-soft);margin-bottom:40px}
+.slide-title .badge::before{content:'';width:6px;height:6px;background:var(--lime);border-radius:50%;box-shadow:0 0 12px var(--lime)}
+.slide-title h1{font-family:var(--serif);font-weight:200;font-size:clamp(64px,8vw,140px);line-height:.92;letter-spacing:-.035em;margin-bottom:24px}
+.slide-title h1 em{font-style:italic;font-weight:800;color:var(--lime)}
+.slide-title .tagline{font-weight:200;font-size:24px;color:var(--ink-soft);margin-bottom:8px;max-width:680px;line-height:1.45}
+.slide-title .tagline strong{font-weight:800;color:var(--ink)}
+.slide-title .sub{font-family:var(--mono);font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);margin-bottom:48px}
+.slide-title .scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);display:flex;flex-direction:column;align-items:center;gap:10px}
+.slide-title .scroll-hint .line{width:1px;height:36px;background:linear-gradient(180deg,transparent,var(--lime));animation:down 2.4s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes down{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+.slide-title.dark{color:var(--ink)}
+.slide-title.dark .bg{background:radial-gradient(ellipse 80% 60% at 30% 30%, rgba(61,102,0,.5), transparent 55%),radial-gradient(ellipse 50% 50% at 80% 80%, rgba(109,157,48,.35), transparent 60%),linear-gradient(160deg,#070a05 0%,#0a0d09 100%)}
 
-  /* ===== SLIDE BACKGROUNDS ===== */
-  .slide-bg-alt { background:#f2f2f4; }
-  .slide-bg-white { background:#fff; }
-  .slide-bg-green { background:linear-gradient(135deg, #6d9d30 0%, #488500 100%); color:#fff; }
-  .slide-bg-dark { background:linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); color:#fff; }
+/* Overview slide */
+.slide-overview{color:var(--ink)}
+.slide-overview .heading{margin-bottom:64px;max-width:880px;margin-left:auto;margin-right:auto}
+.slide-overview .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
+.slide-overview h2{font-family:var(--serif);font-weight:200;font-size:clamp(40px,5vw,72px);line-height:1;letter-spacing:-.025em}
+.slide-overview h2 em{font-style:italic;font-weight:800;color:var(--lime)}
+.slide-overview .subtitle{font-weight:200;font-size:18px;color:var(--ink-soft);margin-top:18px;max-width:540px;margin-left:auto;margin-right:auto}
 
-  /* ===== TITLE SLIDE ===== */
-  .slide-title {
-    background:linear-gradient(135deg, #6d9d30 0%, #488500 50%, #2d5a00 100%);
-    color:#fff;
-  }
-  .slide-title .logo {
-    font-size:72px; font-weight:700; letter-spacing:2px;
-    margin-bottom:16px;
-    text-shadow:0 4px 12px rgba(0,0,0,0.3);
-  }
-  .slide-title .logo span { color:#9bbb59; }
-  .slide-title .tagline {
-    font-size:24px; font-weight:300; letter-spacing:4px;
-    opacity:0.9;
-    margin-bottom:40px;
-  }
-  .slide-title .subtitle {
-    font-size:16px; font-weight:300; opacity:0.6;
-    letter-spacing:6px; text-transform:uppercase;
-  }
-  .slide-title .deco-line {
-    width:80px; height:3px; background:#9bbb59;
-    margin:24px auto; border-radius:2px;
-  }
+.features{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;max-width:1180px;width:100%;background:var(--line);border:1px solid var(--line)}
+.feat{grid-column:span 4;background:var(--bg-2);padding:32px 24px;text-align:left;position:relative;overflow:hidden;transition:background .5s cubic-bezier(.16,1,.3,1)}
+.feat:hover{background:var(--surface)}
+.feat .num{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--ink-dim);margin-bottom:24px;display:block}
+.feat .title{font-family:var(--sans);font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px}
+.feat .desc{font-weight:200;font-size:13px;line-height:1.55;color:var(--ink-soft)}
+.feat .accent{position:absolute;left:0;top:0;width:1px;height:100%;background:var(--lime);transform:scaleY(0);transform-origin:bottom;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.feat:hover .accent{transform:scaleY(1)}
+.feat .icon{display:block;width:28px;height:28px;color:var(--lime);margin-bottom:16px;stroke-width:1.5}
 
-  /* ===== OVERVIEW SLIDE ===== */
-  .slide-overview h2 {
-    font-size:40px; font-weight:500; color:#2d2d2d;
-    margin-bottom:12px;
-  }
-  .slide-overview .subhead {
-    font-size:16px; color:#888; font-weight:300;
-    margin-bottom:48px;
-  }
-  .features-grid {
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:24px;
-    max-width:960px;
-    width:100%;
-  }
-  .feature-card {
-    background:#fff;
-    border-radius:12px;
-    padding:32px 20px;
-    box-shadow:4px 4px 2px #e4e4e4;
-    transition:transform 0.3s ease, box-shadow 0.3s ease;
-    cursor:default;
-  }
-  .feature-card:hover {
-    transform:translateY(-4px);
-    box-shadow:6px 8px 4px #e4e4e4;
-  }
-  .feature-card .icon {
-    font-size:40px; margin-bottom:16px;
-  }
-  .feature-card h3 {
-    font-size:18px; font-weight:500; color:#6d9d30;
-    margin-bottom:8px;
-  }
-  .feature-card p {
-    font-size:14px; color:#666; font-weight:300;
-    line-height:1.5;
-  }
+/* Video slide */
+.slide-video{color:var(--ink)}
+.slide-video .bg{background:linear-gradient(180deg,#0c1108 0%,#0a0d09 100%)}
+.slide-video .heading{margin-bottom:40px;max-width:880px;margin-left:auto;margin-right:auto}
+.slide-video .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);display:inline-flex;align-items:center;gap:10px;margin-bottom:18px}
+.slide-video .eyebrow::before{content:'';width:18px;height:1px;background:var(--green-bright)}
+.slide-video h2{font-family:var(--serif);font-weight:200;font-size:clamp(36px,4.2vw,58px);line-height:1;letter-spacing:-.025em}
+.slide-video h2 em{font-style:italic;font-weight:800;color:var(--lime)}
+.slide-video .frame{width:100%;max-width:1080px;aspect-ratio:16/9;background:var(--bg-2);border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;position:relative;box-shadow:0 40px 80px -20px rgba(0,0,0,.6)}
+.slide-video video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+.slide-video .caption{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--ink-dim);margin-top:24px;text-transform:uppercase}
+.slide-video .caption span{color:var(--lime)}
 
-  /* ===== VIDEO SLIDES ===== */
-  .video-slide { background:#f2f2f4; }
-  .video-slide .video-container {
-    position:relative;
-    width:80%; max-width:800px;
-    aspect-ratio:16/9;
-    background:linear-gradient(135deg, #3a3a3a 0%, #222 100%);
-    border-radius:16px;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:4px 4px 2px #e4e4e4, 0 8px 32px rgba(0,0,0,0.15);
-    cursor:pointer;
-    transition:transform 0.3s ease;
-    overflow:hidden;
-  }
-  .video-slide .video-container:hover {
-    transform:scale(1.02);
-  }
-  .video-slide .video-container::before {
-    content:'';
-    position:absolute; inset:0;
-    background:linear-gradient(135deg, rgba(109,157,48,0.15) 0%, transparent 60%);
-    border-radius:16px;
-  }
-  .play-icon {
-    width:100px; height:100px;
-    background:rgba(109,157,48,0.9);
-    border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    z-index:2;
-    transition:transform 0.3s ease, background 0.3s ease;
-    box-shadow:0 4px 20px rgba(109,157,48,0.4);
-  }
-  .play-icon::after {
-    content:'▶';
-    font-size:40px; color:#fff;
-    margin-left:6px;
-  }
-  .video-container:hover .play-icon {
-    transform:scale(1.15);
-    background:#5fb000;
-  }
-  .video-tag {
-    position:absolute;
-    top:20px; left:20px;
-    background:#6d9d30; color:#fff;
-    font-size:13px; font-weight:700;
-    padding:6px 16px; border-radius:20px;
-    letter-spacing:1px; text-transform:uppercase;
-    z-index:3;
-    box-shadow:0 2px 8px rgba(109,157,48,0.3);
-  }
-  .video-title {
-    position:absolute;
-    bottom:24px; left:0; right:0;
-    text-align:center;
-    color:#fff;
-    font-size:22px; font-weight:500;
-    z-index:3;
-    text-shadow:0 2px 12px rgba(0,0,0,0.5);
-    padding:0 20px;
-  }
-  .video-number {
-    position:absolute;
-    bottom:24px; right:24px;
-    color:rgba(255,255,255,0.2);
-    font-size:48px; font-weight:700;
-    z-index:1;
-  }
+/* Section divider slide */
+.slide-section{color:var(--ink)}
+.slide-section .bg{background:radial-gradient(ellipse 60% 80% at 50% 50%, rgba(109,157,48,.22), transparent 65%),linear-gradient(160deg,#0d1408 0%,#0a0d09 100%)}
+.slide-section .index{font-family:var(--mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:32px}
+.slide-section h2{font-family:var(--serif);font-weight:200;font-size:clamp(56px,7vw,110px);line-height:.95;letter-spacing:-.03em}
+.slide-section h2 em{font-style:italic;font-weight:800;color:var(--lime)}
+.slide-section .meta{font-family:var(--mono);font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);margin-top:28px;display:flex;align-items:center;gap:14px;justify-content:center}
+.slide-section .meta::before,.slide-section .meta::after{content:'';width:32px;height:1px;background:var(--ink-dim)}
 
-  /* ===== CTA SLIDE ===== */
-  .slide-cta {
-    background:linear-gradient(135deg, #6d9d30 0%, #488500 50%, #2d5a00 100%);
-    color:#fff;
-  }
-  .slide-cta h2 {
-    font-size:48px; font-weight:500;
-    margin-bottom:12px;
-  }
-  .slide-cta p {
-    font-size:18px; font-weight:300; opacity:0.85;
-    margin-bottom:40px;
-    max-width:500px;
-  }
-  .btn-cta {
-    display:inline-block;
-    padding:18px 48px;
-    background:#fff; color:#6d9d30;
-    font-size:18px; font-weight:700;
-    border:none; border-radius:50px;
-    cursor:pointer;
-    text-decoration:none;
-    transition:all 0.3s ease;
-    box-shadow:0 4px 16px rgba(0,0,0,0.2);
-    letter-spacing:1px;
-  }
-  .btn-cta:hover {
-    background:transparent; color:#fff;
-    box-shadow:inset 0 0 0 2px #fff, 0 4px 16px rgba(0,0,0,0.2);
-    transform:translateY(-2px);
-  }
-  .slide-cta .contact-info {
-    margin-top:32px;
-    font-size:14px; font-weight:300; opacity:0.6;
-  }
-  .slide-cta .contact-info span { margin:0 12px; }
+/* CTA slide */
+.slide-cta{color:var(--ink)}
+.slide-cta .bg{background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(109,157,48,.30), transparent 60%),linear-gradient(160deg,#0d1408 0%,#0a0d09 100%)}
+.slide-cta h2{font-family:var(--serif);font-weight:200;font-size:clamp(56px,7vw,120px);line-height:.95;letter-spacing:-.03em;margin-bottom:20px}
+.slide-cta h2 em{font-style:italic;font-weight:800;color:var(--lime)}
+.slide-cta .sub{font-weight:200;font-size:20px;color:var(--ink-soft);margin-bottom:12px}
+.slide-cta .price{font-family:var(--mono);font-size:14px;letter-spacing:.2em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:48px}
+.slide-cta .price strong{color:var(--ink);font-weight:500}
+.slide-cta .footer-note{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-dim);margin-top:32px;text-transform:uppercase}
+.slide-cta.dark .bg{background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(61,102,0,.5), transparent 60%),linear-gradient(160deg,#070a05 0%,#0a0d09 100%)}
 
-  /* ===== NAVIGATION ===== */
-  .nav-arrow {
-    position:fixed; top:50%; transform:translateY(-50%);
-    z-index:100;
-    width:52px; height:52px;
-    background:rgba(109,157,48,0.9);
-    border:none; border-radius:50%;
-    color:#fff; font-size:22px;
-    cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    transition:all 0.3s ease;
-    box-shadow:0 2px 12px rgba(0,0,0,0.15);
-    opacity:0;
-    pointer-events:none;
-  }
-  .nav-arrow.visible {
-    opacity:1;
-    pointer-events:auto;
-  }
-  .nav-arrow:hover {
-    background:#5fb000;
-    transform:translateY(-50%) scale(1.1);
-  }
-  .nav-arrow:active { transform:translateY(-50%) scale(0.95); }
-  .nav-prev { left:24px; }
-  .nav-next { right:24px; }
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:12px;padding:18px 32px;font-family:var(--sans);font-weight:800;font-size:15px;letter-spacing:-.01em;text-decoration:none;border-radius:6px;cursor:pointer;transition:all .4s cubic-bezier(.16,1,.3,1);border:1px solid transparent}
+.btn-primary{background:var(--lime);color:var(--bg)}
+.btn-primary:hover{background:#d4ff60;transform:translateY(-2px);box-shadow:0 16px 32px -8px rgba(198,242,78,.3)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong)}
+.btn-ghost:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-2px)}
 
-  /* ===== PROGRESS BAR ===== */
-  .progress-bar {
-    position:fixed; bottom:0; left:0;
-    height:4px;
-    background:linear-gradient(90deg, #6d9d30, #9bbb59);
-    z-index:200;
-    transition:width 0.5s cubic-bezier(0.65,0,0.35,1);
-  }
+/* Top brand */
+.topbrand{position:fixed;top:32px;left:40px;z-index:70;display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);text-decoration:none}
+.topbrand img{height:22px;width:auto;display:block;filter:brightness(1.05)}
+.topbrand .sep{color:var(--ink-dim);margin:0 4px}
+.topbrand{font-weight:500}
 
-  /* ===== SLIDE INDICATOR ===== */
-  .slide-indicator {
-    position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-    z-index:150;
-    display:flex; gap:10px;
-    align-items:center;
-  }
-  .slide-dot {
-    width:10px; height:10px;
-    border-radius:50%;
-    background:rgba(0,0,0,0.15);
-    transition:all 0.4s ease;
-    cursor:pointer;
-  }
-  .slide-dot.active {
-    background:#6d9d30;
-    width:28px; border-radius:6px;
-  }
-  .slide-dot:hover { background:rgba(109,157,48,0.5); }
+/* Navigation */
+.nav-arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:70;width:54px;height:54px;background:rgba(168,178,159,.08);border:1px solid var(--line-strong);border-radius:50%;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .4s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(12px)}
+.nav-arrow:hover{background:var(--lime);color:var(--bg);border-color:var(--lime);transform:translateY(-50%) scale(1.05)}
+.nav-arrow.prev{left:24px}
+.nav-arrow.next{right:24px}
+.nav-arrow svg{width:22px;height:22px;fill:currentColor}
+.nav-arrow.hidden{opacity:0;pointer-events:none}
 
-  /* ===== KEYBOARD HINT ===== */
-  .keyboard-hint {
-    position:fixed; bottom:52px; left:50%; transform:translateX(-50%);
-    z-index:140;
-    font-size:12px; color:rgba(0,0,0,0.25);
-    font-weight:300; letter-spacing:1px;
-    transition:opacity 0.5s ease;
-  }
-  .keyboard-hint.hidden { opacity:0; }
+/* Progress bar */
+.progress-bar{position:fixed;bottom:0;left:0;right:0;height:3px;background:rgba(168,178,159,.10);z-index:70}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--lime),var(--green));transition:width .6s cubic-bezier(.16,1,.3,1)}
 
-  /* ===== RESPONSIVE ===== */
-  @media (max-width:768px) {
-    .slide { padding:40px 24px; }
-    .slide-title .logo { font-size:40px; }
-    .slide-title .tagline { font-size:16px; letter-spacing:2px; }
-    .features-grid { grid-template-columns:1fr; gap:16px; }
-    .feature-card { padding:20px 16px; }
-    .video-slide .video-container { width:100%; }
-    .play-icon { width:70px; height:70px; }
-    .play-icon::after { font-size:28px; }
-    .video-title { font-size:16px; }
-    .slide-cta h2 { font-size:32px; }
-    .btn-cta { padding:14px 32px; font-size:16px; }
-    .nav-arrow { width:40px; height:40px; font-size:16px; }
-    .nav-prev { left:12px; }
-    .nav-next { right:12px; }
-    .slide-indicator { gap:6px; }
-    .slide-dot { width:8px; height:8px; }
-    .slide-dot.active { width:20px; }
-  }
+/* Slide indicator */
+.slide-indicator{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:70;display:flex;gap:8px;align-items:center}
+.slide-dot{width:7px;height:7px;border-radius:50%;background:rgba(168,178,159,.20);border:none;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);padding:0}
+.slide-dot:hover{background:rgba(168,178,159,.4)}
+.slide-dot.active{background:var(--lime);width:24px;border-radius:4px;box-shadow:0 0 8px var(--lime)}
+.slide-dot.section-dot{background:rgba(155,187,89,.4)}
+.slide-dot.section-dot.active{background:var(--green-bright)}
 
-  @media (max-width:480px) {
-    .slide-title .logo { font-size:30px; }
-    .slide-title .tagline { font-size:14px; }
-    .slide-overview h2 { font-size:28px; }
-    .video-number { font-size:32px; }
-  }
+/* Slide counter */
+.slide-counter{position:fixed;bottom:24px;right:40px;z-index:70;font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
+.slide-counter strong{color:var(--ink);font-weight:500;margin-right:4px}
 
-  /* ===== ANIMATIONS ===== */
-  @keyframes fadeInUp {
-    from { opacity:0; transform:translateY(30px); }
-    to { opacity:1; transform:translateY(0); }
-  }
-  .slide.active .feature-card { animation:fadeInUp 0.6s ease forwards; opacity:0; }
-  .slide.active .feature-card:nth-child(1) { animation-delay:0.1s; }
-  .slide.active .feature-card:nth-child(2) { animation-delay:0.2s; }
-  .slide.active .feature-card:nth-child(3) { animation-delay:0.3s; }
-  .slide.active .feature-card:nth-child(4) { animation-delay:0.4s; }
-  .slide.active .feature-card:nth-child(5) { animation-delay:0.5s; }
-  .slide.active .feature-card:nth-child(6) { animation-delay:0.6s; }
+/* Keyboard hint */
+.kbd-hint{position:fixed;bottom:24px;left:40px;z-index:70;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
+.kbd-hint kbd{display:inline-block;padding:2px 7px;border:1px solid var(--line);border-radius:3px;font-family:inherit;font-size:10px;margin:0 3px;color:var(--ink-soft)}
 
-  @keyframes pulse {
-    0%,100% { transform:scale(1); }
-    50% { transform:scale(1.05); }
-  }
-  .slide.active .play-icon { animation:pulse 2s ease-in-out infinite; }
+/* Reveal */
+.r{opacity:0;transform:translateY(30px);transition:opacity 1.2s cubic-bezier(.16,1,.3,1), transform 1.2s cubic-bezier(.16,1,.3,1)}
+.slide.active .r,.slide.trans.active .r{opacity:1;transform:translateY(0)}
+.slide.active .r.d1,.slide.trans.active .r.d1{transition-delay:.08s}
+.slide.active .r.d2,.slide.trans.active .r.d2{transition-delay:.18s}
+.slide.active .r.d3,.slide.trans.active .r.d3{transition-delay:.28s}
+.slide.active .r.d4,.slide.trans.active .r.d4{transition-delay:.40s}
+.slide.active .r.d5,.slide.trans.active .r.d5{transition-delay:.55s}
+.slide.active .r.d6,.slide.trans.active .r.d6{transition-delay:.70s}
+
+@media (max-width:780px){
+  .features{grid-template-columns:1fr;background:transparent;border:none;gap:1px}
+  .feat{grid-column:span 1;padding:24px 20px;background:var(--bg-2);border:1px solid var(--line)}
+  .slide{padding:60px 24px}
+  .slide-title h1{font-size:clamp(48px,11vw,80px)}
+  .topbrand{left:20px;top:20px;font-size:10px}
+  .slide-counter{right:20px;font-size:10px}
+  .kbd-hint{left:20px;font-size:9px}
+  .nav-arrow{width:40px;height:40px}
+  .nav-arrow.prev{left:12px}
+  .nav-arrow.next{right:12px}
+}
+@media (prefers-reduced-motion: reduce){
+  .r{opacity:1;transform:none;transition:none}
+  .scroll-hint .line{animation:none}
+  .slide,.nav-arrow,.btn,.slide-dot,.progress-bar-fill{transition-duration:.01ms !important}
+}
 </style>
 </head>
 <body>
+<svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
 
-<div class="slides-wrapper" id="slidesWrapper">
-  <div class="slides-track" id="slidesTrack">
+<a class="topbrand" href="index.html"><img src="assets/libax-logo-white.svg" alt="Libax"><span class="sep">/</span> CRM</a>
 
-    <!-- ===== SLIDE 1: TITLE ===== -->
-    <div class="slide slide-title active" data-index="0">
-      <div class="logo">Libax <span>CRM</span></div>
-      <div class="deco-line"></div>
-      <div class="tagline">Gestão de Relacionamento com Clientes</div>
-      <div class="subtitle">Módulo CRM · Libax ERP</div>
+<div class="deck" id="deck">
+  <div class="slides-track" id="slidesWrapper">
+
+    <div class="slide slide-title">
+      <div class="bg mesh"></div>
+      <div class="grid-overlay"></div>
+      <span class="badge r">Pipeline · Contactos · Suporte</span>
+      <h1 class="r d1">Libax<br><em>CRM</em></h1>
+      <p class="tagline r d2">Gestão de Relacionamento com Clientes para equipas comerciais que <strong>vendem mais</strong>.</p>
+      <p class="sub r d3">Contactos · Negócios · Tickets</p>
+      <div class="scroll-hint r d4">Navegar<span class="line"></span></div>
     </div>
-
-    <!-- ===== SLIDE 2: OVERVIEW ===== -->
-    <div class="slide slide-overview slide-bg-alt" data-index="1">
-      <h2>Funcionalidades</h2>
-      <p class="subhead">Tudo o que precisa para gerir o relacionamento com os seus clientes</p>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="icon">👥</div>
-          <h3>Gestão de Contactos</h3>
-          <p>Centralize todos os contactos da sua empresa com informação completa e segmentação inteligente.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">📊</div>
-          <h3>Negócios &amp; Oportunidades</h3>
-          <p>Acompanhe o pipeline de vendas, desde a prospeção até ao fecho, com visibilidade total.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">🎫</div>
-          <h3>Tickets de Suporte</h3>
-          <p>Registe e acompanhe pedidos de suporte com atribuição automática e SLAs configuráveis.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">✅</div>
-          <h3>Tarefas &amp; Lembretes</h3>
-          <p>Organize o seu dia com tarefas associadas a contactos, negócios ou tickets, com notificações.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">🔍</div>
-          <h3>Pesquisas Poderosas</h3>
-          <p>Encontre qualquer registo em segundos com pesquisa global inteligente e filtros avançados.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">📈</div>
-          <h3>Relatórios &amp; Dashboards</h3>
-          <p>Visualize métricas de desempenho comercial com dashboards interativos e relatórios exportáveis.</p>
-        </div>
+    <div class="slide slide-overview">
+      <div class="bg mesh"></div>
+      <div class="grid-overlay"></div>
+      <div class="heading r">
+        <div class="eyebrow">Visão geral</div>
+        <h2>Conheça melhor <em>os seus clientes.</em></h2>
+        <p class="subtitle">Ferramentas para toda a jornada de relacionamento — do primeiro contacto ao fecho do negócio.</p>
+      </div>
+      <div class="features">
+      <div class="feat r">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M14 20a4 4 0 0 1 7 0"/></svg>
+        <span class="num">01 / 06</span>
+        <div class="title">Gestão de<br>Contactos</div>
+        <p class="desc">Base de contactos centralizada com histórico completo por cliente.</p>
+        <span class="accent"></span>
+      </div>
+      <div class="feat r d2">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M3 6h12l-2 4h2l-3 6h6"/></svg>
+        <span class="num">02 / 06</span>
+        <div class="title">Negócios &amp;<br>Oportunidades</div>
+        <p class="desc">Acompanhe o pipeline de vendas até ao fecho.</p>
+        <span class="accent"></span>
+      </div>
+      <div class="feat r d3">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-2V8z"/><path d="M9 8v8"/></svg>
+        <span class="num">03 / 06</span>
+        <div class="title">Tickets<br>de Suporte</div>
+        <p class="desc">Gestão de pedidos de apoio com estados, prioridades e SLAs.</p>
+        <span class="accent"></span>
+      </div>
+      <div class="feat r d4">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+        <span class="num">04 / 06</span>
+        <div class="title">Tarefas &amp;<br>Lembretes</div>
+        <p class="desc">Planeie follow-ups e nunca perca um compromisso.</p>
+        <span class="accent"></span>
+      </div>
+      <div class="feat r d5">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg>
+        <span class="num">05 / 06</span>
+        <div class="title">Pesquisas<br>Poderosas</div>
+        <p class="desc">Filtros avançados para encontrar qualquer informação.</p>
+        <span class="accent"></span>
+      </div>
+      <div class="feat r d6">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>
+        <span class="num">06 / 06</span>
+        <div class="title">Relatórios &amp;<br>Dashboards</div>
+        <p class="desc">Indicadores visuais para acompanhar performance.</p>
+        <span class="accent"></span>
+      </div>
       </div>
     </div>
-
-    <!-- ===== SLIDE 3: VIDEO 1 ===== -->
-    <div class="slide video-slide" data-index="2">
-      <div class="video-container" onclick="alert('🎬 Vídeo: Como criar cliente\n\nPlaceholder — o vídeo real será inserido aqui.')">
-        <span class="video-tag">CRM</span>
-        <div class="play-icon"></div>
-        <div class="video-title">Como criar cliente</div>
-        <div class="video-number">01</div>
+    <div class="slide slide-video">
+      <div class="bg"></div>
+      <div class="heading r">
+        <div class="eyebrow">Demonstração · 01</div>
+        <h2>Como criar cliente</h2>
       </div>
-    </div>
-
-    <!-- ===== SLIDE 4: VIDEO 2 ===== -->
-    <div class="slide video-slide slide-bg-alt" data-index="3">
-      <div class="video-container" onclick="alert('🎬 Vídeo: Como criar negócio e tarefa\n\nPlaceholder — o vídeo real será inserido aqui.')">
-        <span class="video-tag">CRM</span>
-        <div class="play-icon"></div>
-        <div class="video-title">Como criar negócio e tarefa</div>
-        <div class="video-number">02</div>
+      <div class="frame r d1">
+        <video autoplay muted loop controls>
+          <source src="video-generator/videos/crm-criar-cliente.webm" type="video/webm">
+        </video>
       </div>
+      <div class="caption r d2"><span>01</span> · Como criar cliente</div>
     </div>
-
-    <!-- ===== SLIDE 5: VIDEO 3 ===== -->
-    <div class="slide video-slide" data-index="4">
-      <div class="video-container" onclick="alert('🎬 Vídeo: Mostrar pesquisas\n\nPlaceholder — o vídeo real será inserido aqui.')">
-        <span class="video-tag">CRM</span>
-        <div class="play-icon"></div>
-        <div class="video-title">Mostrar pesquisas</div>
-        <div class="video-number">03</div>
+    <div class="slide slide-video">
+      <div class="bg"></div>
+      <div class="heading r">
+        <div class="eyebrow">Demonstração · 02</div>
+        <h2>Como criar negócio e tarefa</h2>
       </div>
-    </div>
-
-    <!-- ===== SLIDE 6: VIDEO 4 ===== -->
-    <div class="slide video-slide slide-bg-alt" data-index="5">
-      <div class="video-container" onclick="alert('🎬 Vídeo: Como criar ticket e tarefa\n\nPlaceholder — o vídeo real será inserido aqui.')">
-        <span class="video-tag">CRM</span>
-        <div class="play-icon"></div>
-        <div class="video-title">Como criar ticket e tarefa</div>
-        <div class="video-number">04</div>
+      <div class="frame r d1">
+        <video autoplay muted loop controls>
+          <source src="video-generator/videos/crm-negocio-tarefa.webm" type="video/webm">
+        </video>
       </div>
+      <div class="caption r d2"><span>02</span> · Como criar negócio e tarefa</div>
     </div>
-
-    <!-- ===== SLIDE 7: CTA ===== -->
-    <div class="slide slide-cta" data-index="6">
-      <h2>Contacte-nos</h2>
-      <p>Descubra como o Libax CRM pode transformar a gestão dos seus clientes.</p>
-      <button class="btn-cta" onclick="alert('📞 Falar com vendas\n\nLigue: 800 200 482\nOu visite: libax.pt')">Falar com vendas</button>
-      <div class="contact-info">
-        <span>📞 800 200 482</span>
-        <span>✉️ crm@libax.pt</span>
-        <span>🌐 libax.pt</span>
+    <div class="slide slide-video">
+      <div class="bg"></div>
+      <div class="heading r">
+        <div class="eyebrow">Demonstração · 03</div>
+        <h2>Mostrar pesquisas</h2>
       </div>
+      <div class="frame r d1">
+        <video autoplay muted loop controls>
+          <source src="video-generator/videos/crm-pesquisas.webm" type="video/webm">
+        </video>
+      </div>
+      <div class="caption r d2"><span>03</span> · Mostrar pesquisas</div>
     </div>
+    <div class="slide slide-video">
+      <div class="bg"></div>
+      <div class="heading r">
+        <div class="eyebrow">Demonstração · 04</div>
+        <h2>Como criar ticket e tarefa</h2>
+      </div>
+      <div class="frame r d1">
+        <video autoplay muted loop controls>
+          <source src="video-generator/videos/crm-ticket-tarefa.webm" type="video/webm">
+        </video>
+      </div>
+      <div class="caption r d2"><span>04</span> · Como criar ticket e tarefa</div>
+    </div>
+    <div class="slide slide-cta">
+      <div class="bg"></div>
+      <div class="grid-overlay"></div>
+      <h2 class="r">Vamos <em>conversar</em></h2>
+      <p class="sub r d1">Descubra como o Libax CRM pode transformar a gestão dos seus clientes.</p>
+      <p class="price r d2">Contacto direto · <strong>800 200 482</strong> · <strong>crm@libax.pt</strong></p>
+      <div class="r d3">
+        <a href="#" class="btn btn-primary" onclick="alert('📞 Falar com vendas\n\nLigue: 800 200 482\nOu visite: libax.pt');return false">Falar com vendas →</a>
+      </div>
+      <div class="footer-note r d4">Sem compromisso · Demonstração personalizada · Implementação assistida</div>
+    </div>
+  </div>
+</div>
 
-  </div><!-- /slides-track -->
-</div><!-- /slides-wrapper -->
-
-<!-- ===== NAVIGATION ARROWS ===== -->
-<button class="nav-arrow nav-prev" id="navPrev" aria-label="Slide anterior">‹</button>
-<button class="nav-arrow nav-next" id="navNext" aria-label="Próximo slide">›</button>
-
-<!-- ===== PROGRESS BAR ===== -->
-<div class="progress-bar" id="progressBar"></div>
-
-<!-- ===== SLIDE INDICATOR ===== -->
+<button class="nav-arrow prev hidden" id="prevBtn" aria-label="Slide anterior">
+  <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+</button>
+<button class="nav-arrow next" id="nextBtn" aria-label="Próximo slide">
+  <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+</button>
+<div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
 <div class="slide-indicator" id="slideIndicator"></div>
-
-<!-- ===== KEYBOARD HINT ===== -->
-<div class="keyboard-hint" id="keyboardHint">←  Navegue com as setas  →</div>
+<div class="slide-counter"><strong>1</strong> / 7</div>
+<div class="kbd-hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>Home</kbd> início · <kbd>End</kbd> fim</div>
 
 <script>
-(function() {
+(function(){
   'use strict';
+  const wrapper=document.getElementById('slidesWrapper');
+  const slides=wrapper.querySelectorAll('.slide');
+  const total=slides.length;
+  let current=0, animating=false;
+  const prevBtn=document.getElementById('prevBtn');
+  const nextBtn=document.getElementById('nextBtn');
+  const progressFill=document.getElementById('progressFill');
+  const indicator=document.getElementById('slideIndicator');
+  const counter=document.querySelector('.slide-counter strong');
 
-  const track = document.getElementById('slidesTrack');
-  const slides = document.querySelectorAll('.slide');
-  const totalSlides = slides.length;
-  const navPrev = document.getElementById('navPrev');
-  const navNext = document.getElementById('navNext');
-  const progressBar = document.getElementById('progressBar');
-  const indicator = document.getElementById('slideIndicator');
-  const keyboardHint = document.getElementById('keyboardHint');
-
-  let current = 0;
-  let isTransitioning = false;
-
-  // Build dots
-  for (let i = 0; i < totalSlides; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
-    dot.dataset.index = i;
-    dot.addEventListener('click', function() { goTo(parseInt(this.dataset.index)); });
+  for(let i=0;i<total;i++){
+    const dot=document.createElement('button');
+    dot.className='slide-dot'+(i===0?' active':'');
+    dot.setAttribute('aria-label','Slide '+(i+1));
+    dot.dataset.index=i;
+    dot.addEventListener('click',function(){goTo(parseInt(this.dataset.index));});
     indicator.appendChild(dot);
   }
+  const dots=indicator.querySelectorAll('.slide-dot');
 
-  const dots = indicator.querySelectorAll('.slide-dot');
-
-  function update() {
-    // Move track
-    track.style.transform = 'translateX(-' + (current * 100) + '%)';
-
-    // Active slide class
-    slides.forEach(function(s, i) {
-      s.classList.toggle('active', i === current);
-    });
-
-    // Dots
-    dots.forEach(function(d, i) {
-      d.classList.toggle('active', i === current);
-    });
-
-    // Progress bar
-    progressBar.style.width = ((current + 1) / totalSlides * 100) + '%';
-
-    // Arrows visibility
-    navPrev.classList.toggle('visible', current > 0);
-    navNext.classList.toggle('visible', current < totalSlides - 1);
-
-    // Hide keyboard hint after first navigation
-    keyboardHint.classList.add('hidden');
+  function updateUI(){
+    wrapper.style.transform='translateX(-'+(current*100)+'vw)';
+    progressFill.style.width=((current+1)/total*100)+'%';
+    counter.textContent=current+1;
+    dots.forEach(function(d,i){ d.classList.toggle('active',i===current); });
+    prevBtn.classList.toggle('hidden',current===0);
+    nextBtn.classList.toggle('hidden',current===total-1);
   }
-
-  function goTo(index) {
-    if (isTransitioning) return;
-    if (index < 0 || index >= totalSlides) return;
-    if (index === current) return;
-    isTransitioning = true;
-    current = index;
-    update();
-    setTimeout(function() { isTransitioning = false; }, 750);
+  function goTo(idx){
+    if(animating||idx<0||idx>=total) return;
+    animating=true; current=idx; updateUI();
+    setTimeout(function(){ animating=false; },800);
   }
-
-  function next() { goTo(current + 1); }
-  function prev() { goTo(current - 1); }
-
-  // Arrow button clicks
-  navPrev.addEventListener('click', prev);
-  navNext.addEventListener('click', next);
-
-  // Keyboard navigation
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
-      e.preventDefault();
-      next();
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      prev();
-    } else if (e.key === 'Home') {
-      e.preventDefault();
-      goTo(0);
-    } else if (e.key === 'End') {
-      e.preventDefault();
-      goTo(totalSlides - 1);
-    }
+  prevBtn.addEventListener('click',function(){goTo(current-1);});
+  nextBtn.addEventListener('click',function(){goTo(current+1);});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();goTo(current+1);}
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();goTo(current-1);}
+    else if(e.key==='Home'){e.preventDefault();goTo(0);}
+    else if(e.key==='End'){e.preventDefault();goTo(total-1);}
   });
-
-  // Touch / swipe support
-  let touchStartX = 0;
-  let touchEndX = 0;
-
-  document.addEventListener('touchstart', function(e) {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-
-  document.addEventListener('touchend', function(e) {
-    touchEndX = e.changedTouches[0].screenX;
-    const diff = touchStartX - touchEndX;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) next();
-      else prev();
-    }
-  }, { passive: true });
-
-  // Mouse wheel navigation
-  let wheelTimeout = null;
-  document.addEventListener('wheel', function(e) {
-    // Only if the event isn't inside a scrollable area
-    if (e.target.closest('.features-grid')) return;
-    if (wheelTimeout) return;
-    wheelTimeout = setTimeout(function() { wheelTimeout = null; }, 800);
-    if (e.deltaY > 0) next();
-    else prev();
-  }, { passive: true });
-
-  // Initial state
-  update();
-
-  // Show hint briefly
-  setTimeout(function() {
-    keyboardHint.classList.add('hidden');
-  }, 5000);
-
+  let tx=0;
+  document.addEventListener('touchstart',function(e){tx=e.changedTouches[0].screenX;},{passive:true});
+  document.addEventListener('touchend',function(e){
+    const dx=e.changedTouches[0].screenX-tx;
+    if(Math.abs(dx)>50){ if(dx<0) goTo(current+1); else goTo(current-1); }
+  },{passive:true});
+  updateUI();
 })();
 </script>
 </body>

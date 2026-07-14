@@ -6,373 +6,380 @@
 <title>Libax Business — ERP na Cloud</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,400;9..40,800&family=Fraunces:opsz,wght@9..144,200;9..144,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ===== RESET & BASE ===== */
+:root{
+  --ink:#e8efe2;--ink-soft:#a8b29f;--ink-dim:#6b7466;
+  --bg:#0a0d09;--bg-2:#0f140d;--surface:#131a12;
+  --line:rgba(168,178,159,.10);--line-strong:rgba(168,178,159,.22);
+  --green:#6d9d30;--green-bright:#9bbb59;--green-deep:#3d6600;
+  --lime:#c6f24e;
+  --serif:'Fraunces',ui-serif,Georgia,serif;
+  --sans:'DM Sans',ui-sans-serif,Helvetica,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;font-family:'Roboto',sans-serif;background:#fff;color:#333}
+html,body{width:100%;height:100%;overflow:hidden;font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+.noise{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.05;mix-blend-mode:overlay}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:60;box-shadow:inset 0 0 240px 60px rgba(0,0,0,.4)}
 
-/* ===== SLIDE DECK ===== */
+/* Decks container */
 .deck{position:relative;width:100vw;height:100vh;overflow:hidden}
 .slides{position:relative;width:100%;height:100%}
+.slides-track,.slides-wrapper{display:flex;width:100%;height:100%;height:100vh;transition:transform .8s cubic-bezier(.65,0,.35,1);will-change:transform}
+.slide{flex:0 0 100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:60px 80px;text-align:center}
 
-/* ===== INDIVIDUAL SLIDE ===== */
-.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 80px;opacity:0;pointer-events:none;transition:opacity .6s ease,transform .6s ease;z-index:1}
-.slide.active{opacity:1;pointer-events:auto;z-index:10}
-.slide.exit-left{opacity:0;transform:translateX(-80px)}
-.slide.exit-right{opacity:0;transform:translateX(80px)}
-.slide.enter-left{opacity:0;transform:translateX(80px)}
-.slide.enter-right{opacity:0;transform:translateX(-80px)}
-.slide.active.enter-left,.slide.active.enter-right{opacity:1;transform:translateX(0)}
+/* Slide backgrounds */
+.bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.bg.mesh{background:radial-gradient(ellipse 80% 60% at 15% 20%, rgba(109,157,48,.22), transparent 55%),radial-gradient(ellipse 60% 50% at 90% 80%, rgba(61,102,0,.35), transparent 60%)}
+.grid-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;background-image:linear-gradient(to right, rgba(168,178,159,.035) 1px, transparent 1px),linear-gradient(to bottom, rgba(168,178,159,.035) 1px, transparent 1px);background-size:96px 96px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%)}
+.slide>*:not(.bg):not(.grid){position:relative;z-index:2}
 
-/* ===== SLIDE VARIANTS ===== */
-.slide-title{background:linear-gradient(135deg,#488500 0%,#6d9d30 50%,#9bbb59 100%);color:#fff;text-align:center}
-.slide-overview{background:#fff}
-.slide-video{background:#f2f2f4}
-.slide-cta{background:linear-gradient(135deg,#488500 0%,#6d9d30 50%,#9bbb59 100%);color:#fff;text-align:center}
+/* Slide transitions (for transition-based decks like business) */
+.slide.trans{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity .7s cubic-bezier(.65,0,.35,1),transform .7s cubic-bezier(.65,0,.35,1);z-index:1}
+.slide.trans.active{opacity:1;pointer-events:auto;z-index:10}
+.slide.trans.exit-left{opacity:0;transform:translateX(-80px)}
+.slide.trans.exit-right{opacity:0;transform:translateX(80px)}
+.slide.trans.enter-left{opacity:0;transform:translateX(80px)}
+.slide.trans.enter-right{opacity:0;transform:translateX(-80px)}
+.slide.trans.active.enter-left,.slide.trans.active.enter-right{opacity:1;transform:translateX(0)}
 
-/* ===== TITLE SLIDE ===== */
-.slide-title .logo{font-size:72px;font-weight:700;letter-spacing:-1px;margin-bottom:8px;text-shadow:2px 2px 8px rgba(0,0,0,.2)}
-.slide-title .logo-sub{font-size:18px;font-weight:300;letter-spacing:6px;text-transform:uppercase;opacity:.85;margin-bottom:40px}
-.slide-title .tagline{font-size:28px;font-weight:300;opacity:.9;max-width:600px;line-height:1.5}
-.slide-title .tagline strong{font-weight:500}
-.slide-title .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);border-radius:30px;padding:8px 28px;font-size:14px;font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-top:30px}
-.slide-title .scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:300;opacity:.6;animation:bounce 2s infinite}
-@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+/* Title slide */
+.slide-title{color:var(--ink)}
+.slide-title .bg{background:radial-gradient(ellipse 80% 60% at 30% 30%, rgba(109,157,48,.35), transparent 55%),radial-gradient(ellipse 50% 50% at 80% 80%, rgba(61,102,0,.45), transparent 60%),linear-gradient(160deg,#0d1408 0%,#0a0d09 100%)}
+.slide-title .badge{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-soft);margin-bottom:40px}
+.slide-title .badge::before{content:'';width:6px;height:6px;background:var(--lime);border-radius:50%;box-shadow:0 0 12px var(--lime)}
+.slide-title h1{font-family:var(--serif);font-weight:200;font-size:clamp(64px,8vw,140px);line-height:.92;letter-spacing:-.035em;margin-bottom:24px}
+.slide-title h1 em{font-style:italic;font-weight:800;color:var(--lime)}
+.slide-title .tagline{font-weight:200;font-size:24px;color:var(--ink-soft);margin-bottom:8px;max-width:680px;line-height:1.45}
+.slide-title .tagline strong{font-weight:800;color:var(--ink)}
+.slide-title .sub{font-family:var(--mono);font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);margin-bottom:48px}
+.slide-title .scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);display:flex;flex-direction:column;align-items:center;gap:10px}
+.slide-title .scroll-hint .line{width:1px;height:36px;background:linear-gradient(180deg,transparent,var(--lime));animation:down 2.4s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes down{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+.slide-title.dark{color:var(--ink)}
+.slide-title.dark .bg{background:radial-gradient(ellipse 80% 60% at 30% 30%, rgba(61,102,0,.5), transparent 55%),radial-gradient(ellipse 50% 50% at 80% 80%, rgba(109,157,48,.35), transparent 60%),linear-gradient(160deg,#070a05 0%,#0a0d09 100%)}
 
-/* ===== OVERVIEW SLIDE ===== */
-.slide-overview h2{font-size:40px;font-weight:500;color:#488500;margin-bottom:12px}
-.slide-overview .subtitle{font-size:16px;font-weight:300;color:#888;margin-bottom:40px}
-.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;width:100%}
-.overview-card{background:#fff;border-radius:12px;padding:28px 24px;text-align:center;box-shadow:4px 4px 2px #e4e4e4;border:1px solid #eee;transition:transform .3s ease,box-shadow .3s ease}
-.overview-card:hover{transform:translateY(-4px);box-shadow:6px 6px 4px #e4e4e4}
-.overview-card .icon{font-size:40px;margin-bottom:12px;display:block}
-.overview-card h3{font-size:16px;font-weight:500;color:#6d9d30;margin-bottom:6px}
-.overview-card p{font-size:13px;font-weight:300;color:#777;line-height:1.5}
+/* Overview slide */
+.slide-overview{color:var(--ink)}
+.slide-overview .heading{margin-bottom:64px;max-width:880px;margin-left:auto;margin-right:auto}
+.slide-overview .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
+.slide-overview h2{font-family:var(--serif);font-weight:200;font-size:clamp(40px,5vw,72px);line-height:1;letter-spacing:-.025em}
+.slide-overview h2 em{font-style:italic;font-weight:800;color:var(--lime)}
+.slide-overview .subtitle{font-weight:200;font-size:18px;color:var(--ink-soft);margin-top:18px;max-width:540px;margin-left:auto;margin-right:auto}
 
-/* ===== VIDEO SLIDES ===== */
-.slide-video h2{font-size:32px;font-weight:500;color:#488500;margin-bottom:8px}
-.slide-video .video-tag{display:inline-block;background:#6d9d30;color:#fff;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:30px}
-.video-placeholder{position:relative;width:100%;max-width:960px;aspect-ratio:16/9;background:#ddd;border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:4px 4px 2px #e4e4e4;transition:transform .3s ease}
-.video-placeholder:hover{transform:scale(1.01)}
-.video-placeholder .bg-pattern{position:absolute;inset:0;background:linear-gradient(135deg,#6d9d30 0%,#9bbb59 100%);opacity:.15}
-.video-placeholder .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;background:rgba(109,157,48,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .3s ease,transform .3s ease;box-shadow:0 4px 20px rgba(0,0,0,.15)}
-.video-placeholder:hover .play-btn{background:#6d9d30;transform:translate(-50%,-50%) scale(1.1)}
-.video-placeholder .play-btn svg{width:32px;height:32px;fill:#fff;margin-left:3px}
-.video-placeholder .video-label{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#fff;font-size:14px;font-weight:400;padding:8px 24px;border-radius:8px;backdrop-filter:blur(4px)}
+.features{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;max-width:1180px;width:100%;background:var(--line);border:1px solid var(--line)}
+.feat{grid-column:span 4;background:var(--bg-2);padding:32px 24px;text-align:left;position:relative;overflow:hidden;transition:background .5s cubic-bezier(.16,1,.3,1)}
+.feat:hover{background:var(--surface)}
+.feat .num{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--ink-dim);margin-bottom:24px;display:block}
+.feat .title{font-family:var(--sans);font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px}
+.feat .desc{font-weight:200;font-size:13px;line-height:1.55;color:var(--ink-soft)}
+.feat .accent{position:absolute;left:0;top:0;width:1px;height:100%;background:var(--lime);transform:scaleY(0);transform-origin:bottom;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.feat:hover .accent{transform:scaleY(1)}
+.feat .icon{display:block;width:28px;height:28px;color:var(--lime);margin-bottom:16px;stroke-width:1.5}
 
-/* ===== CTA SLIDE ===== */
-.slide-cta .cta-big{font-size:56px;font-weight:700;margin-bottom:8px;text-shadow:2px 2px 8px rgba(0,0,0,.2)}
-.slide-cta .cta-sub{font-size:20px;font-weight:300;opacity:.85;margin-bottom:40px}
-.slide-cta .cta-price{font-size:18px;font-weight:300;opacity:.7;margin-bottom:30px}
-.slide-cta .cta-price strong{font-size:28px;font-weight:700}
-.btn-registar{display:inline-block;background:#fff;color:#6d9d30;font-size:18px;font-weight:500;padding:16px 56px;border-radius:50px;text-decoration:none;transition:all .3s ease;box-shadow:0 4px 20px rgba(0,0,0,.15)}
-.btn-registar:hover{background:#6d9d30;color:#fff;box-shadow:0 6px 30px rgba(0,0,0,.25);transform:translateY(-2px)}
-.slide-cta .footer-note{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:300;opacity:.5}
+/* Video slide */
+.slide-video{color:var(--ink)}
+.slide-video .bg{background:linear-gradient(180deg,#0c1108 0%,#0a0d09 100%)}
+.slide-video .heading{margin-bottom:40px;max-width:880px;margin-left:auto;margin-right:auto}
+.slide-video .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);display:inline-flex;align-items:center;gap:10px;margin-bottom:18px}
+.slide-video .eyebrow::before{content:'';width:18px;height:1px;background:var(--green-bright)}
+.slide-video h2{font-family:var(--serif);font-weight:200;font-size:clamp(36px,4.2vw,58px);line-height:1;letter-spacing:-.025em}
+.slide-video h2 em{font-style:italic;font-weight:800;color:var(--lime)}
+.slide-video .frame{width:100%;max-width:1080px;aspect-ratio:16/9;background:var(--bg-2);border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;position:relative;box-shadow:0 40px 80px -20px rgba(0,0,0,.6)}
+.slide-video video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+.slide-video .caption{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--ink-dim);margin-top:24px;text-transform:uppercase}
+.slide-video .caption span{color:var(--lime)}
 
-/* ===== NAVIGATION ===== */
-.nav-arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:100;width:52px;height:52px;background:rgba(109,157,48,.85);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .3s ease,transform .3s ease;box-shadow:0 2px 12px rgba(0,0,0,.12);backdrop-filter:blur(4px)}
-.nav-arrow:hover{background:#6d9d30;transform:translateY(-50%) scale(1.08)}
-.nav-arrow svg{width:22px;height:22px;fill:#fff}
+/* Section divider slide */
+.slide-section{color:var(--ink)}
+.slide-section .bg{background:radial-gradient(ellipse 60% 80% at 50% 50%, rgba(109,157,48,.22), transparent 65%),linear-gradient(160deg,#0d1408 0%,#0a0d09 100%)}
+.slide-section .index{font-family:var(--mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:32px}
+.slide-section h2{font-family:var(--serif);font-weight:200;font-size:clamp(56px,7vw,110px);line-height:.95;letter-spacing:-.03em}
+.slide-section h2 em{font-style:italic;font-weight:800;color:var(--lime)}
+.slide-section .meta{font-family:var(--mono);font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);margin-top:28px;display:flex;align-items:center;gap:14px;justify-content:center}
+.slide-section .meta::before,.slide-section .meta::after{content:'';width:32px;height:1px;background:var(--ink-dim)}
+
+/* CTA slide */
+.slide-cta{color:var(--ink)}
+.slide-cta .bg{background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(109,157,48,.30), transparent 60%),linear-gradient(160deg,#0d1408 0%,#0a0d09 100%)}
+.slide-cta h2{font-family:var(--serif);font-weight:200;font-size:clamp(56px,7vw,120px);line-height:.95;letter-spacing:-.03em;margin-bottom:20px}
+.slide-cta h2 em{font-style:italic;font-weight:800;color:var(--lime)}
+.slide-cta .sub{font-weight:200;font-size:20px;color:var(--ink-soft);margin-bottom:12px}
+.slide-cta .price{font-family:var(--mono);font-size:14px;letter-spacing:.2em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:48px}
+.slide-cta .price strong{color:var(--ink);font-weight:500}
+.slide-cta .footer-note{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-dim);margin-top:32px;text-transform:uppercase}
+.slide-cta.dark .bg{background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(61,102,0,.5), transparent 60%),linear-gradient(160deg,#070a05 0%,#0a0d09 100%)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:12px;padding:18px 32px;font-family:var(--sans);font-weight:800;font-size:15px;letter-spacing:-.01em;text-decoration:none;border-radius:6px;cursor:pointer;transition:all .4s cubic-bezier(.16,1,.3,1);border:1px solid transparent}
+.btn-primary{background:var(--lime);color:var(--bg)}
+.btn-primary:hover{background:#d4ff60;transform:translateY(-2px);box-shadow:0 16px 32px -8px rgba(198,242,78,.3)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong)}
+.btn-ghost:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-2px)}
+
+/* Top brand */
+.topbrand{position:fixed;top:32px;left:40px;z-index:70;display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);text-decoration:none}
+.topbrand img{height:22px;width:auto;display:block;filter:brightness(1.05)}
+.topbrand .sep{color:var(--ink-dim);margin:0 4px}
+.topbrand{font-weight:500}
+
+/* Navigation */
+.nav-arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:70;width:54px;height:54px;background:rgba(168,178,159,.08);border:1px solid var(--line-strong);border-radius:50%;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .4s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(12px)}
+.nav-arrow:hover{background:var(--lime);color:var(--bg);border-color:var(--lime);transform:translateY(-50%) scale(1.05)}
 .nav-arrow.prev{left:24px}
 .nav-arrow.next{right:24px}
+.nav-arrow svg{width:22px;height:22px;fill:currentColor}
 .nav-arrow.hidden{opacity:0;pointer-events:none}
 
-/* ===== PROGRESS BAR ===== */
-.progress-bar{position:fixed;bottom:0;left:0;width:100%;height:4px;background:rgba(0,0,0,.08);z-index:100}
-.progress-bar .fill{height:100%;background:linear-gradient(90deg,#6d9d30,#9bbb59);transition:width .5s ease;border-radius:0 2px 2px 0}
+/* Progress bar */
+.progress-bar{position:fixed;bottom:0;left:0;right:0;height:3px;background:rgba(168,178,159,.10);z-index:70}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--lime),var(--green));transition:width .6s cubic-bezier(.16,1,.3,1)}
 
-/* ===== SLIDE INDICATOR ===== */
-.slide-indicator{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:100;display:flex;gap:10px;align-items:center}
-.slide-dot{width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,.15);border:none;cursor:pointer;transition:all .3s ease;padding:0}
-.slide-dot:hover{background:rgba(109,157,48,.5)}
-.slide-dot.active{background:#6d9d30;width:28px;border-radius:5px}
-.slide-dot.active:hover{background:#6d9d30}
-.slide-counter{position:fixed;bottom:34px;right:30px;z-index:100;font-size:13px;font-weight:400;color:rgba(0,0,0,.35);letter-spacing:1px}
+/* Slide indicator */
+.slide-indicator{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:70;display:flex;gap:8px;align-items:center}
+.slide-dot{width:7px;height:7px;border-radius:50%;background:rgba(168,178,159,.20);border:none;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);padding:0}
+.slide-dot:hover{background:rgba(168,178,159,.4)}
+.slide-dot.active{background:var(--lime);width:24px;border-radius:4px;box-shadow:0 0 8px var(--lime)}
+.slide-dot.section-dot{background:rgba(155,187,89,.4)}
+.slide-dot.section-dot.active{background:var(--green-bright)}
 
-/* ===== KEYBOARD HINT ===== */
-.kbd-hint{position:fixed;bottom:34px;left:30px;z-index:100;font-size:12px;font-weight:300;color:rgba(0,0,0,.25);letter-spacing:.5px}
-.kbd-hint kbd{display:inline-block;background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.1);border-radius:4px;padding:1px 7px;font-size:11px;font-family:inherit;margin:0 2px}
+/* Slide counter */
+.slide-counter{position:fixed;bottom:24px;right:40px;z-index:70;font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
+.slide-counter strong{color:var(--ink);font-weight:500;margin-right:4px}
 
-/* ===== RESPONSIVE ===== */
-@media(max-width:900px){
-  .overview-grid{grid-template-columns:repeat(2,1fr);gap:16px}
-  .slide-title .logo{font-size:48px}
-  .slide{padding:40px 30px}
-  .slide-cta .cta-big{font-size:38px}
-  .nav-arrow{width:42px;height:42px}
-  .nav-arrow svg{width:18px;height:18px}
+/* Keyboard hint */
+.kbd-hint{position:fixed;bottom:24px;left:40px;z-index:70;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
+.kbd-hint kbd{display:inline-block;padding:2px 7px;border:1px solid var(--line);border-radius:3px;font-family:inherit;font-size:10px;margin:0 3px;color:var(--ink-soft)}
+
+/* Reveal */
+.r{opacity:0;transform:translateY(30px);transition:opacity 1.2s cubic-bezier(.16,1,.3,1), transform 1.2s cubic-bezier(.16,1,.3,1)}
+.slide.active .r,.slide.trans.active .r{opacity:1;transform:translateY(0)}
+.slide.active .r.d1,.slide.trans.active .r.d1{transition-delay:.08s}
+.slide.active .r.d2,.slide.trans.active .r.d2{transition-delay:.18s}
+.slide.active .r.d3,.slide.trans.active .r.d3{transition-delay:.28s}
+.slide.active .r.d4,.slide.trans.active .r.d4{transition-delay:.40s}
+.slide.active .r.d5,.slide.trans.active .r.d5{transition-delay:.55s}
+.slide.active .r.d6,.slide.trans.active .r.d6{transition-delay:.70s}
+
+@media (max-width:780px){
+  .features{grid-template-columns:1fr;background:transparent;border:none;gap:1px}
+  .feat{grid-column:span 1;padding:24px 20px;background:var(--bg-2);border:1px solid var(--line)}
+  .slide{padding:60px 24px}
+  .slide-title h1{font-size:clamp(48px,11vw,80px)}
+  .topbrand{left:20px;top:20px;font-size:10px}
+  .slide-counter{right:20px;font-size:10px}
+  .kbd-hint{left:20px;font-size:9px}
+  .nav-arrow{width:40px;height:40px}
   .nav-arrow.prev{left:12px}
   .nav-arrow.next{right:12px}
-  .video-placeholder{max-width:100%}
 }
-@media(max-width:600px){
-  .overview-grid{grid-template-columns:1fr;gap:12px}
-  .slide-title .logo{font-size:36px}
-  .slide-title .tagline{font-size:20px}
-  .slide{padding:30px 20px}
-  .slide-cta .cta-big{font-size:30px}
-  .btn-registar{padding:14px 36px;font-size:16px}
-  .nav-arrow{width:36px;height:36px;top:auto;bottom:70px;transform:none}
-  .nav-arrow.prev{left:20px;right:auto}
-  .nav-arrow.next{right:20px;left:auto}
-  .nav-arrow:hover{transform:scale(1.08)}
-  .slide-counter,.kbd-hint{display:none}
+@media (prefers-reduced-motion: reduce){
+  .r{opacity:1;transform:none;transition:none}
+  .scroll-hint .line{animation:none}
+  .slide,.nav-arrow,.btn,.slide-dot,.progress-bar-fill{transition-duration:.01ms !important}
 }
 </style>
 </head>
 <body>
+<svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<a class="topbrand" href="index.html"><img src="assets/libax-logo-white.svg" alt="Libax"><span class="sep">/</span> Business</a>
 
 <div class="deck" id="deck">
   <div class="slides" id="slides">
 
-    <!-- ===== SLIDE 1: TITLE ===== -->
-    <div class="slide slide-title active" data-index="0">
-      <div class="logo">Libax Business</div>
-      <div class="logo-sub">ERP na Cloud</div>
-      <div class="tagline">A solução completa de <strong>gestão empresarial</strong><br>para a sua empresa, em qualquer lugar</div>
-      <div class="badge">&#9733; Software certificado AT</div>
-      <div class="scroll-hint">&#8595; Navegue com as setas</div>
+    <div class="slide trans slide-title active" data-index="0">
+      <div class="bg mesh"></div>
+      <div class="grid-overlay"></div>
+      <span class="badge r">Software certificado AT</span>
+      <h1 class="r d1">Libax<br><em>Business</em></h1>
+      <p class="tagline r d2">A solução completa de <strong>gestão empresarial</strong><br>para a sua empresa, em qualquer lugar.</p>
+      <p class="sub r d3">ERP · Faturação · Tesouraria</p>
+      <div class="scroll-hint r d4">Navegar<span class="line"></span></div>
     </div>
 
-    <!-- ===== SLIDE 2: OVERVIEW ===== -->
-    <div class="slide slide-overview" data-index="1">
-      <h2>O que faz o Libax Business?</h2>
-      <div class="subtitle">Tudo o que precisa para gerir o seu negócio numa única plataforma</div>
-      <div class="overview-grid">
-        <div class="overview-card">
-          <span class="icon">&#128196;</span>
-          <h3>Faturação Certificada AT</h3>
-          <p>Emissão de faturas, recibos e documentos de transporte em conformidade com a Autoridade Tributária</p>
-        </div>
-        <div class="overview-card">
-          <span class="icon">&#128101;</span>
-          <h3>Gestão de Clientes</h3>
-          <p>Histórico completo, contactos, contratos e segmentação inteligente de clientes</p>
-        </div>
-        <div class="overview-card">
-          <span class="icon">&#128230;</span>
-          <h3>Gestão de Produtos</h3>
-          <p>Catálogo, stocks, variantes, preços e controlo de inventário em tempo real</p>
-        </div>
-        <div class="overview-card">
-          <span class="icon">&#128176;</span>
-          <h3>Tesouraria</h3>
-          <p>Contas correntes, fluxos de caixa, reconciliações bancárias e extratos financeiros</p>
-        </div>
-        <div class="overview-card">
-          <span class="icon">&#128451;</span>
-          <h3>Arquivo Digital</h3>
-          <p>Documentos digitalizados com pesquisa inteligente e armazenamento seguro na cloud</p>
-        </div>
-        <div class="overview-card">
-          <span class="icon">&#128279;</span>
-          <h3>API Aberta</h3>
-          <p>Integração com outras plataformas via REST API documentada e segura</p>
-        </div>
+    <div class="slide trans slide-overview" data-index="1">
+      <div class="bg mesh"></div>
+      <div class="grid-overlay"></div>
+      <div class="heading r">
+        <div class="eyebrow">Visão geral</div>
+        <h2>O que faz o <em>Libax Business</em>?</h2>
+        <p class="subtitle">Tudo o que precisa para gerir o seu negócio numa única plataforma.</p>
       </div>
+      <div class="features">      <div class="feat r">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M5 3h11l3 3v15H5z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+        <span class="num">01 / 06</span>
+        <div class="title">Faturação<br>Certificada AT</div>
+        <p class="desc">Emissão de faturas, recibos e documentos de transporte em conformidade com a AT.</p>
+        <span class="accent"></span>
+      </div>      <div class="feat r d1">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M14 20a4 4 0 0 1 7 0"/></svg>
+        <span class="num">02 / 06</span>
+        <div class="title">Gestão de<br>Clientes</div>
+        <p class="desc">Histórico completo, contactos, contratos e segmentação.</p>
+        <span class="accent"></span>
+      </div>      <div class="feat r d2">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>
+        <span class="num">03 / 06</span>
+        <div class="title">Gestão de<br>Produtos</div>
+        <p class="desc">Catálogo, stocks, variantes, preços e inventário em tempo real.</p>
+        <span class="accent"></span>
+      </div>      <div class="feat r d3">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><rect x="3" y="6" width="18" height="12" rx="1"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9h.01M18 15h.01"/></svg>
+        <span class="num">04 / 06</span>
+        <div class="title">Tesouraria</div>
+        <p class="desc">Contas correntes, fluxos de caixa, reconciliações.</p>
+        <span class="accent"></span>
+      </div>      <div class="feat r d4">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4M8 12h8M8 16h6"/></svg>
+        <span class="num">05 / 06</span>
+        <div class="title">Arquivo Digital</div>
+        <p class="desc">Documentos digitalizados com pesquisa na cloud.</p>
+        <span class="accent"></span>
+      </div>      <div class="feat r d5">
+        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>
+        <span class="num">06 / 06</span>
+        <div class="title">API Aberta</div>
+        <p class="desc">Integração via REST API documentada e segura.</p>
+        <span class="accent"></span>
+      </div>      </div>
     </div>
 
-    <!-- ===== SLIDE 3: VIDEO 1 ===== -->
-    <div class="slide slide-video" data-index="2">
-      <h2>Como criar cliente</h2>
-      <span class="video-tag">Business</span>
-      <div class="video-placeholder" onclick="alert('Vídeo: Como criar cliente — em breve disponível')">
-        <div class="bg-pattern"></div>
-        <div class="play-btn">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="video-label">Como criar cliente &mdash; 2:34</div>
+    <div class="slide trans slide-video" data-index="2">
+      <div class="bg"></div>
+      <div class="heading r">
+        <div class="eyebrow">Demonstração · 01</div>
+        <h2>Como criar cliente</h2>
       </div>
-    </div>
-
-    <!-- ===== SLIDE 4: VIDEO 2 ===== -->
-    <div class="slide slide-video" data-index="3">
-      <h2>Como fazer uma fatura</h2>
-      <span class="video-tag">Business</span>
-      <div class="video-placeholder" onclick="alert('Vídeo: Como fazer uma fatura — em breve disponível')">
-        <div class="bg-pattern"></div>
-        <div class="play-btn">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="video-label">Como fazer uma fatura &mdash; 3:12</div>
+      <div class="frame r d1">
+        <video autoplay muted loop controls>
+          <source src="video-generator/videos/como-criar-cliente.webm" type="video/webm">
+        </video>
       </div>
+      <div class="caption r d2"><span>01</span> · Como criar cliente</div>
     </div>
-
-    <!-- ===== SLIDE 5: VIDEO 3 ===== -->
-    <div class="slide slide-video" data-index="4">
-      <h2>Como adicionar produto</h2>
-      <span class="video-tag">Business</span>
-      <div class="video-placeholder" onclick="alert('Vídeo: Como adicionar produto — em breve disponível')">
-        <div class="bg-pattern"></div>
-        <div class="play-btn">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="video-label">Como adicionar produto &mdash; 2:18</div>
+    <div class="slide trans slide-video" data-index="3">
+      <div class="bg"></div>
+      <div class="heading r">
+        <div class="eyebrow">Demonstração · 02</div>
+        <h2>Como fazer uma fatura</h2>
       </div>
+      <div class="frame r d1">
+        <video autoplay muted loop controls>
+          <source src="video-generator/videos/como-fazer-fatura.webm" type="video/webm">
+        </video>
+      </div>
+      <div class="caption r d2"><span>02</span> · Como fazer uma fatura</div>
+    </div>
+    <div class="slide trans slide-video" data-index="4">
+      <div class="bg"></div>
+      <div class="heading r">
+        <div class="eyebrow">Demonstração · 03</div>
+        <h2>Como adicionar produto</h2>
+      </div>
+      <div class="frame r d1">
+        <video autoplay muted loop controls>
+          <source src="video-generator/videos/como-adicionar-produto.webm" type="video/webm">
+        </video>
+      </div>
+      <div class="caption r d2"><span>03</span> · Como adicionar produto</div>
+    </div>
+    <div class="slide trans slide-cta" data-index="5">
+      <div class="bg"></div>
+      <div class="grid-overlay"></div>
+      <h2 class="r">Experimente <em>grátis</em>.</h2>
+      <p class="sub r d1">Comece hoje a transformar a gestão da sua empresa.</p>
+      <p class="price r d2">Planos a partir de <strong>4€ / mês</strong></p>
+      <div class="r d3">
+        <a href="#" class="btn btn-primary" onclick="alert('Redirecionar para registo Libax Business');return false">Registar agora →</a>
+      </div>
+      <div class="footer-note r d4">Sem compromisso · Cancelamento gratuito · Suporte incluído</div>
     </div>
 
-    <!-- ===== SLIDE 6: CTA ===== -->
-    <div class="slide slide-cta" data-index="5">
-      <div class="cta-big">Experimente Grátis</div>
-      <div class="cta-sub">Comece hoje a transformar a gestão da sua empresa</div>
-      <div class="cta-price">Planos a partir de <strong>4€/mês</strong></div>
-      <a href="#" class="btn-registar" onclick="alert('Redirecionar para registo Libax Business');return false">Registar</a>
-      <div class="footer-note">Sem compromisso &bull; Cancelamento gratuito &bull; Suporte incluído</div>
-    </div>
+  </div>
+</div>
 
-  </div><!-- /slides -->
-
-  <!-- ===== NAVIGATION ARROWS ===== -->
-  <button class="nav-arrow prev" id="prevBtn" aria-label="Slide anterior">
-    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-  </button>
-  <button class="nav-arrow next" id="nextBtn" aria-label="Próximo slide">
-    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-  </button>
-
-  <!-- ===== PROGRESS BAR ===== -->
-  <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
-
-  <!-- ===== SLIDE INDICATOR ===== -->
-  <div class="slide-indicator" id="slideDots"></div>
-
-  <!-- ===== SLIDE COUNTER ===== -->
-  <div class="slide-counter" id="slideCounter">1 / 6</div>
-
-  <!-- ===== KEYBOARD HINT ===== -->
-  <div class="kbd-hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> navegar &bull; <kbd>Home</kbd> / <kbd>End</kbd> extremos</div>
-</div><!-- /deck -->
+<button class="nav-arrow prev hidden" id="prevBtn" aria-label="Slide anterior">
+  <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+</button>
+<button class="nav-arrow next" id="nextBtn" aria-label="Próximo slide">
+  <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+</button>
+<div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
+<div class="slide-indicator" id="slideDots"></div>
+<div class="slide-counter"><strong>1</strong> / 6</div>
+<div class="kbd-hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>Home</kbd> início · <kbd>End</kbd> fim</div>
 
 <script>
 (function(){
   'use strict';
+  const slides=document.querySelectorAll('.slide');
+  const total=slides.length;
+  let current=0, animating=false;
+  const prevBtn=document.getElementById('prevBtn');
+  const nextBtn=document.getElementById('nextBtn');
+  const progressFill=document.getElementById('progressFill');
+  const slideCounter=document.querySelector('.slide-counter strong');
+  const dotsContainer=document.getElementById('slideDots');
 
-  const slides = document.querySelectorAll('.slide');
-  const total = slides.length;
-  let current = 0;
-  let animating = false;
-
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const progressFill = document.getElementById('progressFill');
-  const slideCounter = document.getElementById('slideCounter');
-  const dotsContainer = document.getElementById('slideDots');
-
-  /* ---- build dots ---- */
   for(let i=0;i<total;i++){
-    const dot = document.createElement('button');
-    dot.className = 'slide-dot' + (i===0?' active':'');
-    dot.setAttribute('aria-label','Ir para slide '+(i+1));
-    dot.dataset.index = i;
+    const dot=document.createElement('button');
+    dot.className='slide-dot'+(i===0?' active':'');
+    dot.setAttribute('aria-label','Slide '+(i+1));
+    dot.dataset.index=i;
     dot.addEventListener('click',function(){goTo(parseInt(this.dataset.index));});
     dotsContainer.appendChild(dot);
   }
-  const dots = dotsContainer.querySelectorAll('.slide-dot');
+  const dots=dotsContainer.querySelectorAll('.slide-dot');
 
-  /* ---- go to slide ---- */
   function goTo(idx,dir){
-    if(animating || idx===current || idx<0 || idx>=total) return;
-    animating = true;
-
-    const from = current;
-    const to = idx;
-    const direction = dir || (to>from?'right':'left');
-
-    const outSlide = slides[from];
-    const inSlide = slides[to];
-
-    /* remove all transition classes */
+    if(animating||idx===current||idx<0||idx>=total) return;
+    animating=true;
+    const from=current, to=idx;
+    const direction=dir||(to>from?'right':'left');
+    const outSlide=slides[from], inSlide=slides[to];
     outSlide.classList.remove('active','exit-left','exit-right','enter-left','enter-right');
     inSlide.classList.remove('active','exit-left','exit-right','enter-left','enter-right');
-
-    /* force reflow */
-    void outSlide.offsetWidth;
-    void inSlide.offsetWidth;
-
-    /* set exit class on outgoing */
-    if(direction==='right'){
-      outSlide.classList.add('exit-left');
-      inSlide.classList.add('enter-left');
-    } else {
-      outSlide.classList.add('exit-right');
-      inSlide.classList.add('enter-right');
-    }
-
-    void outSlide.offsetWidth;
-    void inSlide.offsetWidth;
-
-    /* activate incoming */
+    void outSlide.offsetWidth; void inSlide.offsetWidth;
+    if(direction==='right'){ outSlide.classList.add('exit-left'); inSlide.classList.add('enter-left'); }
+    else { outSlide.classList.add('exit-right'); inSlide.classList.add('enter-right'); }
+    void outSlide.offsetWidth; void inSlide.offsetWidth;
     inSlide.classList.add('active');
-
-    /* after transition, clean up outgoing */
-    const cleanup = function(){
+    const cleanup=function(){
       outSlide.classList.remove('exit-left','exit-right','enter-left','enter-right');
       inSlide.classList.remove('enter-left','enter-right');
-      animating = false;
+      animating=false;
     };
-
-    /* listen on the incoming slide for transition end */
     inSlide.addEventListener('transitionend',cleanup,{once:true});
-
-    /* safety fallback */
-    setTimeout(function(){
-      if(animating){ cleanup(); }
-    },700);
-
-    current = to;
+    setTimeout(function(){ if(animating) cleanup(); },800);
+    current=to;
     updateUI();
   }
 
-  /* ---- update UI ---- */
   function updateUI(){
-    /* progress bar */
-    const pct = ((current+1)/total)*100;
-    progressFill.style.width = pct+'%';
-
-    /* counter */
-    slideCounter.textContent = (current+1)+' / '+total;
-
-    /* dots */
-    dots.forEach(function(d,i){
-      d.classList.toggle('active',i===current);
-    });
-
-    /* arrows visibility */
+    progressFill.style.width=((current+1)/total*100)+'%';
+    slideCounter.textContent=current+1;
+    dots.forEach(function(d,i){ d.classList.toggle('active',i===current); });
     prevBtn.classList.toggle('hidden',current===0);
     nextBtn.classList.toggle('hidden',current===total-1);
   }
 
-  /* ---- event listeners ---- */
   prevBtn.addEventListener('click',function(){goTo(current-1,'left');});
   nextBtn.addEventListener('click',function(){goTo(current+1,'right');});
-
   document.addEventListener('keydown',function(e){
-    if(e.key==='ArrowLeft' || e.key==='ArrowUp'){ e.preventDefault(); goTo(current-1,'left'); }
-    else if(e.key==='ArrowRight' || e.key==='ArrowDown'){ e.preventDefault(); goTo(current+1,'right'); }
-    else if(e.key==='Home'){ e.preventDefault(); goTo(0,'left'); }
-    else if(e.key==='End'){ e.preventDefault(); goTo(total-1,'right'); }
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();goTo(current-1,'left');}
+    else if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();goTo(current+1,'right');}
+    else if(e.key==='Home'){e.preventDefault();goTo(0,'left');}
+    else if(e.key==='End'){e.preventDefault();goTo(total-1,'right');}
   });
-
-  /* ---- touch swipe support ---- */
-  let touchStartX = 0;
-  let touchStartY = 0;
-  document.addEventListener('touchstart',function(e){
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-  },{passive:true});
+  let touchStartX=0;
+  document.addEventListener('touchstart',function(e){touchStartX=e.changedTouches[0].screenX;},{passive:true});
   document.addEventListener('touchend',function(e){
-    const dx = e.changedTouches[0].screenX - touchStartX;
-    const dy = e.changedTouches[0].screenY - touchStartY;
-    if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50){
-      if(dx<0) goTo(current+1,'right');
-      else goTo(current-1,'left');
-    }
+    const dx=e.changedTouches[0].screenX-touchStartX;
+    if(Math.abs(dx)>50){ if(dx<0) goTo(current+1,'right'); else goTo(current-1,'left'); }
   },{passive:true});
-
-  /* ---- init ---- */
   updateUI();
-
 })();
 </script>
 </body>
