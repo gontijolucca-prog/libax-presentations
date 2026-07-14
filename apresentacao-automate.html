@@ -19,7 +19,7 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
 .progress{position:fixed;top:0;right:0;width:4px;height:100vh;background:#e4e4e4;opacity:.3;z-index:50}
 .progress-fill{width:100%;background:linear-gradient(180deg,#6d9d30,#9bbb59);height:0;transition:height .2s ease}
 
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.reveal{opacity:0;transform:translateY(60px);transition:opacity 1.2s cubic-bezier(0.25,0.1,0.25,1),transform 1.2s cubic-bezier(0.25,0.1,0.25,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 .hero{background:linear-gradient(135deg,#488500 0%,#6d9d30 50%,#9bbb59 100%);color:#fff}
@@ -36,7 +36,7 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
 .overview h2{font-size:38px;font-weight:500;color:#488500;margin-bottom:10px}
 .overview .subtitle{font-size:16px;font-weight:300;color:#888;margin-bottom:40px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;width:100%}
-.card{background:#fff;border-radius:12px;padding:28px 22px;text-align:center;box-shadow:4px 4px 2px #e4e4e4;border:1px solid #eee;transition:transform .3s ease,box-shadow .3s ease}
+.card{background:#fff;border-radius:12px;padding:28px 22px;text-align:center;box-shadow:4px 4px 2px #e4e4e4;border:1px solid #eee;transition:transform 0.6s cubic-bezier(0.25,0.1,0.25,1),box-shadow 0.6s cubic-bezier(0.25,0.1,0.25,1)}
 .card:hover{transform:translateY(-4px);box-shadow:6px 6px 4px #e4e4e4}
 .card .icon{font-size:38px;margin-bottom:10px;display:block}
 .card h3{font-size:16px;font-weight:500;color:#6d9d30;margin-bottom:6px}
@@ -128,7 +128,7 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
 
 </div>
 <script>
-const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.25});
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(s=>io.observe(s));
 const deck=document.getElementById('deck');
 const fill=document.getElementById('progressFill');
