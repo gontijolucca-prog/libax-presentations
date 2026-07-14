@@ -59,6 +59,14 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
   .hero h1{font-size:38px}
   .video h2{font-size:24px}
 }
+.hero{position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(255,255,255,.08) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(155,187,89,.15) 0%,transparent 50%);animation:bgFloat 12s ease-in-out infinite alternate}
+.hero::after{content:"";position:absolute;top:10%;right:5%;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.06);filter:blur(40px);animation:bgPulse 6s ease-in-out infinite alternate}
+@keyframes bgFloat{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(-30px,-20px) rotate(2deg)}}
+@keyframes bgPulse{0%{transform:scale(1);opacity:.4}100%{transform:scale(1.3);opacity:.7}}
+.cta{position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 70% 30%,rgba(255,255,255,.06) 0%,transparent 50%);animation:bgFloat 10s ease-in-out infinite alternate}
+
 </style>
 </head>
 <body>
@@ -67,7 +75,7 @@ body{font-family:'Roboto',sans-serif;color:#333;background:#fff}
 
   <!-- 1. Hero -->
   <section class="section hero reveal">
-    <img src="assets/libax-logo-white-4x.png" alt="Libax" class="logo" style="width:240px;height:auto;margin-bottom:24px;filter:none;">
+    <div style="background:#fff;border-radius:40px;padding:12px 28px;box-shadow:0 4px 20px rgba(0,0,0,.15);margin-bottom:28px;display:inline-block"><img src="assets/libax-logo-small.png" alt="Libax" style="width:180px;height:auto;display:block"></div>
     <h1>Libax Automate</h1>
     <p class="tagline">Módulo de Automação</p>
     <p class="sub">Automação de Processos</p>
