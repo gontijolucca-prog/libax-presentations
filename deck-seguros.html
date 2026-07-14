@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libax Seguros — Gestão de Carteira de Seguros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; height:100%; overflow:hidden; font-family:'Roboto',sans-serif; background:#1a1a2e; color:#fff; }
+
+/* ===== SLIDES CONTAINER ===== */
+.presentation { position:relative; width:100vw; height:100vh; overflow:hidden; }
+.slides-wrapper { display:flex; transition:transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); height:100vh; }
+.slide { flex:0 0 100vw; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:40px; }
+
+/* ===== SLIDE BACKGROUNDS ===== */
+.slide-title { background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); }
+.slide-overview { background:#f2f2f4; color:#333; }
+.slide-section { background:linear-gradient(135deg,#6d9d30 0%,#488500 100%); }
+.slide-video { background:#f2f2f4; color:#333; }
+.slide-cta { background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%); }
+
+/* ===== TITLE SLIDE ===== */
+.slide-title .logo { font-size:80px; font-weight:700; color:#6d9d30; letter-spacing:4px; margin-bottom:10px; }
+.slide-title .logo-sub { font-size:18px; font-weight:300; color:#9bbb59; letter-spacing:8px; text-transform:uppercase; margin-bottom:40px; }
+.slide-title .tagline { font-size:28px; font-weight:300; color:#ccc; letter-spacing:2px; }
+.slide-title .decor-line { width:80px; height:3px; background:#6d9d30; margin:30px auto; }
+.slide-title .version { position:absolute; bottom:40px; font-size:13px; color:#666; letter-spacing:1px; }
+
+/* ===== OVERVIEW SLIDE ===== */
+.slide-overview h2 { font-size:36px; font-weight:500; color:#6d9d30; margin-bottom:40px; text-align:center; }
+.overview-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1000px; width:100%; }
+.overview-item { background:#fff; border-radius:10px; padding:24px 20px; text-align:center; box-shadow:4px 4px 2px #e4e4e4; transition:transform 0.3s,box-shadow 0.3s; }
+.overview-item:hover { transform:translateY(-4px); box-shadow:6px 6px 4px #d8d8d8; }
+.overview-item .icon { font-size:36px; margin-bottom:12px; }
+.overview-item h3 { font-size:15px; font-weight:500; color:#333; margin-bottom:6px; }
+.overview-item p { font-size:12px; color:#888; line-height:1.4; }
+
+/* ===== SECTION SLIDE ===== */
+.slide-section .section-icon { font-size:64px; margin-bottom:20px; }
+.slide-section h2 { font-size:44px; font-weight:500; color:#fff; text-align:center; }
+.slide-section .section-line { width:60px; height:3px; background:rgba(255,255,255,0.5); margin:20px auto; }
+.slide-section .section-sub { font-size:16px; font-weight:300; color:rgba(255,255,255,0.8); letter-spacing:2px; text-transform:uppercase; }
+
+/* ===== VIDEO SLIDE ===== */
+.slide-video .video-wrapper { width:100%; max-width:900px; aspect-ratio:16/9; background:#e0e0e0; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; box-shadow:4px 4px 2px #e4e4e4; cursor:pointer; transition:transform 0.3s,box-shadow 0.3s; overflow:hidden; }
+.slide-video .video-wrapper:hover { transform:scale(1.01); box-shadow:6px 6px 4px #d8d8d8; }
+.slide-video .play-btn { width:80px; height:80px; background:#6d9d30; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; color:#fff; transition:background 0.3s,transform 0.3s; z-index:2; box-shadow:0 4px 15px rgba(109,157,48,0.4); }
+.slide-video .video-wrapper:hover .play-btn { background:#5fb000; transform:scale(1.1); }
+.slide-video .play-btn::after { content:'\u25b6'; margin-left:4px; }
+.slide-video .video-title { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent,rgba(0,0,0,0.7)); padding:50px 30px 20px; text-align:center; }
+.slide-video .video-title h3 { font-size:20px; font-weight:500; color:#fff; }
+.slide-video .video-tag { position:absolute; top:16px; right:16px; background:#6d9d30; color:#fff; font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; letter-spacing:1px; text-transform:uppercase; }
+.slide-video .video-number { position:absolute; top:16px; left:16px; color:#aaa; font-size:12px; font-weight:500; }
+
+/* ===== CTA SLIDE ===== */
+.slide-cta .cta-price { font-size:60px; font-weight:700; color:#6d9d30; margin-bottom:8px; }
+.slide-cta .cta-label { font-size:18px; font-weight:300; color:#9bbb59; letter-spacing:3px; text-transform:uppercase; margin-bottom:40px; }
+.slide-cta .cta-btn { display:inline-block; padding:16px 50px; background:#5fb000; color:#fff; font-size:20px; font-weight:500; border:none; border-radius:50px; cursor:pointer; text-decoration:none; letter-spacing:2px; transition:all 0.3s; box-shadow:0 4px 20px rgba(95,176,0,0.3); }
+.slide-cta .cta-btn:hover { background:#fff; color:#5fb000; box-shadow:0 4px 20px rgba(255,255,255,0.3); }
+.slide-cta .cta-sub { font-size:13px; color:#666; margin-top:20px; letter-spacing:1px; }
+.slide-cta .cta-logo { font-size:28px; font-weight:700; color:#6d9d30; letter-spacing:3px; margin-bottom:10px; }
+
+/* ===== NAVIGATION ===== */
+.nav-arrow { position:fixed; top:50%; transform:translateY(-50%); z-index:100; width:50px; height:50px; background:rgba(109,157,48,0.85); border:none; border-radius:50%; color:#fff; font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.3s; opacity:0; }
+.presentation:hover .nav-arrow { opacity:1; }
+.nav-arrow:hover { background:#5fb000; transform:translateY(-50%) scale(1.1); }
+.nav-arrow.prev { left:20px; }
+.nav-arrow.next { right:20px; }
+.nav-arrow:disabled { opacity:0 !important; cursor:default; }
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar { position:fixed; bottom:0; left:0; right:0; height:4px; background:rgba(255,255,255,0.1); z-index:100; }
+.progress-bar-fill { height:100%; background:linear-gradient(90deg,#6d9d30,#9bbb59); transition:width 0.5s ease; }
+
+/* ===== SLIDE INDICATOR ===== */
+.slide-indicator { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); z-index:100; display:flex; gap:8px; align-items:center; }
+.slide-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.25); border:none; cursor:pointer; transition:all 0.3s; padding:0; }
+.slide-dot.active { background:#6d9d30; width:24px; border-radius:4px; }
+.slide-dot.section-dot { background:rgba(155,187,89,0.4); }
+.slide-dot.section-dot.active { background:#9bbb59; width:24px; border-radius:4px; }
+.slide-counter { position:fixed; bottom:28px; right:24px; z-index:100; font-size:12px; color:rgba(255,255,255,0.4); font-weight:300; letter-spacing:1px; }
+
+/* ===== KEYBOARD HINT ===== */
+.keyboard-hint { position:fixed; bottom:28px; left:24px; z-index:100; font-size:11px; color:rgba(255,255,255,0.2); letter-spacing:1px; }
+.keyboard-hint kbd { display:inline-block; padding:1px 6px; border:1px solid rgba(255,255,255,0.15); border-radius:3px; font-family:inherit; font-size:10px; margin:0 2px; }
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .slide-title .logo { font-size:48px; }
+  .slide-title .tagline { font-size:18px; }
+  .overview-grid { grid-template-columns:repeat(2,1fr); gap:12px; }
+  .slide-section h2 { font-size:28px; }
+  .slide-video .video-title h3 { font-size:16px; }
+  .slide-video .play-btn { width:60px; height:60px; font-size:28px; }
+  .slide-cta .cta-price { font-size:40px; }
+  .nav-arrow { width:40px; height:40px; font-size:18px; }
+  .slide-indicator { gap:5px; }
+  .slide-dot { width:6px; height:6px; }
+  .slide-dot.active { width:16px; }
+}
+@media(max-width:480px){
+  .overview-grid { grid-template-columns:1fr; }
+  .slide { padding:20px; }
+  .slide-title .logo { font-size:36px; }
+  .slide-video .video-title h3 { font-size:14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="presentation" id="presentation">
+  <div class="slides-wrapper" id="slidesWrapper">
+
+    <!-- ===== SLIDE 1: TITLE ===== -->
+    <div class="slide slide-title">
+      <div class="logo">LIBAX</div>
+      <div class="logo-sub">Seguros</div>
+      <div class="decor-line"></div>
+      <div class="tagline">Gestão de Carteira de Seguros</div>
+      <div class="version">Módulo Seguros v2.0</div>
+    </div>
+
+    <!-- ===== SLIDE 2: OVERVIEW ===== -->
+    <div class="slide slide-overview">
+      <h2>Funcionalidades</h2>
+      <div class="overview-grid">
+        <div class="overview-item">
+          <div class="icon">📋</div>
+          <h3>Gestão de Apólices</h3>
+          <p>Registo, edição e acompanhamento de apólices de seguros</p>
+        </div>
+        <div class="overview-item">
+          <div class="icon">🏢</div>
+          <h3>Seguradoras</h3>
+          <p>Comunicação direta com Fidelidade, Ageas, Liberty e Allianz</p>
+        </div>
+        <div class="overview-item">
+          <div class="icon">📊</div>
+          <h3>Análises &amp; Dashboards</h3>
+          <p>Relatórios de carteira, produção e variação de recibos</p>
+        </div>
+        <div class="overview-item">
+          <div class="icon">💰</div>
+          <h3>Tesouraria Integrada</h3>
+          <p>Cobranças, folha de caixa, depósitos e reconciliação bancária</p>
+        </div>
+        <div class="overview-item">
+          <div class="icon">🤝</div>
+          <h3>Gestão de Parceiros</h3>
+          <p>Configuração, mediação, pagamentos e prestação de contas</p>
+        </div>
+        <div class="overview-item">
+          <div class="icon">🔍</div>
+          <h3>Pesquisa Avançada</h3>
+          <p>Pesquisa simples e avançada com controlo de informação fidedigna</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION: RECIBOS E IMPORTAÇÃO ===== -->
+    <div class="slide slide-section">
+      <div class="section-icon">📄</div>
+      <h2>Recibos e Importação</h2>
+      <div class="section-line"></div>
+      <div class="section-sub">2 Vídeos</div>
+    </div>
+
+    <!-- Video 1 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">01</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Obter recibo em tempo real</h3></div>
+      </div>
+    </div>
+
+    <!-- Video 2 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">02</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Importação de ficheiro de carteira</h3></div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION: CLIENTES E APÓLICES ===== -->
+    <div class="slide slide-section">
+      <div class="section-icon">👤</div>
+      <h2>Clientes e Apólices</h2>
+      <div class="section-line"></div>
+      <div class="section-sub">3 Vídeos</div>
+    </div>
+
+    <!-- Video 3 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">03</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Como registar cliente</h3></div>
+      </div>
+    </div>
+
+    <!-- Video 4 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">04</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Registo manual de apólice</h3></div>
+      </div>
+    </div>
+
+    <!-- Video 5 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">05</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Ficha do cliente<br><span style="font-weight:300;font-size:14px;">Resumo · Apólices · Recibos · Simulações · Participações · Atividades · Posição Global</span></h3></div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION: TESOURARIA ===== -->
+    <div class="slide slide-section">
+      <div class="section-icon">💳</div>
+      <h2>Tesouraria</h2>
+      <div class="section-line"></div>
+      <div class="section-sub">3 Vídeos</div>
+    </div>
+
+    <!-- Video 6 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">06</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Cobrança na tesouraria<br><span style="font-weight:300;font-size:14px;">Recibo com opção em tempo real</span></h3></div>
+      </div>
+    </div>
+
+    <!-- Video 7 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">07</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Tesouraria – Folha de caixa</h3></div>
+      </div>
+    </div>
+
+    <!-- Video 8 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">08</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Depósito para banco, despesas e análises</h3></div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION: PARCEIROS ===== -->
+    <div class="slide slide-section">
+      <div class="section-icon">🤝</div>
+      <h2>Parceiros</h2>
+      <div class="section-line"></div>
+      <div class="section-sub">4 Vídeos</div>
+    </div>
+
+    <!-- Video 9 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">09</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Criação e configuração do parceiro<br><span style="font-weight:300;font-size:14px;">Incidência</span></h3></div>
+      </div>
+    </div>
+
+    <!-- Video 10 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">10</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Códigos de mediação no parceiro</h3></div>
+      </div>
+    </div>
+
+    <!-- Video 11 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">11</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Novo pagamento ao parceiro<br><span style="font-weight:300;font-size:14px;">Apurar e enviar por e-mail</span></h3></div>
+      </div>
+    </div>
+
+    <!-- Video 12 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">12</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Importação de prestação de contas e acerto de diferenças</h3></div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION: ANÁLISES ===== -->
+    <div class="slide slide-section">
+      <div class="section-icon">📊</div>
+      <h2>Análises</h2>
+      <div class="section-line"></div>
+      <div class="section-sub">6 Vídeos</div>
+    </div>
+
+    <!-- Video 13 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">13</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Análises: Carteira</h3></div>
+      </div>
+    </div>
+
+    <!-- Video 14 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">14</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Análises: Produção total</h3></div>
+      </div>
+    </div>
+
+    <!-- Video 15 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">15</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Análises: Produção nova</h3></div>
+      </div>
+    </div>
+
+    <!-- Video 16 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">16</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Variação de recibos</h3></div>
+      </div>
+    </div>
+
+    <!-- Video 17 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">17</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Beyondata</h3></div>
+      </div>
+    </div>
+
+    <!-- Video 18 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">18</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Dashboards</h3></div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION: PESQUISA E CONTROLO ===== -->
+    <div class="slide slide-section">
+      <div class="section-icon">🔍</div>
+      <h2>Pesquisa e Controlo</h2>
+      <div class="section-line"></div>
+      <div class="section-sub">2 Vídeos</div>
+    </div>
+
+    <!-- Video 19 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">19</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Pesquisa simples e avançada</h3></div>
+      </div>
+    </div>
+
+    <!-- Video 20 -->
+    <div class="slide slide-video">
+      <div class="video-wrapper">
+        <div class="video-number">20</div>
+        <div class="video-tag">Seguros</div>
+        <div class="play-btn"></div>
+        <div class="video-title"><h3>Controlo de informação fidedigna</h3></div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE FINAL: CTA ===== -->
+    <div class="slide slide-cta">
+      <div class="cta-logo">LIBAX SEGUROS</div>
+      <div class="cta-price">desde 12,60€/mês</div>
+      <div class="cta-label">Solução completa de gestão</div>
+      <a href="#" class="cta-btn" onclick="alert('Registo iniciado. Será contactado em breve.');return false;">Registar</a>
+      <div class="cta-sub">Sem compromissos · Ativação imediata · Suporte dedicado</div>
+    </div>
+
+  </div><!-- /slides-wrapper -->
+
+  <!-- ===== NAVIGATION ===== -->
+  <button class="nav-arrow prev" id="prevBtn" aria-label="Slide anterior">&#10094;</button>
+  <button class="nav-arrow next" id="nextBtn" aria-label="Próximo slide">&#10095;</button>
+
+  <!-- ===== PROGRESS BAR ===== -->
+  <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
+
+  <!-- ===== SLIDE INDICATOR ===== -->
+  <div class="slide-indicator" id="slideIndicator"></div>
+  <div class="slide-counter" id="slideCounter"></div>
+  <div class="keyboard-hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> navegar &middot; <kbd>Home</kbd> início &middot; <kbd>End</kbd> fim</div>
+</div>
+
+<script>
+(function(){
+  const wrapper = document.getElementById('slidesWrapper');
+  const slides = wrapper.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const progressFill = document.getElementById('progressFill');
+  const slideCounter = document.getElementById('slideCounter');
+  const indicator = document.getElementById('slideIndicator');
+
+  // Build dots
+  slides.forEach((s, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'slide-dot' + (s.classList.contains('slide-section') ? ' section-dot' : '');
+    dot.setAttribute('data-index', i);
+    dot.addEventListener('click', () => goTo(i));
+    indicator.appendChild(dot);
+  });
+  const dots = indicator.querySelectorAll('.slide-dot');
+
+  function goTo(index) {
+    if (index < 0) index = 0;
+    if (index >= total) index = total - 1;
+    if (index === current) return;
+    current = index;
+    wrapper.style.transform = 'translateX(-' + (current * 100) + 'vw)';
+    updateUI();
+  }
+
+  function updateUI() {
+    // Dots
+    dots.forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+    // Progress
+    const pct = ((current + 1) / total) * 100;
+    progressFill.style.width = pct + '%';
+    // Counter
+    slideCounter.textContent = (current + 1) + ' / ' + total;
+    // Buttons
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  // Event listeners
+  prevBtn.addEventListener('click', prev);
+  nextBtn.addEventListener('click', next);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      next();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      prev();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      goTo(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      goTo(total - 1);
+    }
+  });
+
+  // Touch swipe support
+  let touchStartX = 0;
+  let touchStartY = 0;
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, {passive: true});
+  document.addEventListener('touchend', function(e) {
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    const dy = e.changedTouches[0].screenY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      if (dx < 0) next();
+      else prev();
+    }
+  }, {passive: true});
+
+  // Click on video placeholders
+  document.querySelectorAll('.video-wrapper').forEach(el => {
+    el.addEventListener('click', function() {
+      const title = this.querySelector('.video-title h3')?.textContent?.trim() || 'vídeo';
+      alert('🎬 Reproduzir vídeo: ' + title + '\n\n(Placeholder — o vídeo real será inserido aqui)');
+    });
+  });
+
+  // Init
+  updateUI();
+})();
+</script>
+</body>
+</html>

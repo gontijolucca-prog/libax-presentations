@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libax Business — ERP na Cloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Roboto',sans-serif;background:#fff;color:#333}
+
+/* ===== SLIDE DECK ===== */
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+.slides{position:relative;width:100%;height:100%}
+
+/* ===== INDIVIDUAL SLIDE ===== */
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 80px;opacity:0;pointer-events:none;transition:opacity .6s ease,transform .6s ease;z-index:1}
+.slide.active{opacity:1;pointer-events:auto;z-index:10}
+.slide.exit-left{opacity:0;transform:translateX(-80px)}
+.slide.exit-right{opacity:0;transform:translateX(80px)}
+.slide.enter-left{opacity:0;transform:translateX(80px)}
+.slide.enter-right{opacity:0;transform:translateX(-80px)}
+.slide.active.enter-left,.slide.active.enter-right{opacity:1;transform:translateX(0)}
+
+/* ===== SLIDE VARIANTS ===== */
+.slide-title{background:linear-gradient(135deg,#488500 0%,#6d9d30 50%,#9bbb59 100%);color:#fff;text-align:center}
+.slide-overview{background:#fff}
+.slide-video{background:#f2f2f4}
+.slide-cta{background:linear-gradient(135deg,#488500 0%,#6d9d30 50%,#9bbb59 100%);color:#fff;text-align:center}
+
+/* ===== TITLE SLIDE ===== */
+.slide-title .logo{font-size:72px;font-weight:700;letter-spacing:-1px;margin-bottom:8px;text-shadow:2px 2px 8px rgba(0,0,0,.2)}
+.slide-title .logo-sub{font-size:18px;font-weight:300;letter-spacing:6px;text-transform:uppercase;opacity:.85;margin-bottom:40px}
+.slide-title .tagline{font-size:28px;font-weight:300;opacity:.9;max-width:600px;line-height:1.5}
+.slide-title .tagline strong{font-weight:500}
+.slide-title .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);border-radius:30px;padding:8px 28px;font-size:14px;font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-top:30px}
+.slide-title .scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:300;opacity:.6;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* ===== OVERVIEW SLIDE ===== */
+.slide-overview h2{font-size:40px;font-weight:500;color:#488500;margin-bottom:12px}
+.slide-overview .subtitle{font-size:16px;font-weight:300;color:#888;margin-bottom:40px}
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;width:100%}
+.overview-card{background:#fff;border-radius:12px;padding:28px 24px;text-align:center;box-shadow:4px 4px 2px #e4e4e4;border:1px solid #eee;transition:transform .3s ease,box-shadow .3s ease}
+.overview-card:hover{transform:translateY(-4px);box-shadow:6px 6px 4px #e4e4e4}
+.overview-card .icon{font-size:40px;margin-bottom:12px;display:block}
+.overview-card h3{font-size:16px;font-weight:500;color:#6d9d30;margin-bottom:6px}
+.overview-card p{font-size:13px;font-weight:300;color:#777;line-height:1.5}
+
+/* ===== VIDEO SLIDES ===== */
+.slide-video h2{font-size:32px;font-weight:500;color:#488500;margin-bottom:8px}
+.slide-video .video-tag{display:inline-block;background:#6d9d30;color:#fff;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:30px}
+.video-placeholder{position:relative;width:100%;max-width:960px;aspect-ratio:16/9;background:#ddd;border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:4px 4px 2px #e4e4e4;transition:transform .3s ease}
+.video-placeholder:hover{transform:scale(1.01)}
+.video-placeholder .bg-pattern{position:absolute;inset:0;background:linear-gradient(135deg,#6d9d30 0%,#9bbb59 100%);opacity:.15}
+.video-placeholder .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;background:rgba(109,157,48,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .3s ease,transform .3s ease;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.video-placeholder:hover .play-btn{background:#6d9d30;transform:translate(-50%,-50%) scale(1.1)}
+.video-placeholder .play-btn svg{width:32px;height:32px;fill:#fff;margin-left:3px}
+.video-placeholder .video-label{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#fff;font-size:14px;font-weight:400;padding:8px 24px;border-radius:8px;backdrop-filter:blur(4px)}
+
+/* ===== CTA SLIDE ===== */
+.slide-cta .cta-big{font-size:56px;font-weight:700;margin-bottom:8px;text-shadow:2px 2px 8px rgba(0,0,0,.2)}
+.slide-cta .cta-sub{font-size:20px;font-weight:300;opacity:.85;margin-bottom:40px}
+.slide-cta .cta-price{font-size:18px;font-weight:300;opacity:.7;margin-bottom:30px}
+.slide-cta .cta-price strong{font-size:28px;font-weight:700}
+.btn-registar{display:inline-block;background:#fff;color:#6d9d30;font-size:18px;font-weight:500;padding:16px 56px;border-radius:50px;text-decoration:none;transition:all .3s ease;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.btn-registar:hover{background:#6d9d30;color:#fff;box-shadow:0 6px 30px rgba(0,0,0,.25);transform:translateY(-2px)}
+.slide-cta .footer-note{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:300;opacity:.5}
+
+/* ===== NAVIGATION ===== */
+.nav-arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:100;width:52px;height:52px;background:rgba(109,157,48,.85);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .3s ease,transform .3s ease;box-shadow:0 2px 12px rgba(0,0,0,.12);backdrop-filter:blur(4px)}
+.nav-arrow:hover{background:#6d9d30;transform:translateY(-50%) scale(1.08)}
+.nav-arrow svg{width:22px;height:22px;fill:#fff}
+.nav-arrow.prev{left:24px}
+.nav-arrow.next{right:24px}
+.nav-arrow.hidden{opacity:0;pointer-events:none}
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar{position:fixed;bottom:0;left:0;width:100%;height:4px;background:rgba(0,0,0,.08);z-index:100}
+.progress-bar .fill{height:100%;background:linear-gradient(90deg,#6d9d30,#9bbb59);transition:width .5s ease;border-radius:0 2px 2px 0}
+
+/* ===== SLIDE INDICATOR ===== */
+.slide-indicator{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:100;display:flex;gap:10px;align-items:center}
+.slide-dot{width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,.15);border:none;cursor:pointer;transition:all .3s ease;padding:0}
+.slide-dot:hover{background:rgba(109,157,48,.5)}
+.slide-dot.active{background:#6d9d30;width:28px;border-radius:5px}
+.slide-dot.active:hover{background:#6d9d30}
+.slide-counter{position:fixed;bottom:34px;right:30px;z-index:100;font-size:13px;font-weight:400;color:rgba(0,0,0,.35);letter-spacing:1px}
+
+/* ===== KEYBOARD HINT ===== */
+.kbd-hint{position:fixed;bottom:34px;left:30px;z-index:100;font-size:12px;font-weight:300;color:rgba(0,0,0,.25);letter-spacing:.5px}
+.kbd-hint kbd{display:inline-block;background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.1);border-radius:4px;padding:1px 7px;font-size:11px;font-family:inherit;margin:0 2px}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .overview-grid{grid-template-columns:repeat(2,1fr);gap:16px}
+  .slide-title .logo{font-size:48px}
+  .slide{padding:40px 30px}
+  .slide-cta .cta-big{font-size:38px}
+  .nav-arrow{width:42px;height:42px}
+  .nav-arrow svg{width:18px;height:18px}
+  .nav-arrow.prev{left:12px}
+  .nav-arrow.next{right:12px}
+  .video-placeholder{max-width:100%}
+}
+@media(max-width:600px){
+  .overview-grid{grid-template-columns:1fr;gap:12px}
+  .slide-title .logo{font-size:36px}
+  .slide-title .tagline{font-size:20px}
+  .slide{padding:30px 20px}
+  .slide-cta .cta-big{font-size:30px}
+  .btn-registar{padding:14px 36px;font-size:16px}
+  .nav-arrow{width:36px;height:36px;top:auto;bottom:70px;transform:none}
+  .nav-arrow.prev{left:20px;right:auto}
+  .nav-arrow.next{right:20px;left:auto}
+  .nav-arrow:hover{transform:scale(1.08)}
+  .slide-counter,.kbd-hint{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+  <div class="slides" id="slides">
+
+    <!-- ===== SLIDE 1: TITLE ===== -->
+    <div class="slide slide-title active" data-index="0">
+      <div class="logo">Libax Business</div>
+      <div class="logo-sub">ERP na Cloud</div>
+      <div class="tagline">A solução completa de <strong>gestão empresarial</strong><br>para a sua empresa, em qualquer lugar</div>
+      <div class="badge">&#9733; Software certificado AT</div>
+      <div class="scroll-hint">&#8595; Navegue com as setas</div>
+    </div>
+
+    <!-- ===== SLIDE 2: OVERVIEW ===== -->
+    <div class="slide slide-overview" data-index="1">
+      <h2>O que faz o Libax Business?</h2>
+      <div class="subtitle">Tudo o que precisa para gerir o seu negócio numa única plataforma</div>
+      <div class="overview-grid">
+        <div class="overview-card">
+          <span class="icon">&#128196;</span>
+          <h3>Faturação Certificada AT</h3>
+          <p>Emissão de faturas, recibos e documentos de transporte em conformidade com a Autoridade Tributária</p>
+        </div>
+        <div class="overview-card">
+          <span class="icon">&#128101;</span>
+          <h3>Gestão de Clientes</h3>
+          <p>Histórico completo, contactos, contratos e segmentação inteligente de clientes</p>
+        </div>
+        <div class="overview-card">
+          <span class="icon">&#128230;</span>
+          <h3>Gestão de Produtos</h3>
+          <p>Catálogo, stocks, variantes, preços e controlo de inventário em tempo real</p>
+        </div>
+        <div class="overview-card">
+          <span class="icon">&#128176;</span>
+          <h3>Tesouraria</h3>
+          <p>Contas correntes, fluxos de caixa, reconciliações bancárias e extratos financeiros</p>
+        </div>
+        <div class="overview-card">
+          <span class="icon">&#128451;</span>
+          <h3>Arquivo Digital</h3>
+          <p>Documentos digitalizados com pesquisa inteligente e armazenamento seguro na cloud</p>
+        </div>
+        <div class="overview-card">
+          <span class="icon">&#128279;</span>
+          <h3>API Aberta</h3>
+          <p>Integração com outras plataformas via REST API documentada e segura</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 3: VIDEO 1 ===== -->
+    <div class="slide slide-video" data-index="2">
+      <h2>Como criar cliente</h2>
+      <span class="video-tag">Business</span>
+      <div class="video-placeholder" onclick="alert('Vídeo: Como criar cliente — em breve disponível')">
+        <div class="bg-pattern"></div>
+        <div class="play-btn">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="video-label">Como criar cliente &mdash; 2:34</div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 4: VIDEO 2 ===== -->
+    <div class="slide slide-video" data-index="3">
+      <h2>Como fazer uma fatura</h2>
+      <span class="video-tag">Business</span>
+      <div class="video-placeholder" onclick="alert('Vídeo: Como fazer uma fatura — em breve disponível')">
+        <div class="bg-pattern"></div>
+        <div class="play-btn">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="video-label">Como fazer uma fatura &mdash; 3:12</div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 5: VIDEO 3 ===== -->
+    <div class="slide slide-video" data-index="4">
+      <h2>Como adicionar produto</h2>
+      <span class="video-tag">Business</span>
+      <div class="video-placeholder" onclick="alert('Vídeo: Como adicionar produto — em breve disponível')">
+        <div class="bg-pattern"></div>
+        <div class="play-btn">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="video-label">Como adicionar produto &mdash; 2:18</div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 6: CTA ===== -->
+    <div class="slide slide-cta" data-index="5">
+      <div class="cta-big">Experimente Grátis</div>
+      <div class="cta-sub">Comece hoje a transformar a gestão da sua empresa</div>
+      <div class="cta-price">Planos a partir de <strong>4€/mês</strong></div>
+      <a href="#" class="btn-registar" onclick="alert('Redirecionar para registo Libax Business');return false">Registar</a>
+      <div class="footer-note">Sem compromisso &bull; Cancelamento gratuito &bull; Suporte incluído</div>
+    </div>
+
+  </div><!-- /slides -->
+
+  <!-- ===== NAVIGATION ARROWS ===== -->
+  <button class="nav-arrow prev" id="prevBtn" aria-label="Slide anterior">
+    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+  </button>
+  <button class="nav-arrow next" id="nextBtn" aria-label="Próximo slide">
+    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+  </button>
+
+  <!-- ===== PROGRESS BAR ===== -->
+  <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+
+  <!-- ===== SLIDE INDICATOR ===== -->
+  <div class="slide-indicator" id="slideDots"></div>
+
+  <!-- ===== SLIDE COUNTER ===== -->
+  <div class="slide-counter" id="slideCounter">1 / 6</div>
+
+  <!-- ===== KEYBOARD HINT ===== -->
+  <div class="kbd-hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> navegar &bull; <kbd>Home</kbd> / <kbd>End</kbd> extremos</div>
+</div><!-- /deck -->
+
+<script>
+(function(){
+  'use strict';
+
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+  let animating = false;
+
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const progressFill = document.getElementById('progressFill');
+  const slideCounter = document.getElementById('slideCounter');
+  const dotsContainer = document.getElementById('slideDots');
+
+  /* ---- build dots ---- */
+  for(let i=0;i<total;i++){
+    const dot = document.createElement('button');
+    dot.className = 'slide-dot' + (i===0?' active':'');
+    dot.setAttribute('aria-label','Ir para slide '+(i+1));
+    dot.dataset.index = i;
+    dot.addEventListener('click',function(){goTo(parseInt(this.dataset.index));});
+    dotsContainer.appendChild(dot);
+  }
+  const dots = dotsContainer.querySelectorAll('.slide-dot');
+
+  /* ---- go to slide ---- */
+  function goTo(idx,dir){
+    if(animating || idx===current || idx<0 || idx>=total) return;
+    animating = true;
+
+    const from = current;
+    const to = idx;
+    const direction = dir || (to>from?'right':'left');
+
+    const outSlide = slides[from];
+    const inSlide = slides[to];
+
+    /* remove all transition classes */
+    outSlide.classList.remove('active','exit-left','exit-right','enter-left','enter-right');
+    inSlide.classList.remove('active','exit-left','exit-right','enter-left','enter-right');
+
+    /* force reflow */
+    void outSlide.offsetWidth;
+    void inSlide.offsetWidth;
+
+    /* set exit class on outgoing */
+    if(direction==='right'){
+      outSlide.classList.add('exit-left');
+      inSlide.classList.add('enter-left');
+    } else {
+      outSlide.classList.add('exit-right');
+      inSlide.classList.add('enter-right');
+    }
+
+    void outSlide.offsetWidth;
+    void inSlide.offsetWidth;
+
+    /* activate incoming */
+    inSlide.classList.add('active');
+
+    /* after transition, clean up outgoing */
+    const cleanup = function(){
+      outSlide.classList.remove('exit-left','exit-right','enter-left','enter-right');
+      inSlide.classList.remove('enter-left','enter-right');
+      animating = false;
+    };
+
+    /* listen on the incoming slide for transition end */
+    inSlide.addEventListener('transitionend',cleanup,{once:true});
+
+    /* safety fallback */
+    setTimeout(function(){
+      if(animating){ cleanup(); }
+    },700);
+
+    current = to;
+    updateUI();
+  }
+
+  /* ---- update UI ---- */
+  function updateUI(){
+    /* progress bar */
+    const pct = ((current+1)/total)*100;
+    progressFill.style.width = pct+'%';
+
+    /* counter */
+    slideCounter.textContent = (current+1)+' / '+total;
+
+    /* dots */
+    dots.forEach(function(d,i){
+      d.classList.toggle('active',i===current);
+    });
+
+    /* arrows visibility */
+    prevBtn.classList.toggle('hidden',current===0);
+    nextBtn.classList.toggle('hidden',current===total-1);
+  }
+
+  /* ---- event listeners ---- */
+  prevBtn.addEventListener('click',function(){goTo(current-1,'left');});
+  nextBtn.addEventListener('click',function(){goTo(current+1,'right');});
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowLeft' || e.key==='ArrowUp'){ e.preventDefault(); goTo(current-1,'left'); }
+    else if(e.key==='ArrowRight' || e.key==='ArrowDown'){ e.preventDefault(); goTo(current+1,'right'); }
+    else if(e.key==='Home'){ e.preventDefault(); goTo(0,'left'); }
+    else if(e.key==='End'){ e.preventDefault(); goTo(total-1,'right'); }
+  });
+
+  /* ---- touch swipe support ---- */
+  let touchStartX = 0;
+  let touchStartY = 0;
+  document.addEventListener('touchstart',function(e){
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  },{passive:true});
+  document.addEventListener('touchend',function(e){
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    const dy = e.changedTouches[0].screenY - touchStartY;
+    if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50){
+      if(dx<0) goTo(current+1,'right');
+      else goTo(current-1,'left');
+    }
+  },{passive:true});
+
+  /* ---- init ---- */
+  updateUI();
+
+})();
+</script>
+</body>
+</html>

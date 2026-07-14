@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libax CRM — Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  html, body {
+    width:100%; height:100%; overflow:hidden;
+    font-family:'Roboto', sans-serif;
+    background:#fff;
+  }
+
+  /* ===== SLIDES CONTAINER ===== */
+  .slides-wrapper {
+    position:relative;
+    width:100%; height:100%;
+    overflow:hidden;
+  }
+
+  .slides-track {
+    display:flex;
+    width:100%; height:100%;
+    transition:transform 0.7s cubic-bezier(0.65,0,0.35,1);
+    will-change:transform;
+  }
+
+  .slide {
+    flex:0 0 100%; height:100%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    position:relative;
+    padding:60px 80px;
+    text-align:center;
+    overflow:hidden;
+  }
+
+  /* ===== SLIDE BACKGROUNDS ===== */
+  .slide-bg-alt { background:#f2f2f4; }
+  .slide-bg-white { background:#fff; }
+  .slide-bg-green { background:linear-gradient(135deg, #6d9d30 0%, #488500 100%); color:#fff; }
+  .slide-bg-dark { background:linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); color:#fff; }
+
+  /* ===== TITLE SLIDE ===== */
+  .slide-title {
+    background:linear-gradient(135deg, #6d9d30 0%, #488500 50%, #2d5a00 100%);
+    color:#fff;
+  }
+  .slide-title .logo {
+    font-size:72px; font-weight:700; letter-spacing:2px;
+    margin-bottom:16px;
+    text-shadow:0 4px 12px rgba(0,0,0,0.3);
+  }
+  .slide-title .logo span { color:#9bbb59; }
+  .slide-title .tagline {
+    font-size:24px; font-weight:300; letter-spacing:4px;
+    opacity:0.9;
+    margin-bottom:40px;
+  }
+  .slide-title .subtitle {
+    font-size:16px; font-weight:300; opacity:0.6;
+    letter-spacing:6px; text-transform:uppercase;
+  }
+  .slide-title .deco-line {
+    width:80px; height:3px; background:#9bbb59;
+    margin:24px auto; border-radius:2px;
+  }
+
+  /* ===== OVERVIEW SLIDE ===== */
+  .slide-overview h2 {
+    font-size:40px; font-weight:500; color:#2d2d2d;
+    margin-bottom:12px;
+  }
+  .slide-overview .subhead {
+    font-size:16px; color:#888; font-weight:300;
+    margin-bottom:48px;
+  }
+  .features-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+    max-width:960px;
+    width:100%;
+  }
+  .feature-card {
+    background:#fff;
+    border-radius:12px;
+    padding:32px 20px;
+    box-shadow:4px 4px 2px #e4e4e4;
+    transition:transform 0.3s ease, box-shadow 0.3s ease;
+    cursor:default;
+  }
+  .feature-card:hover {
+    transform:translateY(-4px);
+    box-shadow:6px 8px 4px #e4e4e4;
+  }
+  .feature-card .icon {
+    font-size:40px; margin-bottom:16px;
+  }
+  .feature-card h3 {
+    font-size:18px; font-weight:500; color:#6d9d30;
+    margin-bottom:8px;
+  }
+  .feature-card p {
+    font-size:14px; color:#666; font-weight:300;
+    line-height:1.5;
+  }
+
+  /* ===== VIDEO SLIDES ===== */
+  .video-slide { background:#f2f2f4; }
+  .video-slide .video-container {
+    position:relative;
+    width:80%; max-width:800px;
+    aspect-ratio:16/9;
+    background:linear-gradient(135deg, #3a3a3a 0%, #222 100%);
+    border-radius:16px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:4px 4px 2px #e4e4e4, 0 8px 32px rgba(0,0,0,0.15);
+    cursor:pointer;
+    transition:transform 0.3s ease;
+    overflow:hidden;
+  }
+  .video-slide .video-container:hover {
+    transform:scale(1.02);
+  }
+  .video-slide .video-container::before {
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(135deg, rgba(109,157,48,0.15) 0%, transparent 60%);
+    border-radius:16px;
+  }
+  .play-icon {
+    width:100px; height:100px;
+    background:rgba(109,157,48,0.9);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    z-index:2;
+    transition:transform 0.3s ease, background 0.3s ease;
+    box-shadow:0 4px 20px rgba(109,157,48,0.4);
+  }
+  .play-icon::after {
+    content:'▶';
+    font-size:40px; color:#fff;
+    margin-left:6px;
+  }
+  .video-container:hover .play-icon {
+    transform:scale(1.15);
+    background:#5fb000;
+  }
+  .video-tag {
+    position:absolute;
+    top:20px; left:20px;
+    background:#6d9d30; color:#fff;
+    font-size:13px; font-weight:700;
+    padding:6px 16px; border-radius:20px;
+    letter-spacing:1px; text-transform:uppercase;
+    z-index:3;
+    box-shadow:0 2px 8px rgba(109,157,48,0.3);
+  }
+  .video-title {
+    position:absolute;
+    bottom:24px; left:0; right:0;
+    text-align:center;
+    color:#fff;
+    font-size:22px; font-weight:500;
+    z-index:3;
+    text-shadow:0 2px 12px rgba(0,0,0,0.5);
+    padding:0 20px;
+  }
+  .video-number {
+    position:absolute;
+    bottom:24px; right:24px;
+    color:rgba(255,255,255,0.2);
+    font-size:48px; font-weight:700;
+    z-index:1;
+  }
+
+  /* ===== CTA SLIDE ===== */
+  .slide-cta {
+    background:linear-gradient(135deg, #6d9d30 0%, #488500 50%, #2d5a00 100%);
+    color:#fff;
+  }
+  .slide-cta h2 {
+    font-size:48px; font-weight:500;
+    margin-bottom:12px;
+  }
+  .slide-cta p {
+    font-size:18px; font-weight:300; opacity:0.85;
+    margin-bottom:40px;
+    max-width:500px;
+  }
+  .btn-cta {
+    display:inline-block;
+    padding:18px 48px;
+    background:#fff; color:#6d9d30;
+    font-size:18px; font-weight:700;
+    border:none; border-radius:50px;
+    cursor:pointer;
+    text-decoration:none;
+    transition:all 0.3s ease;
+    box-shadow:0 4px 16px rgba(0,0,0,0.2);
+    letter-spacing:1px;
+  }
+  .btn-cta:hover {
+    background:transparent; color:#fff;
+    box-shadow:inset 0 0 0 2px #fff, 0 4px 16px rgba(0,0,0,0.2);
+    transform:translateY(-2px);
+  }
+  .slide-cta .contact-info {
+    margin-top:32px;
+    font-size:14px; font-weight:300; opacity:0.6;
+  }
+  .slide-cta .contact-info span { margin:0 12px; }
+
+  /* ===== NAVIGATION ===== */
+  .nav-arrow {
+    position:fixed; top:50%; transform:translateY(-50%);
+    z-index:100;
+    width:52px; height:52px;
+    background:rgba(109,157,48,0.9);
+    border:none; border-radius:50%;
+    color:#fff; font-size:22px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.3s ease;
+    box-shadow:0 2px 12px rgba(0,0,0,0.15);
+    opacity:0;
+    pointer-events:none;
+  }
+  .nav-arrow.visible {
+    opacity:1;
+    pointer-events:auto;
+  }
+  .nav-arrow:hover {
+    background:#5fb000;
+    transform:translateY(-50%) scale(1.1);
+  }
+  .nav-arrow:active { transform:translateY(-50%) scale(0.95); }
+  .nav-prev { left:24px; }
+  .nav-next { right:24px; }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-bar {
+    position:fixed; bottom:0; left:0;
+    height:4px;
+    background:linear-gradient(90deg, #6d9d30, #9bbb59);
+    z-index:200;
+    transition:width 0.5s cubic-bezier(0.65,0,0.35,1);
+  }
+
+  /* ===== SLIDE INDICATOR ===== */
+  .slide-indicator {
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+    z-index:150;
+    display:flex; gap:10px;
+    align-items:center;
+  }
+  .slide-dot {
+    width:10px; height:10px;
+    border-radius:50%;
+    background:rgba(0,0,0,0.15);
+    transition:all 0.4s ease;
+    cursor:pointer;
+  }
+  .slide-dot.active {
+    background:#6d9d30;
+    width:28px; border-radius:6px;
+  }
+  .slide-dot:hover { background:rgba(109,157,48,0.5); }
+
+  /* ===== KEYBOARD HINT ===== */
+  .keyboard-hint {
+    position:fixed; bottom:52px; left:50%; transform:translateX(-50%);
+    z-index:140;
+    font-size:12px; color:rgba(0,0,0,0.25);
+    font-weight:300; letter-spacing:1px;
+    transition:opacity 0.5s ease;
+  }
+  .keyboard-hint.hidden { opacity:0; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:768px) {
+    .slide { padding:40px 24px; }
+    .slide-title .logo { font-size:40px; }
+    .slide-title .tagline { font-size:16px; letter-spacing:2px; }
+    .features-grid { grid-template-columns:1fr; gap:16px; }
+    .feature-card { padding:20px 16px; }
+    .video-slide .video-container { width:100%; }
+    .play-icon { width:70px; height:70px; }
+    .play-icon::after { font-size:28px; }
+    .video-title { font-size:16px; }
+    .slide-cta h2 { font-size:32px; }
+    .btn-cta { padding:14px 32px; font-size:16px; }
+    .nav-arrow { width:40px; height:40px; font-size:16px; }
+    .nav-prev { left:12px; }
+    .nav-next { right:12px; }
+    .slide-indicator { gap:6px; }
+    .slide-dot { width:8px; height:8px; }
+    .slide-dot.active { width:20px; }
+  }
+
+  @media (max-width:480px) {
+    .slide-title .logo { font-size:30px; }
+    .slide-title .tagline { font-size:14px; }
+    .slide-overview h2 { font-size:28px; }
+    .video-number { font-size:32px; }
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeInUp {
+    from { opacity:0; transform:translateY(30px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  .slide.active .feature-card { animation:fadeInUp 0.6s ease forwards; opacity:0; }
+  .slide.active .feature-card:nth-child(1) { animation-delay:0.1s; }
+  .slide.active .feature-card:nth-child(2) { animation-delay:0.2s; }
+  .slide.active .feature-card:nth-child(3) { animation-delay:0.3s; }
+  .slide.active .feature-card:nth-child(4) { animation-delay:0.4s; }
+  .slide.active .feature-card:nth-child(5) { animation-delay:0.5s; }
+  .slide.active .feature-card:nth-child(6) { animation-delay:0.6s; }
+
+  @keyframes pulse {
+    0%,100% { transform:scale(1); }
+    50% { transform:scale(1.05); }
+  }
+  .slide.active .play-icon { animation:pulse 2s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<div class="slides-wrapper" id="slidesWrapper">
+  <div class="slides-track" id="slidesTrack">
+
+    <!-- ===== SLIDE 1: TITLE ===== -->
+    <div class="slide slide-title active" data-index="0">
+      <div class="logo">Libax <span>CRM</span></div>
+      <div class="deco-line"></div>
+      <div class="tagline">Gestão de Relacionamento com Clientes</div>
+      <div class="subtitle">Módulo CRM · Libax ERP</div>
+    </div>
+
+    <!-- ===== SLIDE 2: OVERVIEW ===== -->
+    <div class="slide slide-overview slide-bg-alt" data-index="1">
+      <h2>Funcionalidades</h2>
+      <p class="subhead">Tudo o que precisa para gerir o relacionamento com os seus clientes</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="icon">👥</div>
+          <h3>Gestão de Contactos</h3>
+          <p>Centralize todos os contactos da sua empresa com informação completa e segmentação inteligente.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📊</div>
+          <h3>Negócios &amp; Oportunidades</h3>
+          <p>Acompanhe o pipeline de vendas, desde a prospeção até ao fecho, com visibilidade total.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🎫</div>
+          <h3>Tickets de Suporte</h3>
+          <p>Registe e acompanhe pedidos de suporte com atribuição automática e SLAs configuráveis.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">✅</div>
+          <h3>Tarefas &amp; Lembretes</h3>
+          <p>Organize o seu dia com tarefas associadas a contactos, negócios ou tickets, com notificações.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🔍</div>
+          <h3>Pesquisas Poderosas</h3>
+          <p>Encontre qualquer registo em segundos com pesquisa global inteligente e filtros avançados.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📈</div>
+          <h3>Relatórios &amp; Dashboards</h3>
+          <p>Visualize métricas de desempenho comercial com dashboards interativos e relatórios exportáveis.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 3: VIDEO 1 ===== -->
+    <div class="slide video-slide" data-index="2">
+      <div class="video-container" onclick="alert('🎬 Vídeo: Como criar cliente\n\nPlaceholder — o vídeo real será inserido aqui.')">
+        <span class="video-tag">CRM</span>
+        <div class="play-icon"></div>
+        <div class="video-title">Como criar cliente</div>
+        <div class="video-number">01</div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 4: VIDEO 2 ===== -->
+    <div class="slide video-slide slide-bg-alt" data-index="3">
+      <div class="video-container" onclick="alert('🎬 Vídeo: Como criar negócio e tarefa\n\nPlaceholder — o vídeo real será inserido aqui.')">
+        <span class="video-tag">CRM</span>
+        <div class="play-icon"></div>
+        <div class="video-title">Como criar negócio e tarefa</div>
+        <div class="video-number">02</div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 5: VIDEO 3 ===== -->
+    <div class="slide video-slide" data-index="4">
+      <div class="video-container" onclick="alert('🎬 Vídeo: Mostrar pesquisas\n\nPlaceholder — o vídeo real será inserido aqui.')">
+        <span class="video-tag">CRM</span>
+        <div class="play-icon"></div>
+        <div class="video-title">Mostrar pesquisas</div>
+        <div class="video-number">03</div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 6: VIDEO 4 ===== -->
+    <div class="slide video-slide slide-bg-alt" data-index="5">
+      <div class="video-container" onclick="alert('🎬 Vídeo: Como criar ticket e tarefa\n\nPlaceholder — o vídeo real será inserido aqui.')">
+        <span class="video-tag">CRM</span>
+        <div class="play-icon"></div>
+        <div class="video-title">Como criar ticket e tarefa</div>
+        <div class="video-number">04</div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 7: CTA ===== -->
+    <div class="slide slide-cta" data-index="6">
+      <h2>Contacte-nos</h2>
+      <p>Descubra como o Libax CRM pode transformar a gestão dos seus clientes.</p>
+      <button class="btn-cta" onclick="alert('📞 Falar com vendas\n\nLigue: 800 200 482\nOu visite: libax.pt')">Falar com vendas</button>
+      <div class="contact-info">
+        <span>📞 800 200 482</span>
+        <span>✉️ crm@libax.pt</span>
+        <span>🌐 libax.pt</span>
+      </div>
+    </div>
+
+  </div><!-- /slides-track -->
+</div><!-- /slides-wrapper -->
+
+<!-- ===== NAVIGATION ARROWS ===== -->
+<button class="nav-arrow nav-prev" id="navPrev" aria-label="Slide anterior">‹</button>
+<button class="nav-arrow nav-next" id="navNext" aria-label="Próximo slide">›</button>
+
+<!-- ===== PROGRESS BAR ===== -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ===== SLIDE INDICATOR ===== -->
+<div class="slide-indicator" id="slideIndicator"></div>
+
+<!-- ===== KEYBOARD HINT ===== -->
+<div class="keyboard-hint" id="keyboardHint">←  Navegue com as setas  →</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const track = document.getElementById('slidesTrack');
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  const navPrev = document.getElementById('navPrev');
+  const navNext = document.getElementById('navNext');
+  const progressBar = document.getElementById('progressBar');
+  const indicator = document.getElementById('slideIndicator');
+  const keyboardHint = document.getElementById('keyboardHint');
+
+  let current = 0;
+  let isTransitioning = false;
+
+  // Build dots
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+    dot.dataset.index = i;
+    dot.addEventListener('click', function() { goTo(parseInt(this.dataset.index)); });
+    indicator.appendChild(dot);
+  }
+
+  const dots = indicator.querySelectorAll('.slide-dot');
+
+  function update() {
+    // Move track
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+
+    // Active slide class
+    slides.forEach(function(s, i) {
+      s.classList.toggle('active', i === current);
+    });
+
+    // Dots
+    dots.forEach(function(d, i) {
+      d.classList.toggle('active', i === current);
+    });
+
+    // Progress bar
+    progressBar.style.width = ((current + 1) / totalSlides * 100) + '%';
+
+    // Arrows visibility
+    navPrev.classList.toggle('visible', current > 0);
+    navNext.classList.toggle('visible', current < totalSlides - 1);
+
+    // Hide keyboard hint after first navigation
+    keyboardHint.classList.add('hidden');
+  }
+
+  function goTo(index) {
+    if (isTransitioning) return;
+    if (index < 0 || index >= totalSlides) return;
+    if (index === current) return;
+    isTransitioning = true;
+    current = index;
+    update();
+    setTimeout(function() { isTransitioning = false; }, 750);
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  // Arrow button clicks
+  navPrev.addEventListener('click', prev);
+  navNext.addEventListener('click', next);
+
+  // Keyboard navigation
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      next();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      prev();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      goTo(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      goTo(totalSlides - 1);
+    }
+  });
+
+  // Touch / swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) next();
+      else prev();
+    }
+  }, { passive: true });
+
+  // Mouse wheel navigation
+  let wheelTimeout = null;
+  document.addEventListener('wheel', function(e) {
+    // Only if the event isn't inside a scrollable area
+    if (e.target.closest('.features-grid')) return;
+    if (wheelTimeout) return;
+    wheelTimeout = setTimeout(function() { wheelTimeout = null; }, 800);
+    if (e.deltaY > 0) next();
+    else prev();
+  }, { passive: true });
+
+  // Initial state
+  update();
+
+  // Show hint briefly
+  setTimeout(function() {
+    keyboardHint.classList.add('hidden');
+  }, 5000);
+
+})();
+</script>
+</body>
+</html>
