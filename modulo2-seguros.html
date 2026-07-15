@@ -4,9 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Libax Seguros — Gestão de Carteira de Seguros</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,400;9..40,800&family=Fraunces:opsz,wght@9..144,200;9..144,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
 <style>
 :root {
   --libax-green: #6d9d30;
@@ -17,12 +15,9 @@
   --libax-alt-bg: #f2f2f4;
   --libax-text: #000;
   --libax-shadow: 4px 4px 2px #e4e4e4;
-  --serif:'Fraunces',ui-serif,Georgia,serif;
-  --sans:'DM Sans',ui-sans-serif,Helvetica,sans-serif;
-  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:var(--sans); line-height:1.45; color:var(--libax-text); background:#fff; overflow-x:hidden; }
+body { font-family:Roboto; line-height:1.45; color:var(--libax-text); background:#fff; overflow-x:hidden; }
 
 /* ===== Header ===== */
 .libax-header { background:var(--libax-green); color:#fff; padding:6px 0; position:fixed; top:0; left:0; right:0; z-index:1000; box-shadow:0 2px 8px rgba(0,0,0,.15); }
@@ -30,19 +25,19 @@ body { font-family:var(--sans); line-height:1.45; color:var(--libax-text); backg
 .libax-header nav ul { list-style:none; display:flex; gap:28px; }
 .libax-header nav a { color:#fff; text-decoration:none; font-size:15px; font-weight:400; padding-bottom:3px; border-bottom:3px solid transparent; transition:all .18s ease-in-out; }
 .libax-header nav a:hover, .libax-header nav a.active { border-bottom-color:#fff; }
-.libax-header .logo-text { font-size:22px; font-weight:800; color:#fff; letter-spacing:-.5px; }
-.libax-header .logo-text span { font-weight:200; }
-.libax-header .btn-trial { background:var(--libax-green-accent); border:1px solid var(--libax-green-dark); color:#fff; font-weight:800; padding:8px 20px; border-radius:3px; text-decoration:none; font-size:14px; transition:all .2s ease; }
+.libax-header .logo-text { font-size:22px; font-weight:700; color:#fff; letter-spacing:-.5px; }
+.libax-header .logo-text span { font-weight:300; }
+.libax-header .btn-trial { background:var(--libax-green-accent); border:1px solid var(--libax-green-dark); color:#fff; font-weight:700; padding:8px 20px; border-radius:3px; text-decoration:none; font-size:14px; transition:all .2s ease; }
 .libax-header .btn-trial:hover { background:#fff; color:var(--libax-green-dark); border-color:#57a300; }
 
 /* ===== Hero ===== */
 .hero { min-height:90vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #2d4a1a 0%, #6d9d30 60%, #9bbb59 100%); color:#fff; text-align:center; padding:100px 20px 60px; position:relative; overflow:hidden; }
 .hero::before { content:""; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='60' height='60' fill='none'/%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(255,255,255,.12)'/%3E%3C/svg%3E"); }
-.hero h2 { font-size:1.4em; font-family:var(--mono);font-weight:200; text-transform:uppercase; letter-spacing:3px; margin-bottom:10px; opacity:.9; }
-.hero h1 { font-size:4.5em; font-family:var(--serif);font-weight:200; margin-bottom:25px; text-shadow:0 2px 10px rgba(0,0,0,.2); }
-.hero p { font-size:1.3em; font-weight:200; max-width:650px; margin:0 auto 35px; opacity:.95; }
+.hero h2 { font-size:1.4em; font-family:Roboto;font-weight:300; text-transform:uppercase; letter-spacing:3px; margin-bottom:10px; opacity:.9; }
+.hero h1 { font-size:4.5em; font-family:Roboto;font-weight:300; margin-bottom:25px; text-shadow:0 2px 10px rgba(0,0,0,.2); }
+.hero p { font-size:1.3em; font-weight:300; max-width:650px; margin:0 auto 35px; opacity:.95; }
 .hero .cta-group { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-.hero .cta { background:var(--libax-green); color:#fff; text-decoration:none; padding:12px 28px; font-size:1.1em; font-family:var(--mono);font-weight:200; text-transform:uppercase; transition:all .5s ease; border:2px solid #fff; }
+.hero .cta { background:var(--libax-green); color:#fff; text-decoration:none; padding:12px 28px; font-size:1.1em; font-family:Roboto;font-weight:300; text-transform:uppercase; transition:all .5s ease; border:2px solid #fff; }
 .hero .cta:hover { background:#fff; color:var(--libax-green); }
 .hero .cta-secondary { background:transparent; border:2px solid #fff; }
 .hero .cta-secondary:hover { background:#fff; color:var(--libax-green); }
@@ -54,8 +49,8 @@ body { font-family:var(--sans); line-height:1.45; color:var(--libax-text); backg
 .section-alt { background:var(--libax-alt-bg); max-width:none; }
 .section-alt > .section-inner { max-width:1200px; margin:0 auto; }
 .section-header { text-align:center; margin-bottom:50px; }
-.section-header h1 { font-size:2.8em; font-family:var(--serif);font-weight:200; color:var(--libax-green); }
-.section-header p { font-size:1.15em; font-weight:200; color:#555; margin-top:10px; max-width:650px; margin-left:auto; margin-right:auto; }
+.section-header h1 { font-size:2.8em; font-family:Roboto;font-weight:300; color:var(--libax-green); }
+.section-header p { font-size:1.15em; font-weight:300; color:#555; margin-top:10px; max-width:650px; margin-left:auto; margin-right:auto; }
 
 /* ===== Feature cards ===== */
 .features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px; }
@@ -63,7 +58,7 @@ body { font-family:var(--sans); line-height:1.45; color:var(--libax-text); backg
 .feature-card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,.12); }
 .feature-card .icon-circle { width:70px; height:70px; border-radius:50%; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; background:var(--libax-green); color:#fff; font-size:28px; }
 .feature-card h3 { font-size:1.3em; font-weight:400; margin-bottom:10px; color:#333; }
-.feature-card p { font-size:.95em; color:#666; font-weight:200; }
+.feature-card p { font-size:.95em; color:#666; font-weight:300; }
 
 /* ===== Video placeholders ===== */
 .video-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:25px; margin-top:40px; }
@@ -81,8 +76,8 @@ body { font-family:var(--sans); line-height:1.45; color:var(--libax-text); backg
 
 /* ===== Split section ===== */
 .split-section { display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center; }
-.split-section .text-side h2 { font-size:2em; font-family:var(--serif);font-weight:200; color:var(--libax-green); margin-bottom:20px; }
-.split-section .text-side p { font-size:1.1em; font-weight:200; color:#555; margin-bottom:15px; }
+.split-section .text-side h2 { font-size:2em; font-family:Roboto;font-weight:300; color:var(--libax-green); margin-bottom:20px; }
+.split-section .text-side p { font-size:1.1em; font-weight:300; color:#555; margin-bottom:15px; }
 .split-section .visual-side { background:linear-gradient(135deg, #f2f2f4, #e8e8ec); border-radius:8px; padding:40px; text-align:center; box-shadow:var(--libax-shadow); border:1px solid #e0e0e0; }
 .mock-ui { background:#fff; border-radius:4px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,.08); text-align:left; }
 .mock-bar { height:8px; background:var(--libax-green); border-radius:4px; margin-bottom:15px; width:60%; }
@@ -93,9 +88,9 @@ body { font-family:var(--sans); line-height:1.45; color:var(--libax-text); backg
 
 /* ===== Pricing ===== */
 .pricing-box { text-align:center; padding:40px 30px; background:#fff; border:1px solid #f0f0f0; border-radius:4px; box-shadow:var(--libax-shadow); max-width:400px; margin:0 auto; }
-.pricing-box h3 { font-size:3em; font-family:var(--serif);font-weight:200; color:var(--libax-green); }
+.pricing-box h3 { font-size:3em; font-family:Roboto;font-weight:300; color:var(--libax-green); }
 .pricing-box span { font-size:.85em; color:#999; }
-.pricing-box .btn-cta { display:inline-block; margin-top:20px; background:rgba(95,176,0,.64); border:1px solid var(--libax-green-dark); color:#fff; font-weight:800; padding:12px 35px; border-radius:3px; text-decoration:none; font-size:1.05em; transition:all .2s ease; }
+.pricing-box .btn-cta { display:inline-block; margin-top:20px; background:rgba(95,176,0,.64); border:1px solid var(--libax-green-dark); color:#fff; font-weight:700; padding:12px 35px; border-radius:3px; text-decoration:none; font-size:1.05em; transition:all .2s ease; }
 .pricing-box .btn-cta:hover { background:#fff; color:var(--libax-green-dark); border-color:#57a300; }
 
 /* ===== Footer ===== */
@@ -356,7 +351,7 @@ body { font-family:var(--sans); line-height:1.45; color:var(--libax-text); backg
     </div>
     <div class="pricing-box reveal-scale">
       <h3>12,60 &euro;<span>/mês</span></h3>
-      <p style="margin-top:15px; color:#666; font-weight:200;">Gestão completa de carteira de seguros.</p>
+      <p style="margin-top:15px; color:#666; font-weight:300;">Gestão completa de carteira de seguros.</p>
       <a href="https://id.libax.com/register" class="btn-cta">Registar agora</a>
     </div>
   </div>
