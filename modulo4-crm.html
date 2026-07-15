@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Libax CRM — Gestão de Relacionamento com Clientes</title>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,400;9..40,800&family=Fraunces:opsz,wght@9..144,200;9..144,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --libax-green: #6d9d30;
@@ -15,27 +17,30 @@
   --libax-alt-bg: #f2f2f4;
   --libax-text: #000;
   --libax-shadow: 4px 4px 2px #e4e4e4;
+  --serif:'Fraunces',ui-serif,Georgia,serif;
+  --sans:'DM Sans',ui-sans-serif,Helvetica,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif; line-height:1.45; color:var(--libax-text); background:#fff; overflow-x:hidden; }
+body { font-family:var(--sans); line-height:1.45; color:var(--libax-text); background:#fff; overflow-x:hidden; }
 
 .libax-header { background:var(--libax-green); color:#fff; padding:6px 0; position:fixed; top:0; left:0; right:0; z-index:1000; box-shadow:0 2px 8px rgba(0,0,0,.15); }
 .libax-header .header-inner { max-width:1200px; margin:0 auto; padding:0 20px; display:flex; align-items:center; justify-content:space-between; }
 .libax-header nav ul { list-style:none; display:flex; gap:28px; }
 .libax-header nav a { color:#fff; text-decoration:none; font-size:15px; font-weight:400; padding-bottom:3px; border-bottom:3px solid transparent; transition:all .18s ease-in-out; }
 .libax-header nav a:hover, .libax-header nav a.active { border-bottom-color:#fff; }
-.libax-header .logo-text { font-size:22px; font-weight:700; color:#fff; letter-spacing:-.5px; }
-.libax-header .logo-text span { font-weight:300; }
-.libax-header .btn-trial { background:var(--libax-green-accent); border:1px solid var(--libax-green-dark); color:#fff; font-weight:700; padding:8px 20px; border-radius:3px; text-decoration:none; font-size:14px; transition:all .2s ease; }
+.libax-header .logo-text { font-size:22px; font-weight:800; color:#fff; letter-spacing:-.5px; }
+.libax-header .logo-text span { font-weight:200; }
+.libax-header .btn-trial { background:var(--libax-green-accent); border:1px solid var(--libax-green-dark); color:#fff; font-weight:800; padding:8px 20px; border-radius:3px; text-decoration:none; font-size:14px; transition:all .2s ease; }
 .libax-header .btn-trial:hover { background:#fff; color:var(--libax-green-dark); border-color:#57a300; }
 
 .hero { min-height:90vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #2d4a1a 0%, #6d9d30 60%, #9bbb59 100%); color:#fff; text-align:center; padding:100px 20px 60px; position:relative; overflow:hidden; }
 .hero::before { content:""; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='60' height='60' fill='none'/%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(255,255,255,.12)'/%3E%3C/svg%3E"); }
-.hero h2 { font-size:1.4em; font-weight:300; text-transform:uppercase; letter-spacing:3px; margin-bottom:10px; opacity:.9; }
-.hero h1 { font-size:4.5em; font-weight:700; margin-bottom:25px; text-shadow:0 2px 10px rgba(0,0,0,.2); }
-.hero p { font-size:1.3em; font-weight:300; max-width:600px; margin:0 auto 35px; opacity:.95; }
+.hero h2 { font-size:1.4em; font-family:var(--mono);font-weight:200; text-transform:uppercase; letter-spacing:3px; margin-bottom:10px; opacity:.9; }
+.hero h1 { font-size:4.5em; font-family:var(--serif);font-weight:200; margin-bottom:25px; text-shadow:0 2px 10px rgba(0,0,0,.2); }
+.hero p { font-size:1.3em; font-weight:200; max-width:600px; margin:0 auto 35px; opacity:.95; }
 .hero .cta-group { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-.hero .cta { background:var(--libax-green); color:#fff; text-decoration:none; padding:12px 28px; font-size:1.1em; font-weight:300; text-transform:uppercase; transition:all .5s ease; border:2px solid #fff; }
+.hero .cta { background:var(--libax-green); color:#fff; text-decoration:none; padding:12px 28px; font-size:1.1em; font-family:var(--mono);font-weight:200; text-transform:uppercase; transition:all .5s ease; border:2px solid #fff; }
 .hero .cta:hover { background:#fff; color:var(--libax-green); }
 .hero .cta-secondary { background:transparent; border:2px solid #fff; }
 .hero .cta-secondary:hover { background:#fff; color:var(--libax-green); }
@@ -46,15 +51,15 @@ body { font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif; line-he
 .section-alt { background:var(--libax-alt-bg); max-width:none; }
 .section-alt > .section-inner { max-width:1200px; margin:0 auto; }
 .section-header { text-align:center; margin-bottom:50px; }
-.section-header h1 { font-size:2.8em; font-weight:700; color:var(--libax-green); }
-.section-header p { font-size:1.15em; font-weight:300; color:#555; margin-top:10px; max-width:600px; margin-left:auto; margin-right:auto; }
+.section-header h1 { font-size:2.8em; font-family:var(--serif);font-weight:200; color:var(--libax-green); }
+.section-header p { font-size:1.15em; font-weight:200; color:#555; margin-top:10px; max-width:600px; margin-left:auto; margin-right:auto; }
 
 .features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px; }
 .feature-card { text-align:center; padding:35px 25px; background:#fff; border-radius:4px; box-shadow:var(--libax-shadow); border:1px solid #f0f0f0; transition:transform .3s ease, box-shadow .3s ease; }
 .feature-card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,.12); }
 .feature-card .icon-circle { width:70px; height:70px; border-radius:50%; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; background:var(--libax-green); color:#fff; font-size:28px; }
-.feature-card h3 { font-size:1.3em; font-weight:500; margin-bottom:10px; color:#333; }
-.feature-card p { font-size:.95em; color:#666; font-weight:300; }
+.feature-card h3 { font-size:1.3em; font-weight:400; margin-bottom:10px; color:#333; }
+.feature-card p { font-size:.95em; color:#666; font-weight:200; }
 
 .video-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:30px; margin-top:40px; }
 .video-placeholder { position:relative; aspect-ratio:16/9; background:linear-gradient(135deg, #2a3a1a, #6d9d30); border-radius:6px; overflow:hidden; cursor:pointer; box-shadow:var(--libax-shadow); border:1px solid #ddd; display:flex; align-items:center; justify-content:center; flex-direction:column; transition:transform .3s ease, box-shadow .3s ease; }
@@ -63,12 +68,12 @@ body { font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif; line-he
 .video-placeholder .play-icon { width:72px; height:72px; border-radius:50%; background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center; margin-bottom:15px; transition:all .3s ease; z-index:1; }
 .video-placeholder:hover .play-icon { background:#fff; transform:scale(1.1); }
 .video-placeholder .play-icon::after { content:""; border-left:22px solid var(--libax-green); border-top:14px solid transparent; border-bottom:14px solid transparent; margin-left:6px; }
-.video-placeholder .video-title { color:#fff; font-size:1.15em; font-weight:500; text-align:center; padding:0 20px; z-index:1; text-shadow:0 1px 4px rgba(0,0,0,.3); }
+.video-placeholder .video-title { color:#fff; font-size:1.15em; font-weight:400; text-align:center; padding:0 20px; z-index:1; text-shadow:0 1px 4px rgba(0,0,0,.3); }
 .video-placeholder .video-tag { position:absolute; top:12px; left:12px; background:rgba(109,157,48,.85); color:#fff; font-size:.75em; padding:4px 12px; border-radius:3px; font-weight:400; z-index:1; }
 
 .split-section { display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center; }
-.split-section .text-side h2 { font-size:2em; font-weight:700; color:var(--libax-green); margin-bottom:20px; }
-.split-section .text-side p { font-size:1.1em; font-weight:300; color:#555; margin-bottom:15px; }
+.split-section .text-side h2 { font-size:2em; font-family:var(--serif);font-weight:200; color:var(--libax-green); margin-bottom:20px; }
+.split-section .text-side p { font-size:1.1em; font-weight:200; color:#555; margin-bottom:15px; }
 .split-section .visual-side { background:linear-gradient(135deg, #f2f2f4, #e8e8ec); border-radius:8px; padding:40px; text-align:center; box-shadow:var(--libax-shadow); border:1px solid #e0e0e0; }
 .mock-ui { background:#fff; border-radius:4px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,.08); text-align:left; }
 .mock-bar { height:8px; background:var(--libax-green); border-radius:4px; margin-bottom:15px; width:60%; }
@@ -78,9 +83,9 @@ body { font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif; line-he
 .mock-line:nth-child(5) { width:70%; }
 
 .pricing-box { text-align:center; padding:40px 30px; background:#fff; border:1px solid #f0f0f0; border-radius:4px; box-shadow:var(--libax-shadow); max-width:400px; margin:0 auto; }
-.pricing-box h3 { font-size:3em; font-weight:700; color:var(--libax-green); }
+.pricing-box h3 { font-size:3em; font-family:var(--serif);font-weight:200; color:var(--libax-green); }
 .pricing-box span { font-size:.85em; color:#999; }
-.pricing-box .btn-cta { display:inline-block; margin-top:20px; background:rgba(95,176,0,.64); border:1px solid var(--libax-green-dark); color:#fff; font-weight:700; padding:12px 35px; border-radius:3px; text-decoration:none; font-size:1.05em; transition:all .2s ease; }
+.pricing-box .btn-cta { display:inline-block; margin-top:20px; background:rgba(95,176,0,.64); border:1px solid var(--libax-green-dark); color:#fff; font-weight:800; padding:12px 35px; border-radius:3px; text-decoration:none; font-size:1.05em; transition:all .2s ease; }
 .pricing-box .btn-cta:hover { background:#fff; color:var(--libax-green-dark); border-color:#57a300; }
 
 .libax-footer { background:var(--libax-green); color:#fff; padding:30px 20px; text-align:center; }
@@ -237,7 +242,7 @@ body { font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif; line-he
     </div>
     <div class="pricing-box reveal-scale">
       <h3>&euro;<span>Consulta</span></h3>
-      <p style="margin-top:15px; color:#666; font-weight:300;">Contacte-nos para um plano à medida do seu negócio.</p>
+      <p style="margin-top:15px; color:#666; font-weight:200;">Contacte-nos para um plano à medida do seu negócio.</p>
       <a href="https://www.libax.com/contact" class="btn-cta">Falar com vendas</a>
     </div>
   </div>
