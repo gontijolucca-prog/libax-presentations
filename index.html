@@ -8,13 +8,13 @@
 <style>
 :root{
   --ink:#000000;
-  --ink-soft:#777777;
-  --ink-dim:#999999;
+  --ink-soft:#444444;
+  --ink-dim:#666666;
   --bg:#ffffff;
-  --bg-2:#f2f2f4;
+  --bg-2:#ececed;
   --surface:#ffffff;
-  --line:#f0f0f0;
-  --line-strong:#e4e4e4;
+  --line:#d8d8d8;
+  --line-strong:#cccccc;
   --green:#6d9d30;
   --green-light:#9bbb59;
   --green-dark:#488500;
@@ -103,13 +103,13 @@ h1 em{
 /* RIGHT — modules grid */
 .modules{
   display:grid;grid-template-columns:1fr;gap:0;
-  border-top:1px solid var(--line);
+  border-top:1px solid var(--line-strong);
 }
 .modules a{
   display:grid;grid-template-columns:auto 1fr auto;gap:28px;
   align-items:center;
   padding:24px 0;
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid var(--line-strong);
   text-decoration:none;color:inherit;
   transition:padding .5s cubic-bezier(.16,1,.3,1), background .5s;
   position:relative;
@@ -129,7 +129,7 @@ h1 em{
 .name small{font-family:Roboto;font-weight:400;font-size:10px;letter-spacing:.2em;color:var(--ink-dim);display:block;margin-top:4px;text-transform:uppercase}
 .arrow{
   font-family:Roboto;font-size:14px;color:var(--ink-dim);
-  width:36px;height:36px;border:1px solid var(--line);border-radius:50%;
+  width:36px;height:36px;border:1px solid var(--line-strong);border-radius:50%;
   display:grid;place-items:center;
   transition:all .5s cubic-bezier(.16,1,.3,1);
 }
@@ -137,7 +137,7 @@ h1 em{
 footer{
   display:flex;justify-content:space-between;align-items:center;
   font-family:Roboto;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
-  padding-top:24px;border-top:1px solid var(--line);
+  padding-top:24px;border-top:1px solid var(--line-strong);
 }
 /* REVEAL */
 .r{opacity:0;transform:translateY(30px);transition:opacity 1.2s cubic-bezier(.16,1,.3,1), transform 1.2s cubic-bezier(.16,1,.3,1)}

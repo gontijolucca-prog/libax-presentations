@@ -7,9 +7,9 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#000000;--ink-soft:#777777;--ink-dim:#999999;
-  --bg:#ffffff;--bg-2:#f2f2f4;--surface:#ffffff;
-  --line:#f0f0f0;--line-strong:#e4e4e4;
+  --ink:#000000;--ink-soft:#444444;--ink-dim:#666666;
+  --bg:#ffffff;--bg-2:#ececed;--surface:#ffffff;
+  --line:#d8d8d8;--line-strong:#cccccc;
   --green:#6d9d30;--green-light:#9bbb59;--green-dark:#488500;
   --green-btn:#5fb000;--green-pale:#7cb731;
   --green-bright:#9bbb59;
@@ -59,7 +59,7 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 .overview h2 em{font-style:italic;font-weight:700;color:var(--lime)}
 .overview .subtitle{font-weight:300;font-size:18px;color:var(--ink-soft);margin-top:18px;max-width:540px;margin-left:auto;margin-right:auto}
 
-.features{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;max-width:1180px;width:100%;background:var(--line);border:1px solid var(--line)}
+.features{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;max-width:1180px;width:100%;background:var(--line);border:1px solid var(--line-strong)}
 .feat{grid-column:span 4;background:var(--bg-2);padding:36px 28px;text-align:left;position:relative;overflow:hidden;transition:background .5s cubic-bezier(.16,1,.3,1)}
 .feat:hover{background:var(--surface)}
 .feat .num{font-family:Roboto;font-size:10px;letter-spacing:.2em;color:var(--ink-dim);margin-bottom:32px;display:block}
@@ -73,7 +73,7 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 .feat--wide .title{font-size:30px;line-height:1.05}
 .feat--wide .desc{font-size:15px}
 .feat--wide .visual{grid-row:span 2;align-self:end;justify-self:end}
-.feat--wide .visual code{display:block;font-family:Roboto;font-size:10px;color:var(--ink-soft);line-height:1.85;background:var(--bg);padding:18px 22px;border:1px solid var(--line);border-radius:4px;white-space:pre;text-align:left}
+.feat--wide .visual code{display:block;font-family:Roboto;font-size:10px;color:var(--ink-soft);line-height:1.85;background:var(--bg);padding:18px 22px;border:1px solid var(--line-strong);border-radius:4px;white-space:pre;text-align:left}
 .feat--wide .visual code .k{color:var(--lime)}
 .feat--wide .visual code .v{color:var(--green-bright)}
 
@@ -93,7 +93,7 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 
 @media (max-width:780px){
   .features{grid-template-columns:1fr;background:transparent;border:none;gap:1px}
-  .feat,.feat--wide{grid-column:span 1;padding:28px 24px;background:var(--bg-2);border:1px solid var(--line)}
+  .feat,.feat--wide{grid-column:span 1;padding:28px 24px;background:var(--bg-2);border:1px solid var(--line-strong)}
   .feat--wide{grid-template-columns:1fr;padding:28px 24px}
   .feat--wide .visual{display:none}
   .hero h1{font-size:clamp(48px,11vw,80px)}
