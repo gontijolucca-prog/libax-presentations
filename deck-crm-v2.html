@@ -101,7 +101,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
 .btn{display:inline-flex;align-items:center;gap:12px;padding:18px 32px;font-family:Roboto;font-weight:700;font-size:15px;letter-spacing:-.01em;text-decoration:none;border-radius:6px;cursor:pointer;transition:all .4s cubic-bezier(.16,1,.3,1);border:1px solid transparent}
 
 /* Navigation */
-.nav-arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:70;width:54px;height:54px;background:rgba(255,255,255,.85);border:1px solid var(--line-strong);border-radius:50%;color:var(--ink);box-shadow:4px 4px 2px #e4e4e4;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .4s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(12px)}
+.nav-arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:80;width:54px;height:54px;background:rgba(255,255,255,.85);border:1px solid var(--line-strong);border-radius:50%;color:var(--ink);box-shadow:4px 4px 2px #e4e4e4;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .4s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(12px)}
 .nav-arrow:hover{background:var(--green);color:#fff;border-color:var(--green);transform:translateY(-50%) scale(1.05)}
 .nav-arrow.prev{left:24px}
 .nav-arrow.next{right:24px}
@@ -109,11 +109,11 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
 .nav-arrow:disabled{opacity:.35;cursor:not-allowed;background:rgba(255,255,255,.55);box-shadow:none}
 
 /* Progress bar */
-.progress-bar{position:fixed;bottom:0;left:0;right:0;height:3px;background:rgba(109,157,48,.12);z-index:70}
+.progress-bar{position:fixed;bottom:0;left:0;right:0;height:3px;background:rgba(109,157,48,.12);z-index:80}
 .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--green-light),var(--green));transition:width .6s cubic-bezier(.16,1,.3,1)}
 
 /* Slide indicator */
-.slide-indicator{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:70;display:flex;gap:8px;align-items:center}
+.slide-indicator{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:80;display:flex;gap:8px;align-items:center}
 .slide-dot{width:7px;height:7px;border-radius:50%;background:rgba(109,157,48,.08);border:none;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);padding:0}
 .slide-dot:hover{background:rgba(109,157,48,.40)}
 .slide-dot.active{background:var(--green);width:24px;border-radius:4px;box-shadow:0 0 0 0 transparent}
@@ -121,11 +121,11 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
 .slide-dot.section-dot.active{background:var(--green)}
 
 /* Slide counter */
-.slide-counter{position:fixed;bottom:24px;right:40px;z-index:70;font-family:Roboto;font-size:11px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
+.slide-counter{position:fixed;bottom:24px;right:40px;z-index:80;font-family:Roboto;font-size:11px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
 .slide-counter strong{color:var(--ink);font-weight:500;margin-right:4px}
 
 /* Keyboard hint */
-.kbd-hint{position:fixed;bottom:24px;left:40px;z-index:70;font-family:Roboto;font-size:10px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
+.kbd-hint{position:fixed;bottom:24px;left:40px;z-index:80;font-family:Roboto;font-size:10px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
 .kbd-hint kbd{display:inline-block;padding:2px 7px;border:1px solid var(--line-strong);border-radius:3px;font-family:inherit;font-size:10px;margin:0 3px;color:var(--ink-soft)}
 
 /* Reveal */
@@ -156,7 +156,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
   .slide,.nav-arrow,.btn,.slide-dot,.progress-bar-fill{transition-duration:.01ms !important}
 }
 </style>
-</head>
 <body>
 <svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
 
@@ -164,6 +163,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
 <div class="deck" id="deck">
   <div class="slides-track" id="slidesWrapper">
 
+    <!-- ============ SLIDE 1 — TITLE ============ -->
     <div class="slide slide-title">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
@@ -173,224 +173,258 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
       <p class="sub r d3">Contactos · Negócios · Tickets</p>
       <div class="scroll-hint r d4">Navegar<span class="line"></span></div>
     </div>
+
+    <!-- ============ SLIDE 2 — TÓPICO A ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
       <div class="heading r">
-        <div class="eyebrow">Visão geral</div>
-        <h2>O seu CRM é muito complicado? <em>Concentre-se no essencial.</em></h2>
-        <p class="subtitle">Do primeiro contacto ao fecho do negócio — sem ferramentas a mais, sem ruído.</p>
+        <div class="eyebrow">Funcionalidade · 01</div>
+        <h2>Contactos, <em>acompanhamento de negócio</em>, gestão de tickets e tarefas.</h2>
+        <p class="subtitle">Toda a operação num único ecrã — sem alternar entre janelas ou folhas de cálculo.</p>
       </div>
       <div class="features">
-      <div class="feat r">
-        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-        <span class="num">01 / 06</span>
-        <div class="title">Contactos, acompanhamento<br>de negócio, gestão de<br>tickets e tarefas</div>
-        <p class="desc">Toda a informação centralizada num único ecrã — sem alternar entre janelas ou folhas de cálculo.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d2">
-        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M3 21V8l4-3 4 3v13M11 21V11l3-2 3 2v10M19 21V14l3-1v8"/></svg>
-        <span class="num">02 / 06</span>
-        <div class="title">Relacionamento<br>automático<br>a empresas</div>
-        <p class="desc">Associações, moradas e histórico criados automaticamente a partir do NIF — sem preencher manualmente.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d3">
-        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/></svg>
-        <span class="num">03 / 06</span>
-        <div class="title">Gestão de equipas<br>com permissões<br>associadas</div>
-        <p class="desc">Defina quem vê o quê. Cada comercial só acede aos seus próprios clientes, tarefas e oportunidades.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d4">
-        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
-        <span class="num">04 / 06</span>
-        <div class="title">Notificação de tarefas<br>em tempo real</div>
-        <p class="desc">Tarefas urgentes chegam no momento em que são atribuídas. Nada fica perdido num email ou numa folha.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d5">
-        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="num">05 / 06</span>
-        <div class="title">Acompanhamento de<br>tarefas em tempo real</div>
-        <p class="desc">Veja quem está a trabalhar em quê, prazos a aproximar-se e bloqueios — sem pedir um relatório.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d6">
-        <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        <span class="num">06 / 06</span>
-        <div class="title">Geração de campanhas<br>com o <em>Libax Automate</em></div>
-        <p class="desc">Lance campanhas automaticamente a partir de filtros do CRM, ligando-se ao Libax Automate sem saír do fluxo de trabalho.</p>
-        <span class="accent"></span>
-      </div>
+        <div class="feat r d1">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M14 20a4 4 0 0 1 7 0"/></svg>
+          <span class="num">01 / 04</span>
+          <div class="title">Contactos</div>
+          <p class="desc">Ficha completa por cliente com morada PT, NIF e histórico desde o primeiro contacto.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d2">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M3 6h12l-2 4h2l-3 6h6"/></svg>
+          <span class="num">02 / 04</span>
+          <div class="title">Negócios</div>
+          <p class="desc">Pipeline visual por estados com valor, probabilidade e data de fecho prevista.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d3">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-2V8z"/><path d="M9 8v8"/></svg>
+          <span class="num">03 / 04</span>
+          <div class="title">Tickets</div>
+          <p class="desc">Pedidos de suporte com prioridade, estado e SLA. Tudo ligado ao cliente e ao responsável.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d4">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+          <span class="num">04 / 04</span>
+          <div class="title">Tarefas</div>
+          <p class="desc">Tarefas por utilizador com prazos, lembretes e ligação ao cliente ou negócio.</p>
+          <span class="accent"></span>
+        </div>
       </div>
     </div>
+
+    <!-- ============ SLIDE 3 — TÓPICO B ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
       <div class="heading r">
-        <div class="eyebrow">Detalhe · 01</div>
-        <h2>Como criar <em>cliente</em></h2>
-        <p class="subtitle">Ficha completa do contacto num único ecrã, com histórico desde o primeiro contacto.</p>
+        <div class="eyebrow">Funcionalidade · 02</div>
+        <h2>Relacionamento <em>automático</em> a empresas.</h2>
+        <p class="subtitle">Quando o NIF chega, a ficha do cliente preenche-se sozinha com morada e atividade.</p>
       </div>
       <div class="features">
-      <div class="feat r d1">
-        <span class="num">01 / 05</span>
-        <div class="title">Formulário<br>completo</div>
-        <p class="desc">Nome, email, telefone, empresa, NIF, morada e notas num só formulário, com validação em tempo real e obrigatoriedades configuráveis.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d2">
-        <span class="num">02 / 05</span>
-        <div class="title">Validação de<br>NIF</div>
-        <p class="desc">Verificação automática do NIF português contra a base oficial, com indicação imediata da validade e do nome fiscal associado.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d3">
-        <span class="num">03 / 05</span>
-        <div class="title">Morada em<br>Portugal</div>
-        <p class="desc">Preenchimento assistido de morada com base nos códigos postais PT, distrito, concelho e freguesia reconhecidos automaticamente.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d1">
-        <span class="num">04 / 05</span>
-        <div class="title">Campos<br>personalizados</div>
-        <p class="desc">Adicione campos à medida do negócio — listas, datas, números ou texto — sem programação e sempre disponíveis na ficha.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d2">
-        <span class="num">05 / 05</span>
-        <div class="title">Histórico<br>automático</div>
-        <p class="desc">Toda a interação fica registada desde o primeiro contacto — chamadas, emails, tarefas, negócios e alterações — numa linha temporal única.</p>
-        <span class="accent"></span>
-      </div>
+        <div class="feat r d1">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M3 21V8l4-3 4 3v13M11 21V11l3-2 3 2v10M19 21V14l3-1v8"/></svg>
+          <span class="num">01 / 04</span>
+          <div class="title">NIF → Empresa</div>
+          <p class="desc">Insere-se o NIF e o sistema puxa denominação, morada fiscal e atividade.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d2">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+          <span class="num">02 / 04</span>
+          <div class="title">Validação imediata</div>
+          <p class="desc">Verificação automática do NIF português, com indicação de validade.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d3">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><polygon points="12 2 22 8 12 14 2 8"/></svg>
+          <span class="num">03 / 04</span>
+          <div class="title">Sem duplicados</div>
+          <p class="desc">Se a empresa já existe, é associada — não cria registos repetidos.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d4">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="num">04 / 04</span>
+          <div class="title">Histórico herdado</div>
+          <p class="desc">A empresa já tem histórico de interações no CRM? Passa para a nova ficha automaticamente.</p>
+          <span class="accent"></span>
+        </div>
       </div>
     </div>
+
+    <!-- ============ SLIDE 4 — TÓPICO C ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
       <div class="heading r">
-        <div class="eyebrow">Detalhe · 02</div>
-        <h2>Como criar <em>negócio</em> e tarefa</h2>
-        <p class="subtitle">Pipeline visual, previsão de receita e tarefas associadas para nunca perder um passo.</p>
+        <div class="eyebrow">Funcionalidade · 03</div>
+        <h2>Gestão de <em>equipas</em> com permissões associadas.</h2>
+        <p class="subtitle">Cada comercial só vê os seus clientes e oportunidades. Regras por equipa ou papel.</p>
       </div>
       <div class="features">
-      <div class="feat r d1">
-        <span class="num">01 / 05</span>
-        <div class="title">Pipeline<br>visual</div>
-        <p class="desc">Vista de kanban com estados personalizáveis — aberto, qualificado, proposta, negociação, ganho e perdido — sempre sincronizada entre a equipa.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d2">
-        <span class="num">02 / 05</span>
-        <div class="title">Valor<br>esperado</div>
-        <p class="desc">Defina o valor do negócio e acompanhe a previsão de receita por etapa, com totais por estado, por agente e por período.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d3">
-        <span class="num">03 / 05</span>
-        <div class="title">Probabilidade<br>de fecho</div>
-        <p class="desc">Percentagem de probabilidade ajustável por estado, que alimenta automaticamente a previsão ponderada do pipeline.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d1">
-        <span class="num">04 / 05</span>
-        <div class="title">Data de<br>fecho</div>
-        <p class="desc">Data prevista e data real de fecho lado a lado, para comparar a cadência real com a expectativa e detetar desvios no pipeline.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d2">
-        <span class="num">05 / 05</span>
-        <div class="title">Tarefa<br>associada</div>
-        <p class="desc">Crie tarefas diretamente no negócio, atribuídas a um utilizador, com prazo e alerta, e veja tudo na agenda pessoal do agente.</p>
-        <span class="accent"></span>
-      </div>
+        <div class="feat r d1">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+          <span class="num">01 / 04</span>
+          <div class="title">Perfis e papéis</div>
+          <p class="desc">Crie papéis (Comercial, Gestor, Suporte) e atribua permissões por módulo.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d2">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="num">02 / 04</span>
+          <div class="title">Equipas</div>
+          <p class="desc">Agrupe utilizadores em equipas — cada equipa vê apenas os seus clientes.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d3">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span class="num">03 / 04</span>
+          <div class="title">Permissões granulares</div>
+          <p class="desc">Defina quem cria, quem edita e quem só consulta — por módulo ou por registo.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d4">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M12 2v6m0 0L9 5m3 3l3-3"/><rect x="3" y="11" width="18" height="11" rx="2"/></svg>
+          <span class="num">04 / 04</span>
+          <div class="title">Auditoria</div>
+          <p class="desc">Cada alteração fica registada com o utilizador e o momento exato.</p>
+          <span class="accent"></span>
+        </div>
       </div>
     </div>
+
+    <!-- ============ SLIDE 5 — TÓPICO D ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
       <div class="heading r">
-        <div class="eyebrow">Detalhe · 03</div>
-        <h2>Mostrar <em>pesquisas</em></h2>
-        <p class="subtitle">Pesquisa global com filtros combinados, pesquisas guardadas e exportação em segundos.</p>
+        <div class="eyebrow">Funcionalidade · 04</div>
+        <h2>Notificação de tarefas <em>em tempo real</em>.</h2>
+        <p class="subtitle">Tarefa atribuída é tarefa notificada — sem ficar esquecida num email ou numa folha.</p>
       </div>
       <div class="features">
-      <div class="feat r d1">
-        <span class="num">01 / 05</span>
-        <div class="title">Filtros por<br>nome e email</div>
-        <p class="desc">Pesquisa instantânea por nome próprio, nome fiscal, email principal e emails alternativos, com sugestões à medida que escreve.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d2">
-        <span class="num">02 / 05</span>
-        <div class="title">Filtros por<br>NIF e empresa</div>
-        <p class="desc">Pesquise por NIF ou por nome de empresa, e atravesse rapidamente do contacto para a entidade que representa.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d3">
-        <span class="num">03 / 05</span>
-        <div class="title">Filtros por<br>telefone</div>
-        <p class="desc">Pesquisa por número de telefone, com normalização automática dos formatos PT e correspondência em qualquer campo de contacto.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d1">
-        <span class="num">04 / 05</span>
-        <div class="title">Combinação<br>de filtros</div>
-        <p class="desc">Combine vários filtros em simultâneo — estado, agente, intervalo de datas, valor — para chegar ao resultado exato em poucos cliques.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d2">
-        <span class="num">05 / 05</span>
-        <div class="title">Guardar e<br>exportar</div>
-        <p class="desc">Guarde pesquisas frequentes para reutilização imediata pela equipa e exporte os resultados em CSV ou Excel para análise externa.</p>
-        <span class="accent"></span>
-      </div>
+        <div class="feat r d1">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <span class="num">01 / 04</span>
+          <div class="title">Push interno</div>
+          <p class="desc">Notificação instantânea no CRM quando uma tarefa é atribuída ou alterada.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d2">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+          <span class="num">02 / 04</span>
+          <div class="title">Por responsável</div>
+          <p class="desc">Cada comercial recebe só as tarefas que lhe dizem respeito — sem ruído.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d3">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <span class="num">03 / 04</span>
+          <div class="title">Prioridade visível</div>
+          <p class="desc">Tarefas urgentes em destaque no ecrã inicial, sempre à mão.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d4">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg>
+          <span class="num">04 / 04</span>
+          <div class="title">Mobile-friendly</div>
+          <p class="desc">As notificações chegam também no telemóvel, onde quer que esteja.</p>
+          <span class="accent"></span>
+        </div>
       </div>
     </div>
+
+    <!-- ============ SLIDE 6 — TÓPICO E ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
       <div class="heading r">
-        <div class="eyebrow">Detalhe · 04</div>
-        <h2>Como criar <em>ticket</em> e tarefa</h2>
-        <p class="subtitle">Suporte organizado por prioridade, estado e SLA, com tarefas sempre atribuídas a um agente.</p>
+        <div class="eyebrow">Funcionalidade · 05</div>
+        <h2>Acompanhamento de tarefas <em>em tempo real</em>.</h2>
+        <p class="subtitle">Veja quem está em quê, prazos a expirar e bloqueios — sem pedir um relatório.</p>
       </div>
       <div class="features">
-      <div class="feat r d1">
-        <span class="num">01 / 05</span>
-        <div class="title">Prioridade</div>
-        <p class="desc">Níveis de prioridade definidos como baixa, média, alta e urgente, com cores e ordenação automática da fila de suporte por gravidade.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d2">
-        <span class="num">02 / 05</span>
-        <div class="title">Estado do<br>ticket</div>
-        <p class="desc">Estados novo, em curso e fechado, com transições controladas e histórico da movimentação entre estados para auditoria.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d3">
-        <span class="num">03 / 05</span>
-        <div class="title">Atribuição a<br>agente</div>
-        <p class="desc">Atribua o ticket a um agente específico ou a uma equipa, com redistribuição rápida e visibilidade imediata de quem trata cada caso.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d1">
-        <span class="num">04 / 05</span>
-        <div class="title">SLA<br>configurável</div>
-        <p class="desc">Defina tempos de resposta e resolução por prioridade, com alertas visuais quando o SLA se aproxima ou é ultrapassado.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r d2">
-        <span class="num">05 / 05</span>
-        <div class="title">Tarefa<br>ligada</div>
-        <p class="desc">Crie tarefas associadas ao ticket, com responsável, prazo e alerta, para que cada passo do tratamento fique agendado e rastreável.</p>
-        <span class="accent"></span>
-      </div>
+        <div class="feat r d1">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="num">01 / 04</span>
+          <div class="title">Estado em direto</div>
+          <p class="desc">Veja quem está a trabalhar em cada tarefa, em tempo real.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d2">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 9-9"/><polyline points="3 4 3 9 8 9"/></svg>
+          <span class="num">02 / 04</span>
+          <div class="title">Prazos a expirar</div>
+          <p class="desc">Alerta visual para tarefas próximas do fim de prazo ou atrasadas.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d3">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18"/></svg>
+          <span class="num">03 / 04</span>
+          <div class="title">Bloqueios</div>
+          <p class="desc">Tarefas bloqueadas identificadas de imediato, sem pedir relatórios.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d4">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18"/></svg>
+          <span class="num">04 / 04</span>
+          <div class="title">Vistas por equipa</div>
+          <p class="desc">Vista partilhada por equipa ou gestor, sem expor dados individuais.</p>
+          <span class="accent"></span>
+        </div>
       </div>
     </div>
-    <button class="nav-arrow prev" id="prevBtn" aria-label="Slide anterior" disabled>
+
+    <!-- ============ SLIDE 7 — TÓPICO F ============ -->
+    <div class="slide slide-overview">
+      <div class="bg mesh"></div>
+      <div class="grid-overlay"></div>
+      <div class="heading r">
+        <div class="eyebrow">Funcionalidade · 06</div>
+        <h2>Geração de campanhas com o <em>Libax Automate</em>.</h2>
+        <p class="subtitle">Lance campanhas automáticas a partir de qualquer filtro do CRM, em poucos cliques.</p>
+      </div>
+      <div class="features">
+        <div class="feat r d1">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          <span class="num">01 / 04</span>
+          <div class="title">Filtros do CRM</div>
+          <p class="desc">Qualquer filtro avançado pode ser a base de uma campanha.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d2">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span class="num">02 / 04</span>
+          <div class="title">Sem sair do fluxo</div>
+          <p class="desc">Lançamento a partir do próprio CRM, sem alternar para outra ferramenta.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d3">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span class="num">03 / 04</span>
+          <div class="title">Libax Automate</div>
+          <p class="desc">As campanhas correm no Libax Automate — emails, SMS ou workflows.</p>
+          <span class="accent"></span>
+        </div>
+        <div class="feat r d4">
+          <svg class="icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
+          <span class="num">04 / 04</span>
+          <div class="title">Métricas</div>
+          <p class="desc">Resultados da campanha voltam ao CRM para análise e follow-up.</p>
+          <span class="accent"></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Nav arrows moved OUTSIDE .deck — direct children of <body> -->
+<button class="nav-arrow prev" id="prevBtn" aria-label="Slide anterior" disabled>
   <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
 </button>
 <button class="nav-arrow next" id="nextBtn" aria-label="Próximo slide">
@@ -398,7 +432,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
 </button>
 <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
 <div class="slide-indicator" id="slideIndicator"></div>
-<div class="slide-counter"><strong>1</strong> / 6</div>
+<div class="slide-counter"><strong>1</strong> / 7</div>
 <div class="kbd-hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>Home</kbd> início · <kbd>End</kbd> fim</div>
 
 <script>
