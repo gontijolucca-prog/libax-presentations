@@ -126,7 +126,11 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
 
 /* Keyboard hint */
 .kbd-hint{position:fixed;bottom:24px;left:40px;z-index:80;font-family:Roboto;font-size:10px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
-.kbd-hint kbd{display:inline-block;padding:2px 7px;border:1px solid var(--line-strong);border-radius:3px;font-family:inherit;font-size:10px;margin:0 3px;color:var(--ink-soft)}
+.kbd-hint kbd,.kbd-hint .kbd-btn{display:inline-block;padding:2px 7px;border:1px solid var(--line-strong);border-radius:3px;font-family:inherit;font-size:10px;margin:0 3px;color:var(--ink-soft);background:rgba(255,255,255,.85);line-height:1;vertical-align:middle}
+.kbd-hint .kbd-btn{cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(12px);box-shadow:2px 2px 1px #ececec}
+.kbd-hint .kbd-btn:hover{background:var(--green);color:#fff;border-color:var(--green);transform:scale(1.08);box-shadow:2px 2px 1px rgba(109,157,48,.35)}
+.kbd-hint .kbd-btn:focus-visible{outline:none;background:var(--green);color:#fff;border-color:var(--green)}
+.kbd-hint .kbd-btn:disabled{opacity:.35;cursor:not-allowed;background:rgba(255,255,255,.55);color:var(--ink-soft);border-color:var(--line-strong);box-shadow:none;transform:none}
 
 /* Reveal */
 .r{opacity:1;transform:translateY(0);transition:opacity 1.2s cubic-bezier(.16,1,.3,1), transform 1.2s cubic-bezier(.16,1,.3,1)}
@@ -149,6 +153,16 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
   .scroll-hint .line{animation:none}
   .slide,.nav-arrow,.btn,.slide-dot,.progress-bar-fill{transition-duration:.01ms !important}
 }
+
+.feat[data-goto]{cursor:pointer}
+.feat[data-goto] .feat-arrow{position:absolute;right:24px;top:50%;color:var(--lime);font-size:24px;line-height:1;opacity:0;transform:translate(-6px,-50%);transition:opacity .2s ease,transform .2s ease}
+.feat[data-goto]:hover .feat-arrow,.feat[data-goto]:focus-visible .feat-arrow{opacity:1;transform:translate(0,-50%)}
+.feat[data-goto]:hover{box-shadow:inset -3px 0 0 var(--lime)}
+.feat[data-goto] .accent{transition-duration:.35s}
+@media (prefers-reduced-motion:reduce){
+  .feat[data-goto] .feat-arrow{transition:none}
+  .feat[data-goto] .accent{transition-duration:.01ms}
+}
 </style>
 <body>
 <svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
@@ -161,47 +175,67 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
     <div class="slide slide-title">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
-      <span class="badge r">Pipeline · Contactos · Suporte</span>
+      <span class="badge r">Processos de venda · Contactos · Suporte</span>
       <h1 class="r d1">Libax<br><em>CRM</em></h1>
       <p class="tagline r d2">O seu CRM é muito complicado? <strong>Concentre-se no essencial</strong></p>
       <p class="sub r d3">Contactos · Negócios · Tickets</p>
       <div class="scroll-hint r d4">Navegar<span class="line"></span></div>
     </div>
 
-    <!-- ============ SLIDE 2 — CONTACTOS ============ -->
+    <!-- ============ SLIDE 2 — ÍNDICE ============ -->
+    <div class="slide slide-overview">
+      <div class="bg mesh"></div>
+      <div class="grid-overlay"></div>
+      <div class="heading r">
+        <div class="eyebrow">Índice</div>
+        <h2>O que vamos <em>ver</em>.</h2>
+      </div>
+      <div class="features">
+        <div class="feat" role="button" tabindex="0" data-goto="2"><span class="num">01</span><span class="title">Contactos</span><span class="feat-arrow" aria-hidden="true">→</span></div>
+        <div class="feat" role="button" tabindex="0" data-goto="3"><span class="num">02</span><span class="title">Acompanhamento de negócio</span><span class="feat-arrow" aria-hidden="true">→</span></div>
+        <div class="feat" role="button" tabindex="0" data-goto="4"><span class="num">03</span><span class="title">Gestão de tickets e tarefas</span><span class="feat-arrow" aria-hidden="true">→</span></div>
+        <div class="feat" role="button" tabindex="0" data-goto="5"><span class="num">04</span><span class="title">Relacionamento automático a empresas</span><span class="feat-arrow" aria-hidden="true">→</span></div>
+        <div class="feat" role="button" tabindex="0" data-goto="6"><span class="num">05</span><span class="title">Gestão de equipas com permissões associadas</span><span class="feat-arrow" aria-hidden="true">→</span></div>
+        <div class="feat" role="button" tabindex="0" data-goto="7"><span class="num">06</span><span class="title">Notificação de tarefas em tempo real</span><span class="feat-arrow" aria-hidden="true">→</span></div>
+        <div class="feat" role="button" tabindex="0" data-goto="8"><span class="num">07</span><span class="title">Acompanhamento de tarefas em tempo real</span><span class="feat-arrow" aria-hidden="true">→</span></div>
+        <div class="feat" role="button" tabindex="0" data-goto="9"><span class="num">08</span><span class="title">Geração de campanhas com o Libax Automate</span><span class="feat-arrow" aria-hidden="true">→</span></div>
+      </div>
+    </div>
+
+    <!-- ============ SLIDE 3 — CONTACTOS ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
       <div class="heading r">
         <div class="eyebrow">Funcionalidade · 01</div>
-        <h2>Contactos, <em>tudo num único ecrã</em>.</h2>
+        <h2><em>Contactos</em>, tudo num único ecrã.</h2>
         <p class="subtitle">Ficha completa por cliente com morada PT, NIF e histórico desde o primeiro contacto.</p>
       </div>
     </div>
 
-    <!-- ============ SLIDE 3 — ACOMPANHAMENTO DE NEGÓCIO ============ -->
+    <!-- ============ SLIDE 4 — ACOMPANHAMENTO DE NEGÓCIO ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
       <div class="heading r">
         <div class="eyebrow">Funcionalidade · 02</div>
         <h2>Acompanhamento de <em>negócio</em>, sem folha de cálculo.</h2>
-        <p class="subtitle">Pipeline visual por estados com valor, probabilidade e data de fecho prevista.</p>
+        <p class="subtitle">Processo de venda visual por etapas, com valor, probabilidade e data de fecho prevista.</p>
       </div>
     </div>
 
-    <!-- ============ SLIDE 4 — GESTÃO DE TICKETS E TAREFAS ============ -->
+    <!-- ============ SLIDE 5 — GESTÃO DE TICKETS E TAREFAS ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
       <div class="heading r">
         <div class="eyebrow">Funcionalidade · 03</div>
         <h2>Gestão de <em>tickets</em> e tarefas.</h2>
-        <p class="subtitle">Pedidos de suporte com prioridade, estado e SLA, ligados ao cliente e ao responsável.</p>
+        <p class="subtitle">Pedidos de suporte com prioridade, estado e tempo de resposta, ligados ao cliente e ao responsável.</p>
       </div>
     </div>
 
-    <!-- ============ SLIDE 5 — TÓPICO B ============ -->
+    <!-- ============ SLIDE 6 — RELACIONAMENTO AUTOMÁTICO A EMPRESAS ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
@@ -212,7 +246,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
       </div>
     </div>
 
-    <!-- ============ SLIDE 6 — TÓPICO C ============ -->
+    <!-- ============ SLIDE 7 — GESTÃO DE EQUIPAS COM PERMISSÕES ASSOCIADAS ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
@@ -223,7 +257,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
       </div>
     </div>
 
-    <!-- ============ SLIDE 7 — TÓPICO D ============ -->
+    <!-- ============ SLIDE 8 — NOTIFICAÇÃO DE TAREFAS EM TEMPO REAL ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
@@ -234,7 +268,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
       </div>
     </div>
 
-    <!-- ============ SLIDE 8 — TÓPICO E ============ -->
+    <!-- ============ SLIDE 9 — ACOMPANHAMENTO DE TAREFAS EM TEMPO REAL ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
@@ -245,7 +279,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
       </div>
     </div>
 
-    <!-- ============ SLIDE 9 — TÓPICO F ============ -->
+    <!-- ============ SLIDE 10 — GERAÇÃO DE CAMPANHAS COM O LIBAX AUTOMATE ============ -->
     <div class="slide slide-overview">
       <div class="bg mesh"></div>
       <div class="grid-overlay"></div>
@@ -268,8 +302,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
 </button>
 <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
 <div class="slide-indicator" id="slideIndicator"></div>
-<div class="slide-counter"><strong>1</strong> / 7</div>
-<div class="kbd-hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>Home</kbd> início · <kbd>End</kbd> fim</div>
+<div class="slide-counter"><strong>1</strong> / <span class="total">10</span></div>
+<div class="kbd-hint"><button type="button" class="kbd-btn" data-action="prev" aria-label="Slide anterior">←</button> <button type="button" class="kbd-btn" data-action="next" aria-label="Próximo slide">→</button> navegar · <button type="button" class="kbd-btn" data-action="home" aria-label="Primeiro slide">Home</button> início · <button type="button" class="kbd-btn" data-action="end" aria-label="Último slide">End</button> fim</div>
 
 <script>
 (function(){
@@ -283,6 +317,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
   const progressFill=document.getElementById('progressFill');
   const indicator=document.getElementById('slideIndicator');
   const counter=document.querySelector('.slide-counter strong');
+  const counterTotal=document.querySelector('.slide-counter .total');
 
   for(let i=0;i<total;i++){
     const dot=document.createElement('button');
@@ -294,13 +329,22 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
   }
   const dots=indicator.querySelectorAll('.slide-dot');
 
+  const hintBtns=document.querySelectorAll('.kbd-hint .kbd-btn');
   function updateUI(){
     wrapper.style.transform='translateX(-'+(current*100)+'vw)';
     progressFill.style.width=((current+1)/total*100)+'%';
     counter.textContent=current+1;
+    if(counterTotal){ counterTotal.textContent=total; }
     dots.forEach(function(d,i){ d.classList.toggle('active',i===current); });
     nextBtn.disabled=(current===total-1);
     prevBtn.disabled=(current===0);
+    hintBtns.forEach(function(b){
+      var a=b.dataset.action;
+      if(a==='prev') b.disabled=(current===0);
+      else if(a==='next') b.disabled=(current===total-1);
+      else if(a==='home') b.disabled=(current===0);
+      else if(a==='end') b.disabled=(current===total-1);
+    });
   }
   function goTo(idx){
     if(animating||idx<0||idx>=total) return;
@@ -309,6 +353,26 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Roboto;background:#
   }
   nextBtn.addEventListener('click',function(){goTo(current+1);});
   prevBtn.addEventListener('click',function(){goTo(current-1);});
+  hintBtns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var a=this.dataset.action;
+      if(a==='prev') goTo(current-1);
+      else if(a==='next') goTo(current+1);
+      else if(a==='home') goTo(0);
+      else if(a==='end') goTo(total-1);
+    });
+  });
+  const toc=document.querySelector('.features');
+  toc.addEventListener('click',function(e){
+    const item=e.target.closest('[data-goto]');
+    if(item&&toc.contains(item)) goTo(parseInt(item.dataset.goto,10));
+  });
+  toc.addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '){
+      const item=e.target.closest('[data-goto]');
+      if(item&&toc.contains(item)){e.preventDefault();goTo(parseInt(item.dataset.goto,10));}
+    }
+  });
   document.addEventListener('keydown',function(e){
     if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();goTo(current+1);}
     else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();goTo(current-1);}
