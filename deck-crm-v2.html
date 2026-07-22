@@ -86,6 +86,30 @@ body{font-family:Roboto;background:#fff;color:#000;-webkit-font-smoothing:antial
 @media (prefers-reduced-motion: reduce){
   .toc-item:hover{transform:none}
 }
+
+/* Sidebar */
+.sidebar{position:fixed;top:50%;left:24px;transform:translateY(-50%);z-index:80;display:flex;flex-direction:column;gap:6px;max-width:240px;pointer-events:auto}
+.sidebar-item{display:flex;align-items:baseline;gap:12px;padding:6px 8px 6px 16px;background:transparent;border:0;border-left:2px solid transparent;font-family:Roboto;color:var(--ink-dim);text-align:left;cursor:pointer;transition:color .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1),transform .35s cubic-bezier(.16,1,.3,1);font-size:13.5px;letter-spacing:.02em;line-height:1.25}
+.sidebar-item .num{flex:0 0 auto;font-weight:500;font-size:11.5px;letter-spacing:.18em;color:var(--ink-dim);transition:color .3s cubic-bezier(.16,1,.3,1)}
+.sidebar-item .label{flex:1 1 auto;font-weight:500}
+.sidebar-item:hover{transform:translateX(3px);color:var(--ink)}
+.sidebar-item:hover .num{color:var(--lime)}
+.sidebar-item:focus-visible{outline:none;color:var(--ink)}
+.sidebar-item.is-active{color:var(--ink);border-left-color:var(--green)}
+.sidebar-item.is-active .num{color:var(--lime)}
+.sidebar-toggle{position:fixed;top:24px;left:24px;z-index:81;width:36px;height:36px;background:rgba(255,255,255,.85);border:1px solid var(--line-strong);border-radius:6px;color:var(--ink);cursor:pointer;display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px);transition:background .3s ease,color .3s ease}
+.sidebar-toggle:hover{background:var(--green);color:#fff;border-color:var(--green)}
+.sidebar-toggle svg{width:18px;height:18px;fill:currentColor}
+body.sidebar-closed .sidebar{transform:translateY(-50%) translateX(-120%)}
+body.sidebar-closed .sidebar-toggle{display:flex}
+@media (max-width:980px){
+  .sidebar{left:auto;right:24px;transform:translateY(-50%)}
+  body.sidebar-closed .sidebar{transform:translateY(-50%) translateX(120%)}
+  .sidebar-toggle{left:auto;right:24px}
+}
+@media (max-width:780px){
+  .sidebar{display:none}
+}
 </style>
 </head>
 <body>
@@ -94,6 +118,21 @@ body{font-family:Roboto;background:#fff;color:#000;-webkit-font-smoothing:antial
 <!-- OFFICIAL LIBAX HEADER -->
 <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
 <div class="counter" id="counter">01 / 10</div>
+
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Mostrar índice lateral" type="button">
+  <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+</button>
+
+<aside class="sidebar" id="sidebar" aria-label="Índice lateral">
+  <button type="button" class="sidebar-item" data-goto="2"><span class="num">01</span><span class="label">Contactos</span></button>
+  <button type="button" class="sidebar-item" data-goto="3"><span class="num">02</span><span class="label">Empresas (NIF)</span></button>
+  <button type="button" class="sidebar-item" data-goto="4"><span class="num">03</span><span class="label">Negócio</span></button>
+  <button type="button" class="sidebar-item" data-goto="5"><span class="num">04</span><span class="label">Tarefas</span></button>
+  <button type="button" class="sidebar-item" data-goto="6"><span class="num">05</span><span class="label">Tarefas em tempo real</span></button>
+  <button type="button" class="sidebar-item" data-goto="7"><span class="num">06</span><span class="label">Equipas</span></button>
+  <button type="button" class="sidebar-item" data-goto="8"><span class="num">07</span><span class="label">Tickets</span></button>
+  <button type="button" class="sidebar-item" data-goto="9"><span class="num">08</span><span class="label">Campanhas Automate</span></button>
+</aside>
 
 <div class="deck" id="deck">
 
@@ -265,6 +304,38 @@ body{font-family:Roboto;background:#fff;color:#000;-webkit-font-smoothing:antial
           const target=sections[idx];
           if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
         }
+      }
+    });
+  }
+
+  /* Sidebar */
+  const sidebarItems=document.querySelectorAll('.sidebar-item');
+  const sidebarToggle=document.getElementById('sidebarToggle');
+  if(sidebarItems.length){
+    sidebarItems.forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const idx=parseInt(btn.dataset.goto,10);
+        const target=sections[idx];
+        if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+    const sbObserver=new IntersectionObserver((entries)=>{
+      entries.forEach(en=>{
+        if(!en.isIntersecting) return;
+        const idx=[...sections].indexOf(en.target);
+        if(idx<0) return;
+        sidebarItems.forEach(b=>b.classList.toggle('is-active',parseInt(b.dataset.goto,10)===idx));
+      });
+    },{root:deck,threshold:[0.5]});
+    sections.forEach(s=>sbObserver.observe(s));
+    if(sidebarToggle){
+      sidebarToggle.addEventListener('click',()=>{
+        document.body.classList.remove('sidebar-closed');
+      });
+    }
+    document.addEventListener('keydown',(e)=>{
+      if(e.key==='Escape' && !document.body.classList.contains('sidebar-closed')){
+        document.body.classList.add('sidebar-closed');
       }
     });
   }
