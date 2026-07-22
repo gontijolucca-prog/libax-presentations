@@ -379,15 +379,25 @@ body.sidebar-closed .sidebar-toggle{display:flex}
         if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
       });
     });
-    const sbObserver=new IntersectionObserver((entries)=>{
-      entries.forEach(en=>{
-        if(!en.isIntersecting) return;
-        const idx=[...sections].indexOf(en.target);
-        if(idx<0) return;
-        sidebarItems.forEach(b=>b.classList.toggle('is-active',parseInt(b.dataset.goto,10)===idx));
+    sections.forEach((s,i)=>{s.dataset.section=i;});
+    function updateActiveSidebar(){
+      const viewportTop=deck.scrollTop;
+      const viewportBottom=viewportTop+deck.clientHeight;
+      let activeIdx=0;
+      let bestRatio=0;
+      sections.forEach((s,i)=>{
+        const top=s.offsetTop;
+        const bottom=top+s.offsetHeight;
+        const visibleTop=Math.max(top,viewportTop);
+        const visibleBottom=Math.min(bottom,viewportBottom);
+        const visible=Math.max(0,visibleBottom-visibleTop);
+        const ratio=visible/s.offsetHeight;
+        if(ratio>bestRatio){bestRatio=ratio;activeIdx=i;}
       });
-    },{root:deck,threshold:[0.5]});
-    sections.forEach(s=>sbObserver.observe(s));
+      sidebarItems.forEach(b=>b.classList.toggle('is-active',parseInt(b.dataset.goto,10)===activeIdx));
+    }
+    deck.addEventListener('scroll',updateActiveSidebar,{passive:true});
+    updateActiveSidebar();
     if(sidebarToggle){
       sidebarToggle.addEventListener('click',()=>{
         document.body.classList.remove('sidebar-closed');
