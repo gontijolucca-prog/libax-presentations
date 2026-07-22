@@ -118,6 +118,12 @@ body{font-family:Roboto;background:#fff;color:#000;-webkit-font-smoothing:antial
 .sidebar-item:focus-visible{outline:none;color:var(--ink)}
 .sidebar-item.is-active{color:var(--ink);border-left-color:var(--green)}
 .sidebar-item.is-active .num{color:var(--lime)}
+.sidebar-item--front{padding-left:16px}
+.sidebar-item--front .label{font-weight:400;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim)}
+.sidebar-item--front:hover .label{color:var(--ink)}
+.sidebar-item--front.is-active .label{color:var(--ink)}
+.sidebar-item--front.is-active{border-left-color:var(--line-strong)}
+.sidebar-divider{display:block;height:1px;background:var(--line);margin:8px 8px 4px 16px}
 .sidebar-toggle{position:fixed;top:24px;left:24px;z-index:81;width:36px;height:36px;background:rgba(255,255,255,.85);border:1px solid var(--line-strong);border-radius:6px;color:var(--ink);cursor:pointer;display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px);transition:background .3s ease,color .3s ease}
 .sidebar-toggle:hover{background:var(--green);color:#fff;border-color:var(--green)}
 .sidebar-toggle svg{width:18px;height:18px;fill:currentColor}
@@ -145,6 +151,10 @@ body.sidebar-closed .sidebar-toggle{display:flex}
 </button>
 
 <aside class="sidebar" id="sidebar" aria-label="Índice lateral">
+  <button type="button" class="sidebar-item sidebar-item--front" data-goto="0"><span class="label">Capa</span></button>
+  <button type="button" class="sidebar-item sidebar-item--front" data-goto="1"><span class="label">Roadmap</span></button>
+  <button type="button" class="sidebar-item sidebar-item--front" data-goto="2"><span class="label">Índice</span></button>
+  <span class="sidebar-divider" aria-hidden="true"></span>
   <button type="button" class="sidebar-item" data-goto="4"><span class="num">01</span><span class="label">Contactos</span></button>
   <button type="button" class="sidebar-item" data-goto="5"><span class="num">02</span><span class="label">Empresas (email)</span></button>
   <button type="button" class="sidebar-item" data-goto="9"><span class="num">03</span><span class="label">Equipas</span></button>
