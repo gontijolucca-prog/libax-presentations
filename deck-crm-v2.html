@@ -52,6 +52,18 @@ body{font-family:Roboto;background:#fff;color:#000;-webkit-font-smoothing:antial
 .section-overview h2 em{font-style:italic;font-weight:700;color:var(--lime)}
 .section-overview .subtitle{font-weight:300;font-size:23.8px;color:var(--ink-soft);margin-top:18px;max-width:540px;margin-left:auto;margin-right:auto}
 
+/* Roadmap section */
+.section-roadmap .heading{margin-bottom:48px;max-width:880px;margin-left:auto;margin-right:auto}
+.section-roadmap .eyebrow{font-family:Roboto;font-size:14.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
+.section-roadmap h2{font-family:Roboto;font-weight:300;font-size:clamp(52.8px,6vw,95px);line-height:1;letter-spacing:-.025em;margin-bottom:24px}
+.section-roadmap h2 em{font-style:italic;font-weight:700;color:var(--lime)}
+.section-roadmap .subtitle{font-weight:300;font-size:17.2px;color:var(--ink-soft);margin-top:18px;max-width:780px;margin-left:auto;margin-right:auto;line-height:1.55}
+.roadmap{list-style:none;margin:32px 0 0;padding:0;max-width:880px;width:100%;text-align:left;display:flex;flex-direction:column;gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.roadmap li{display:flex;align-items:baseline;gap:24px;padding:18px 24px;background:var(--bg)}
+.roadmap .phase{flex:0 0 96px;font-family:Roboto;font-weight:500;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime)}
+.roadmap .phase-desc{flex:1 1 auto;font-weight:500;font-size:17.2px;letter-spacing:-.01em;color:var(--ink)}
+.roadmap .phase-when{flex:0 0 auto;font-weight:300;font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);text-align:right;min-width:140px}
+
 .toc{list-style:none;margin:0;padding:0;max-width:880px;width:100%;text-align:left}
 .toc-item{display:flex;align-items:baseline;gap:32px;width:100%;padding:18px 0;background:transparent;border:0;border-bottom:1px solid var(--line);font-family:Roboto;color:var(--ink);text-align:left;cursor:pointer;transition:transform .35s cubic-bezier(.16,1,.3,1)}
 .toc-item:last-child{border-bottom:0}
@@ -74,6 +86,10 @@ body{font-family:Roboto;background:#fff;color:#000;-webkit-font-smoothing:antial
   .toc-item{padding:14px 0;gap:24px}
   .toc-item .num{font-size:26px}
   .toc-item .title{font-size:18px}
+  .roadmap li{flex-wrap:wrap;gap:8px 16px;padding:14px 16px}
+  .roadmap .phase{flex:0 0 80px;font-size:11px}
+  .roadmap .phase-desc{flex:1 1 100%;order:3;font-size:16px}
+  .roadmap .phase-when{flex:0 0 auto;font-size:11.5px;text-align:right;min-width:0}
   .section{padding:80px 24px}
   .section-title h1{font-size:clamp(63.4px,13.2vw,105.6px)}
   .counter{right:36px;font-size:13.2px}
@@ -117,21 +133,21 @@ body.sidebar-closed .sidebar-toggle{display:flex}
 
 <!-- OFFICIAL LIBAX HEADER -->
 <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-<div class="counter" id="counter">01 / 10</div>
+<div class="counter" id="counter">01 / 11</div>
 
 <button class="sidebar-toggle" id="sidebarToggle" aria-label="Mostrar índice lateral" type="button">
   <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
 </button>
 
 <aside class="sidebar" id="sidebar" aria-label="Índice lateral">
-  <button type="button" class="sidebar-item" data-goto="2"><span class="num">01</span><span class="label">Contactos</span></button>
-  <button type="button" class="sidebar-item" data-goto="3"><span class="num">02</span><span class="label">Empresas (email)</span></button>
-  <button type="button" class="sidebar-item" data-goto="8"><span class="num">03</span><span class="label">Equipas</span></button>
-  <button type="button" class="sidebar-item" data-goto="4"><span class="num">04</span><span class="label">Negócio</span></button>
-  <button type="button" class="sidebar-item" data-goto="5"><span class="num">05</span><span class="label">Tarefas</span></button>
-  <button type="button" class="sidebar-item" data-goto="6"><span class="num">06</span><span class="label">Tarefas em tempo real</span></button>
-  <button type="button" class="sidebar-item" data-goto="7"><span class="num">07</span><span class="label">Tickets</span></button>
-  <button type="button" class="sidebar-item" data-goto="9"><span class="num">08</span><span class="label">Campanhas Automate</span></button>
+  <button type="button" class="sidebar-item" data-goto="4"><span class="num">01</span><span class="label">Contactos</span></button>
+  <button type="button" class="sidebar-item" data-goto="5"><span class="num">02</span><span class="label">Empresas (email)</span></button>
+  <button type="button" class="sidebar-item" data-goto="9"><span class="num">03</span><span class="label">Equipas</span></button>
+  <button type="button" class="sidebar-item" data-goto="10"><span class="num">04</span><span class="label">Negócio</span></button>
+  <button type="button" class="sidebar-item" data-goto="6"><span class="num">05</span><span class="label">Tarefas</span></button>
+  <button type="button" class="sidebar-item" data-goto="7"><span class="num">06</span><span class="label">Tarefas em tempo real</span></button>
+  <button type="button" class="sidebar-item" data-goto="8"><span class="num">07</span><span class="label">Tickets</span></button>
+  <button type="button" class="sidebar-item" data-goto="11"><span class="num">08</span><span class="label">Campanhas Automate</span></button>
 </aside>
 
 <div class="deck" id="deck">
@@ -147,7 +163,27 @@ body.sidebar-closed .sidebar-toggle{display:flex}
     <div class="scroll-hint r d4">Descer<span class="line"></span></div>
   </section>
 
-  <!-- ============ SECTION 2 — ÍNDICE ============ -->
+  <!-- ============ SECTION 2 — INTRO (fases) ============ -->
+  <section class="section section-roadmap">
+    <div class="bg mesh"></div>
+    <div class="grid-overlay"></div>
+    <div class="heading r">
+      <div class="eyebrow">Roadmap</div>
+      <h2>Fase 1, <em>atual</em>.</h2>
+      <p class="subtitle">"O seu CRM é muito complicado? Concentre-se no essencial" — Contactos, acompanhamento de negócio, gestão de tickets e tarefas, relacionamento automático a empresas, gestão de equipas com permissões associadas, notificação e acompanhamento de tarefas em tempo real.</p>
+    </div>
+    <ol class="roadmap r d1">
+      <li><span class="phase">Fase 2</span><span class="phase-desc">Integração com e-mail</span><span class="phase-when">Até dez/26</span></li>
+      <li><span class="phase">Fase 3</span><span class="phase-desc">Campos específicos</span><span class="phase-when">Final jan/27</span></li>
+      <li><span class="phase">Fase 4</span><span class="phase-desc">E-mail de equipa</span><span class="phase-when">Final fev/27</span></li>
+      <li><span class="phase">Fase 5</span><span class="phase-desc">Chat</span><span class="phase-when">Final março/abril</span></li>
+      <li><span class="phase">Fase 6</span><span class="phase-desc">Integração Google Forms</span><span class="phase-when"></span></li>
+      <li><span class="phase">Fase 7</span><span class="phase-desc">Análises</span><span class="phase-when"></span></li>
+      <li><span class="phase">Fase 8</span><span class="phase-desc">Integração com chamadas telefónicas</span><span class="phase-when"></span></li>
+    </ol>
+  </section>
+
+  <!-- ============ SECTION 3 — ÍNDICE ============ -->
   <section class="section section-overview">
     <div class="bg mesh"></div>
     <div class="grid-overlay"></div>
@@ -156,18 +192,18 @@ body.sidebar-closed .sidebar-toggle{display:flex}
       <h2>O que vamos <em>ver</em>.</h2>
     </div>
     <ol class="toc">
-      <li><button type="button" class="toc-item" data-goto="1"><span class="num">01</span><span class="title">Contactos</span></button></li>
-      <li><button type="button" class="toc-item" data-goto="2"><span class="num">02</span><span class="title">Relacionamento automático a empresas</span></button></li>
-      <li><button type="button" class="toc-item" data-goto="3"><span class="num">03</span><span class="title">Acompanhamento de negócio</span></button></li>
-      <li><button type="button" class="toc-item" data-goto="4"><span class="num">04</span><span class="title">Tarefas</span></button></li>
-      <li><button type="button" class="toc-item" data-goto="5"><span class="num">05</span><span class="title">Acompanhamento e notificação de tarefas em tempo real</span></button></li>
-      <li><button type="button" class="toc-item" data-goto="6"><span class="num">06</span><span class="title">Tickets</span></button></li>
-      <li><button type="button" class="toc-item" data-goto="7"><span class="num">07</span><span class="title">Gestão de equipas com permissões associadas</span></button></li>
-      <li><button type="button" class="toc-item" data-goto="8"><span class="num">08</span><span class="title">Gestão de campanhas com o Libax Automate</span></button></li>
+      <li><button type="button" class="toc-item" data-goto="3"><span class="num">01</span><span class="title">Contactos</span></button></li>
+      <li><button type="button" class="toc-item" data-goto="4"><span class="num">02</span><span class="title">Relacionamento automático a empresas</span></button></li>
+      <li><button type="button" class="toc-item" data-goto="9"><span class="num">03</span><span class="title">Gestão de equipas com permissões associadas</span></button></li>
+      <li><button type="button" class="toc-item" data-goto="5"><span class="num">04</span><span class="title">Acompanhamento de negócio</span></button></li>
+      <li><button type="button" class="toc-item" data-goto="6"><span class="num">05</span><span class="title">Tarefas</span></button></li>
+      <li><button type="button" class="toc-item" data-goto="7"><span class="num">06</span><span class="title">Acompanhamento e notificação de tarefas em tempo real</span></button></li>
+      <li><button type="button" class="toc-item" data-goto="8"><span class="num">07</span><span class="title">Tickets</span></button></li>
+      <li><button type="button" class="toc-item" data-goto="10"><span class="num">08</span><span class="title">Gestão de campanhas com o Libax Automate</span></button></li>
     </ol>
   </section>
 
-  <!-- ============ SECTION 3 — CONTACTOS ============ -->
+  <!-- ============ SECTION 4 — CONTACTOS ============ -->
   <section class="section section-overview">
     <div class="bg mesh"></div>
     <div class="grid-overlay"></div>
@@ -178,7 +214,7 @@ body.sidebar-closed .sidebar-toggle{display:flex}
     </div>
   </section>
 
-  <!-- ============ SECTION 4 — RELACIONAMENTO AUTOMÁTICO A EMPRESAS ============ -->
+  <!-- ============ SECTION 5 — RELACIONAMENTO AUTOMÁTICO A EMPRESAS ============ -->
   <section class="section section-overview">
     <div class="bg mesh"></div>
     <div class="grid-overlay"></div>
@@ -186,17 +222,6 @@ body.sidebar-closed .sidebar-toggle{display:flex}
       <div class="eyebrow">Funcionalidade · 02</div>
       <h2>Relacionamento <em>automático</em> a empresas.</h2>
       <p class="subtitle">Ao criar o cliente, o sistema associa a empresa pelo domínio do email e carrega o logotipo automaticamente.</p>
-    </div>
-  </section>
-
-  <!-- ============ SECTION 5 — ACOMPANHAMENTO DE NEGÓCIO ============ -->
-  <section class="section section-overview">
-    <div class="bg mesh"></div>
-    <div class="grid-overlay"></div>
-    <div class="heading r">
-      <div class="eyebrow">Funcionalidade · 03</div>
-      <h2>Acompanhamento de <em>negócio</em>, sem folha de cálculo.</h2>
-      <p class="subtitle">Processo de venda visual por etapas, com valor, probabilidade e data de fecho prevista.</p>
     </div>
   </section>
 
@@ -244,7 +269,18 @@ body.sidebar-closed .sidebar-toggle{display:flex}
     </div>
   </section>
 
-  <!-- ============ SECTION 10 — GESTÃO DE CAMPANHAS COM O LIBAX AUTOMATE ============ -->
+  <!-- ============ SECTION 10 — ACOMPANHAMENTO DE NEGÓCIO ============ -->
+  <section class="section section-overview">
+    <div class="bg mesh"></div>
+    <div class="grid-overlay"></div>
+    <div class="heading r">
+      <div class="eyebrow">Funcionalidade · 03</div>
+      <h2>Acompanhamento de <em>negócio</em>, sem folha de cálculo.</h2>
+      <p class="subtitle">Processo de venda visual por etapas, com valor, probabilidade e data de fecho prevista.</p>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 11 — GESTÃO DE CAMPANHAS COM O LIBAX AUTOMATE ============ -->
   <section class="section section-overview">
     <div class="bg mesh"></div>
     <div class="grid-overlay"></div>
