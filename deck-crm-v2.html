@@ -59,6 +59,9 @@ body{font-family:Roboto;background:#fff;color:#000;-webkit-font-smoothing:antial
 .section-roadmap h2 em{font-style:italic;font-weight:700;color:var(--lime)}
 .section-roadmap .subtitle{font-weight:300;font-size:17.2px;color:var(--ink-soft);margin-top:18px;max-width:780px;margin-left:auto;margin-right:auto;line-height:1.55}
 .roadmap{list-style:none;margin:32px 0 0;padding:0;max-width:880px;width:100%;text-align:left;display:flex;flex-direction:column;gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.phase1-list{list-style:none;margin:0 0 56px;padding:24px 32px;max-width:880px;width:100%;text-align:left;background:var(--bg-2);border-left:3px solid var(--green);display:flex;flex-direction:column;gap:10px}
+.phase1-list li{font-family:Roboto;font-weight:500;font-size:18px;letter-spacing:-.005em;color:var(--ink);padding-left:20px;position:relative}
+.phase1-list li::before{content:'';position:absolute;left:0;top:11px;width:8px;height:1px;background:var(--lime)}
 .roadmap li{display:flex;align-items:baseline;gap:24px;padding:18px 24px;background:var(--bg)}
 .roadmap .phase{flex:0 0 96px;font-family:Roboto;font-weight:500;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime)}
 .roadmap .phase-desc{flex:1 1 auto;font-weight:500;font-size:17.2px;letter-spacing:-.01em;color:var(--ink)}
@@ -90,6 +93,8 @@ body{font-family:Roboto;background:#fff;color:#000;-webkit-font-smoothing:antial
   .roadmap .phase{flex:0 0 80px;font-size:11px}
   .roadmap .phase-desc{flex:1 1 100%;order:3;font-size:16px}
   .roadmap .phase-when{flex:0 0 auto;font-size:11.5px;text-align:right;min-width:0}
+  .phase1-list{padding:20px 24px;margin-bottom:40px}
+  .phase1-list li{font-size:16px}
   .section{padding:80px 24px}
   .section-title h1{font-size:clamp(63.4px,13.2vw,105.6px)}
   .counter{right:36px;font-size:13.2px}
@@ -170,8 +175,17 @@ body.sidebar-closed .sidebar-toggle{display:flex}
     <div class="heading r">
       <div class="eyebrow">Roadmap</div>
       <h2>Fase 1, <em>atual</em>.</h2>
-      <p class="subtitle">"O seu CRM é muito complicado? Concentre-se no essencial" — Contactos, acompanhamento de negócio, gestão de tickets e tarefas, relacionamento automático a empresas, gestão de equipas com permissões associadas, notificação e acompanhamento de tarefas em tempo real.</p>
+      <p class="subtitle">"O seu CRM é muito complicado? Concentre-se no essencial"</p>
     </div>
+    <ul class="phase1-list r d1">
+      <li>Contactos</li>
+      <li>Acompanhamento de negócio</li>
+      <li>Gestão de tickets e tarefas</li>
+      <li>Relacionamento automático a empresas</li>
+      <li>Gestão de equipas com permissões associadas</li>
+      <li>Notificação de tarefas em tempo real</li>
+      <li>Acompanhamento de tarefas em tempo real</li>
+    </ul>
     <ol class="roadmap r d1">
       <li><span class="phase">Fase 2</span><span class="phase-desc">Integração com e-mail</span><span class="phase-when">Até dez/26</span></li>
       <li><span class="phase">Fase 3</span><span class="phase-desc">Campos específicos</span><span class="phase-when">Final jan/27</span></li>
