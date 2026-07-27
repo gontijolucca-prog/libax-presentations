@@ -77,6 +77,43 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 .feat--wide .visual code .k{color:var(--lime)}
 .feat--wide .visual code .v{color:var(--green-bright)}
 
+/* === TOC / INDEX === */
+.toc{color:var(--ink)}
+.toc .bg{background:linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
+.toc .heading{margin-bottom:56px}
+.toc .eyebrow{font-family:Roboto;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
+.toc h2{font-family:Roboto;font-weight:300;font-size:clamp(36px,4.5vw,64px);line-height:1;letter-spacing:-.025em}
+.toc h2 em{font-style:italic;font-weight:700;color:var(--lime)}
+.toc .subtitle{font-weight:300;font-size:16px;color:var(--ink-soft);margin-top:18px;max-width:520px;margin-left:auto;margin-right:auto}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;max-width:980px;width:100%;background:var(--line);border:1px solid var(--line-strong)}
+.toc-item{background:var(--bg-2);padding:28px 32px;text-align:left;text-decoration:none;display:grid;grid-template-columns:48px 1fr auto auto;align-items:center;gap:20px;transition:background .4s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.toc-item:hover{background:var(--surface)}
+.toc-item .toc-num{font-family:Roboto;font-size:11px;letter-spacing:.2em;color:var(--lime);font-weight:700}
+.toc-item .toc-title{font-family:Roboto;font-weight:700;font-size:18px;letter-spacing:-.015em;color:var(--ink)}
+.toc-item .toc-meta{font-family:Roboto;font-size:11px;letter-spacing:.15em;color:var(--ink-dim);text-transform:uppercase;white-space:nowrap}
+.toc-item .toc-arrow{font-family:Roboto;font-size:18px;color:var(--ink-dim);transition:transform .4s cubic-bezier(.16,1,.3,1),color .4s;display:inline-block}
+.toc-item:hover .toc-arrow{transform:translateX(6px);color:var(--lime)}
+
+/* === CATEGORY SECTION === */
+.cat{color:var(--ink)}
+.cat .bg{background:linear-gradient(180deg,#f2f2f4 0%,#e4e4e4 100%)}
+.cat .heading{margin-bottom:48px}
+.cat .eyebrow{font-family:Roboto;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px;display:inline-flex;align-items:center;gap:14px}
+.cat .eyebrow::before{content:'';width:24px;height:1px;background:var(--green-bright)}
+.cat .eyebrow::after{content:'';width:24px;height:1px;background:var(--green-bright)}
+.cat h2{font-family:Roboto;font-weight:300;font-size:clamp(40px,5vw,72px);line-height:1;letter-spacing:-.025em;margin-bottom:14px}
+.cat h2 em{font-style:italic;font-weight:700;color:var(--lime)}
+.cat .subtitle{font-weight:300;font-size:16px;color:var(--ink-soft);max-width:560px;margin:0 auto}
+.cat .video-stack{display:flex;flex-direction:column;gap:40px;max-width:1080px;width:100%;margin-top:40px}
+.video-block{text-align:left}
+.video-block .frame{width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;position:relative;box-shadow:4px 4px 2px #e4e4e4}
+.video-block video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.video-block .label{display:flex;align-items:center;gap:16px;margin-top:18px;font-family:Roboto;font-size:11px;letter-spacing:.2em;color:var(--ink-dim);text-transform:uppercase}
+.video-block .label .num{color:var(--lime);font-weight:500}
+.video-block .label .title{color:var(--ink);font-weight:700;letter-spacing:.02em;text-transform:none;font-size:13px}
+.video-block .label .sep{color:var(--line-strong)}
+
+/* keep legacy single-video style for the original overview hero */
 .video{color:var(--ink)}
 .video .bg{background:linear-gradient(180deg,#f2f2f4 0%,#e4e4e4 100%)}
 .video .heading{margin-bottom:48px}
@@ -86,7 +123,7 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 .video h2 em{font-style:italic;font-weight:700;color:var(--lime)}
 .video .frame{width:100%;max-width:1080px;aspect-ratio:16/9;background:var(--bg-2);border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;position:relative;box-shadow:4px 4px 2px #e4e4e4, 0 0 0 1px rgba(168,178,159,.04)}
 .video video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
-.video .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center, rgba(109,157,48,.2), transparent 70%), var(--bg-2);font-family:Roboto;font-size:13px;letter-spacing:.15em;color:var(--ink-soft);position:relative}
+.video .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center, rgba(109,157,48,.06), transparent 70%), #f2f2f4;color:var(--ink-soft);font-family:Roboto;font-size:13px;letter-spacing:.15em;position:relative}
 .video .fallback::before{content:'';position:absolute;inset:24px;border:1px dashed var(--line-strong);border-radius:4px}
 .video .caption{font-family:Roboto;font-size:11px;letter-spacing:.2em;color:var(--ink-dim);margin-top:24px;text-transform:uppercase}
 .video .caption span{color:var(--lime)}
@@ -100,6 +137,7 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
   .section{padding:80px 24px}
   .cornav{left:20px;top:20px;font-size:10px}
   .counter{right:36px;top:20px;font-size:10px}
+  .toc-grid{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion: reduce){
   .r{opacity:1;transform:none;transition:none}
@@ -117,8 +155,7 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 <svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
 
 <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-<!-- OFFICIAL LIBAX HEADER -->
-<div class="counter" id="counter">01 / 06</div>
+<div class="counter" id="counter">01 / 10</div>
 
 <div class="deck" id="deck">
 
@@ -128,7 +165,7 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
     <span class="badge r">Pipeline · Contactos · Suporte</span>
     <h1 class="r delay-1">Libax<br><em>CRM</em></h1>
     <p class="tagline r delay-2">CRM para equipas comerciais que vendem mais.</p>
-    <p class="sub r delay-3">Contactos · Negócios · Tickets</p>
+    <p class="sub r delay-3">Contactos · Negócios · Tickets · Tarefas</p>
     <div class="scroll-hint r delay-4">Descer<span class="line"></span></div>
   </section>
 
@@ -143,7 +180,7 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
     <div class="features">
       <div class="feat feat--wide r">
         <div>
-          <span class="num">01 / 06</span>
+          <span class="num">01 / 07</span>
           <div class="title">Gestão de<br>Contactos</div>
           <p class="desc">Base de contactos centralizada com histórico completo por cliente — incluindo interações, emails, chamadas e tarefas.</p>
         </div>
@@ -159,100 +196,335 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 
       <div class="feat r">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h12l-2 4h2l-3 6h6"/></svg>
-        <span class="num">02 / 06</span>
+        <span class="num">02 / 07</span>
         <div class="title">Negócios e<br>Oportunidades</div>
         <p class="desc">Acompanhe negócios em pipeline e converta oportunidades em vendas.</p>
         <span class="accent"></span>
       </div>
       <div class="feat r">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-2V8z"/><path d="M9 8v8"/></svg>
-        <span class="num">03 / 06</span>
+        <span class="num">03 / 07</span>
         <div class="title">Tickets<br>de Suporte</div>
         <p class="desc">Gestão de pedidos de apoio com estados, prioridades e SLAs.</p>
         <span class="accent"></span>
       </div>
       <div class="feat r">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
-        <span class="num">04 / 06</span>
+        <span class="num">04 / 07</span>
         <div class="title">Tarefas e<br>Lembretes</div>
         <p class="desc">Planeie follow-ups e nunca perca um compromisso.</p>
         <span class="accent"></span>
       </div>
       <div class="feat r">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg>
-        <span class="num">05 / 06</span>
-        <div class="title">Pesquisas<br>Poderosas</div>
-        <p class="desc">Filtros avançados para encontrar qualquer informação.</p>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21V12h6v9"/></svg>
+        <span class="num">05 / 07</span>
+        <div class="title">Gestão de<br>Empresas</div>
+        <p class="desc">Associe múltiplos clientes à mesma empresa e veja a conta toda.</p>
         <span class="accent"></span>
       </div>
       <div class="feat r">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>
-        <span class="num">06 / 06</span>
-        <div class="title">Relatórios e<br>Dashboards</div>
-        <p class="desc">Indicadores visuais para acompanhar performance.</p>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="8" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="8" r="3"/><path d="M21 21v-1.5a2.5 2.5 0 0 0-2-2.45"/></svg>
+        <span class="num">06 / 07</span>
+        <div class="title">Equipas e<br>Atribuição</div>
+        <p class="desc">Organize equipas e atribua clientes, negócios e tickets.</p>
+        <span class="accent"></span>
+      </div>
+      <div class="feat r">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 11v2a2 2 0 0 0 2 2h2l5 4V5L7 9H5a2 2 0 0 0-2 2z"/><path d="M16 8a5 5 0 0 1 0 8"/></svg>
+        <span class="num">07 / 07</span>
+        <div class="title">Campanhas<br>de marketing</div>
+        <p class="desc">Crie e gira campanhas diretamente no Libax Automate.</p>
         <span class="accent"></span>
       </div>
     </div>
   </section>
 
-  <section class="section video">
+  <section class="section toc">
+    <div class="bg"></div>
+    <div class="heading r">
+      <div class="eyebrow">O que vai ver</div>
+      <h2>Índice das <em>demonstrações</em></h2>
+      <p class="subtitle">18 vídeos curtos, organizados por categoria. Cada bloco mostra como criar, procurar e fechar.</p>
+    </div>
+    <div class="toc-grid r delay-1">
+      <a class="toc-item" href="#cat-contactos">
+        <span class="toc-num">01</span>
+        <span class="toc-title">Contactos</span>
+        <span class="toc-meta">3 vídeos</span>
+        <span class="toc-arrow">→</span>
+      </a>
+      <a class="toc-item" href="#cat-empresas">
+        <span class="toc-num">02</span>
+        <span class="toc-title">Empresas</span>
+        <span class="toc-meta">2 vídeos</span>
+        <span class="toc-arrow">→</span>
+      </a>
+      <a class="toc-item" href="#cat-negocios">
+        <span class="toc-num">03</span>
+        <span class="toc-title">Negócios</span>
+        <span class="toc-meta">4 vídeos</span>
+        <span class="toc-arrow">→</span>
+      </a>
+      <a class="toc-item" href="#cat-tickets">
+        <span class="toc-num">04</span>
+        <span class="toc-title">Tickets</span>
+        <span class="toc-meta">4 vídeos</span>
+        <span class="toc-arrow">→</span>
+      </a>
+      <a class="toc-item" href="#cat-tarefas">
+        <span class="toc-num">05</span>
+        <span class="toc-title">Tarefas</span>
+        <span class="toc-meta">4 vídeos</span>
+        <span class="toc-arrow">→</span>
+      </a>
+      <a class="toc-item" href="#cat-equipas">
+        <span class="toc-num">06</span>
+        <span class="toc-title">Equipas</span>
+        <span class="toc-meta">1 vídeo</span>
+        <span class="toc-arrow">→</span>
+      </a>
+      <a class="toc-item" href="#cat-campanhas">
+        <span class="toc-num">07</span>
+        <span class="toc-title">Campanhas</span>
+        <span class="toc-meta">1 vídeo</span>
+        <span class="toc-arrow">→</span>
+      </a>
+      <div class="toc-item" style="background:var(--bg);cursor:default">
+        <span class="toc-num">·</span>
+        <span class="toc-title" style="color:var(--ink-dim)">Total</span>
+        <span class="toc-meta">18 vídeos</span>
+        <span class="toc-arrow">·</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cat" id="cat-contactos">
     <div class="bg"></div>
     <div class="heading r">
       <div class="eyebrow">Demonstração · 01</div>
-      <h2>Como criar <em>cliente</em></h2>
+      <h2>Contactos</h2>
+      <p class="subtitle">A base do CRM. Criar, pesquisar e atribuir cada cliente à equipa certa.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/crm-criar-cliente.webm" type="video/webm">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve · crm-criar-cliente</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/Criar%20contacto.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Criar contacto</span></div>
+      </div>
+      <div class="video-block r delay-2">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/pesquisar%20contacto.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">02</span><span class="sep">·</span><span class="title">Pesquisar contacto</span></div>
+      </div>
+      <div class="video-block r delay-3">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/atribuir%20contacto%20a%20uma%20equipa.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">03</span><span class="sep">·</span><span class="title">Atribuir contacto a uma equipa</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>01</span> · Como criar cliente</div>
   </section>
 
-  <section class="section video">
+  <section class="section cat" id="cat-empresas">
     <div class="bg"></div>
     <div class="heading r">
       <div class="eyebrow">Demonstração · 02</div>
-      <h2>Como criar <em>negócio e tarefa</em></h2>
+      <h2>Empresas</h2>
+      <p class="subtitle">Vários clientes a trabalhar na mesma empresa? Agrupe tudo numa conta.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/crm-negocio-tarefa.webm" type="video/webm">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve · crm-negocio-tarefa</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/criar%20empresa.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Criar empresa</span></div>
+      </div>
+      <div class="video-block r delay-2">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/procurar%20empresa.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">02</span><span class="sep">·</span><span class="title">Procurar empresa</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>02</span> · Como criar negócio e tarefa</div>
   </section>
 
-  <section class="section video">
+  <section class="section cat" id="cat-negocios">
     <div class="bg"></div>
     <div class="heading r">
       <div class="eyebrow">Demonstração · 03</div>
-      <h2>Mostrar <em>pesquisas</em></h2>
+      <h2>Negócios</h2>
+      <p class="subtitle">O pipeline comercial. Criar negócios, configurar etapas e fechar.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/crm-pesquisas.webm" type="video/webm">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve · crm-pesquisas</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/criar%20negocio%20no%20cliente.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Criar negócio no cliente</span></div>
+      </div>
+      <div class="video-block r delay-2">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/criar%20etapas%20negocio.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">02</span><span class="sep">·</span><span class="title">Criar etapas do negócio</span></div>
+      </div>
+      <div class="video-block r delay-3">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/Pesquisar%20negocio.mov" type="video/quicktime">
+          </video>
+        </div>
+        <div class="label"><span class="num">03</span><span class="sep">·</span><span class="title">Pesquisar negócio</span></div>
+      </div>
+      <div class="video-block r delay-4">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/Fechar%20negocio.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">04</span><span class="sep">·</span><span class="title">Fechar negócio</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>03</span> · Mostrar pesquisas</div>
   </section>
 
-  <section class="section video">
+  <section class="section cat" id="cat-tickets">
     <div class="bg"></div>
     <div class="heading r">
       <div class="eyebrow">Demonstração · 04</div>
-      <h2>Como criar <em>ticket e tarefa</em></h2>
+      <h2>Tickets</h2>
+      <p class="subtitle">Suporte ao cliente. Registar, configurar etapas, procurar e fechar.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/crm-ticket-tarefa.webm" type="video/webm">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve · crm-ticket-tarefa</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/Criar%20ticket.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Criar ticket</span></div>
+      </div>
+      <div class="video-block r delay-2">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/Cria%C3%A7%C3%A3o%20etapas%20tickets.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">02</span><span class="sep">·</span><span class="title">Criação de etapas dos tickets</span></div>
+      </div>
+      <div class="video-block r delay-3">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/pesquisar%20ticket.mov" type="video/quicktime">
+          </video>
+        </div>
+        <div class="label"><span class="num">03</span><span class="sep">·</span><span class="title">Pesquisar ticket</span></div>
+      </div>
+      <div class="video-block r delay-4">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/Fechar%20Ticket.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">04</span><span class="sep">·</span><span class="title">Fechar ticket</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>04</span> · Como criar ticket e tarefa</div>
+  </section>
+
+  <section class="section cat" id="cat-tarefas">
+    <div class="bg"></div>
+    <div class="heading r">
+      <div class="eyebrow">Demonstração · 05</div>
+      <h2>Tarefas</h2>
+      <p class="subtitle">Follow-ups e lembretes. Criar, seguir, procurar e fechar.</p>
+    </div>
+    <div class="video-stack">
+      <div class="video-block r delay-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/criar%20tarefa%20e%20seguir.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Criar tarefa e seguir</span></div>
+      </div>
+      <div class="video-block r delay-2">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/Seguir%20tarefa.mov" type="video/quicktime">
+          </video>
+        </div>
+        <div class="label"><span class="num">02</span><span class="sep">·</span><span class="title">Seguir tarefa</span></div>
+      </div>
+      <div class="video-block r delay-3">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/procurar%20tarefa.mov" type="video/quicktime">
+          </video>
+        </div>
+        <div class="label"><span class="num">03</span><span class="sep">·</span><span class="title">Procurar tarefa</span></div>
+      </div>
+      <div class="video-block r delay-4">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/Fechar%20Tarefa.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">04</span><span class="sep">·</span><span class="title">Fechar tarefa</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cat" id="cat-equipas">
+    <div class="bg"></div>
+    <div class="heading r">
+      <div class="eyebrow">Demonstração · 06</div>
+      <h2>Equipas</h2>
+      <p class="subtitle">Organize a sua equipa e atribua clientes a quem faz mais sentido.</p>
+    </div>
+    <div class="video-stack">
+      <div class="video-block r delay-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/Criar%20equipa%20e%20adicionar%20membros.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Criar equipa e adicionar membros</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cat" id="cat-campanhas">
+    <div class="bg"></div>
+    <div class="heading r">
+      <div class="eyebrow">Demonstração · 07</div>
+      <h2>Campanhas</h2>
+      <p class="subtitle">Marketing direto no Libax Automate — segmentado pela base que acabou de organizar.</p>
+    </div>
+    <div class="video-stack">
+      <div class="video-block r delay-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="videos-crm/Criar%20Campanha.mov" type="video/quicktime">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Criar campanha</span></div>
+      </div>
+    </div>
   </section>
 
 </div>
