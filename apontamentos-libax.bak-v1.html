@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libax · Apontamentos — KB organizada para consulta rápida</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500&family=Roboto:200,300,400,500,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1a1a;--ink-soft:#4a4a4a;--ink-dim:#8a8a8a;
+  --bg:#f2f2f4;--bg-2:#ececed;--surface:#ffffff;
+  --line:rgba(0,0,0,.08);--line-strong:rgba(0,0,0,.15);
+  --green:#6d9d30;--green-light:#9bbb59;--green-dark:#488500;
+  --green-btn:#5fb000;--green-pale:#7cb731;
+  --green-bright:#7cb731;--lime:#6d9d30;
+  --amber:#b45309;--amber-pale:rgba(180,83,9,.08);
+  --sidebar-w:260px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Roboto, sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5;font-weight:300}
+
+.noise{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.05;mix-blend-mode:multiply}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:9;box-shadow:inset 0 0 240px 60px rgba(228,228,228,.6)}
+
+/* === PROGRESS + COUNTER === */
+.progress{position:fixed;top:0;right:0;width:3px;height:100vh;background:rgba(109,157,48,.12);z-index:10}
+.progress-fill{width:100%;background:linear-gradient(180deg,var(--green-light),var(--green));height:0;transition:height .25s cubic-bezier(.16,1,.3,1)}
+.counter{position:fixed;top:32px;right:60px;z-index:11;font-family:'Roboto Mono',monospace;font-size:13px;letter-spacing:.18em;color:var(--ink-dim)}
+
+/* === REVEAL === */
+.r{opacity:0;transform:translateY(28px);transition:opacity 1.2s cubic-bezier(.16,1,.3,1), transform 1.2s cubic-bezier(.16,1,.3,1)}
+.r.in{opacity:1;transform:translateY(0)}
+.r.d1{transition-delay:.08s}
+.r.d2{transition-delay:.18s}
+.r.d3{transition-delay:.28s}
+.r.d4{transition-delay:.40s}
+
+/* === SIDEBAR === */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-right:1px solid var(--line);z-index:20;display:flex;flex-direction:column;padding:28px 0 20px;font-family:Roboto}
+.sidebar .brand{padding:0 24px 20px;display:flex;align-items:baseline;gap:8px;border-bottom:1px solid var(--line)}
+.sidebar .brand .dot{width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;align-self:center;flex-shrink:0}
+.sidebar .brand .name{font-weight:700;font-size:18.9px;letter-spacing:-.01em;color:var(--ink)}
+.sidebar .brand .sep{color:var(--ink-dim);font-weight:200;font-size:18.9px;margin:0 2px}
+.sidebar .brand .product{font-weight:300;font-size:17.6px;color:var(--ink-soft);font-style:italic}
+.sidebar nav{flex:1;overflow-y:auto;padding:14px 0;scrollbar-width:thin}
+.sidebar nav::-webkit-scrollbar{width:4px}
+.sidebar nav::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+.sidebar .nav-list{list-style:none}
+.sidebar .nav-item{margin-bottom:2px}
+.sidebar .nav-link{display:flex;align-items:center;gap:10px;padding:9px 24px;text-decoration:none;color:var(--ink-soft);font-size:15.5px;letter-spacing:.01em;font-weight:500;border-left:2px solid transparent;transition:background .25s,color .25s,border-color .25s;cursor:pointer}
+.sidebar .nav-link:hover{background:rgba(109,157,48,.05);color:var(--ink)}
+.sidebar .nav-link.active{background:rgba(109,157,48,.08);color:var(--ink);border-left-color:var(--lime);font-weight:700}
+.sidebar .nav-link .num{font-family:'Roboto Mono',monospace;font-size:12px;letter-spacing:.1em;color:var(--ink-dim);min-width:22px;font-weight:500}
+.sidebar .nav-link.active .num{color:var(--lime);font-weight:700}
+.sidebar .nav-link .title{flex:1}
+.sidebar .nav-link .pill{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--ink-dim);text-transform:uppercase;background:var(--bg-2);padding:2px 7px;border-radius:3px}
+.sidebar .nav-link.active .pill{background:var(--lime);color:#fff}
+.sidebar .nav-sub{display:none;list-style:none;padding:4px 0 6px 0}
+.sidebar .nav-item.open .nav-sub{display:block}
+.sidebar .nav-sub a{display:flex;align-items:center;gap:8px;padding:5px 24px 5px 50px;text-decoration:none;color:var(--ink-dim);font-size:13.5px;letter-spacing:.01em;font-weight:400;transition:color .25s,background .25s;cursor:pointer;border-left:2px solid transparent;font-family:Roboto}
+.sidebar .nav-sub a:hover{color:var(--ink);background:rgba(109,157,48,.04)}
+.sidebar .nav-sub a.active{color:var(--lime);font-weight:700;border-left-color:var(--lime)}
+.sidebar .nav-sub .vnum{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--ink-dim);min-width:16px;text-align:right}
+.sidebar .nav-sub a.active .vnum{color:var(--lime)}
+.sidebar .nav-chevron{font-size:11px;color:var(--ink-dim);transition:transform .3s cubic-bezier(.16,1,.3,1),color .25s}
+.sidebar .nav-item.open .nav-link .nav-chevron{transform:rotate(90deg);color:var(--lime)}
+.sidebar .footer{padding:16px 24px 0;border-top:1px solid var(--line);font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.15em;color:var(--ink-dim);text-transform:uppercase}
+
+/* === MAIN COLUMN === */
+main{position:relative;z-index:3;padding-left:var(--sidebar-w)}
+
+/* === HERO === */
+.hero{min-height:100vh;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 56px;text-align:center;background:radial-gradient(ellipse 80% 60% at 30% 30%, rgba(109,157,48,.12), transparent 55%),radial-gradient(ellipse 50% 50% at 80% 80%, rgba(109,157,48,.10), transparent 60%),linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:linear-gradient(to right, rgba(109,157,48,.05) 1px, transparent 1px),linear-gradient(to bottom, rgba(109,157,48,.05) 1px, transparent 1px);background-size:96px 96px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%)}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,.05) 100%);mix-blend-mode:multiply}
+.hero>*{position:relative;z-index:3}
+.hero .badge{display:inline-flex;align-items:center;gap:10px;font-family:'Roboto Mono',monospace;font-size:11.5px;letter-spacing:.25em;text-transform:uppercase;padding:7px 14px;border:1px solid var(--line-strong);border-radius:2px;color:var(--ink-soft);margin-bottom:36px;background:rgba(255,255,255,.4)}
+.hero .badge::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%}
+.hero h1{font-family:Roboto,sans-serif;font-weight:200;font-size:clamp(72px,9vw,156px);line-height:.92;letter-spacing:-.04em;margin-bottom:24px;color:var(--ink)}
+.hero h1 em{font-style:italic;font-weight:700;color:var(--lime)}
+.hero .tagline{font-weight:300;font-size:24px;color:var(--ink-soft);margin-bottom:14px;max-width:640px;line-height:1.4}
+.hero .sub{font-family:'Roboto Mono',monospace;font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:48px}
+.hero .meta-strip{display:flex;gap:0;border:1px solid var(--line-strong);background:rgba(255,255,255,.55)}
+.hero .meta-strip .m{flex:1;padding:14px 22px;text-align:left;border-right:1px solid var(--line)}
+.hero .meta-strip .m:last-child{border-right:none}
+.hero .meta-strip .m .k{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:4px}
+.hero .meta-strip .m .v{font-family:Roboto,sans-serif;font-weight:700;font-size:18px;color:var(--ink)}
+.hero .meta-strip .m .v em{font-style:italic;font-weight:300;color:var(--lime)}
+
+.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-dim);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:3}
+.scroll-hint .line{width:1px;height:32px;background:linear-gradient(180deg,transparent,var(--green));animation:down 2.4s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes down{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+
+/* === APP SECTIONS === */
+.app-section{position:relative;padding:96px 56px 80px;border-top:1px solid var(--line);background:var(--bg)}
+.app-section::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.6;background-image:linear-gradient(to right, rgba(0,0,0,.025) 1px, transparent 1px);background-size:48px 100%}
+.app-section>*{position:relative}
+.app-section .grid-overlay{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.18;background-image:linear-gradient(to right, rgba(109,157,48,.06) 1px, transparent 1px),linear-gradient(to bottom, rgba(109,157,48,.06) 1px, transparent 1px);background-size:72px 72px;mask-image:linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);-webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%)}
+.app-section .heading{margin-bottom:48px;display:grid;grid-template-columns:1fr auto;align-items:end;gap:32px;border-bottom:1px solid var(--line-strong);padding-bottom:28px;position:relative}
+.app-section .eyebrow{font-family:'Roboto Mono',monospace;font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:12px;display:inline-flex;align-items:center;gap:12px}
+.app-section .eyebrow::before{content:'';width:24px;height:1px;background:var(--green-bright)}
+.app-section h2{font-family:Roboto,sans-serif;font-weight:200;font-size:clamp(48px,5.8vw,84px);line-height:.96;letter-spacing:-.03em;color:var(--ink)}
+.app-section h2 em{font-style:italic;font-weight:700;color:var(--lime)}
+.app-section .subtitle{font-weight:300;font-size:18px;color:var(--ink-soft);margin-top:10px;max-width:540px;line-height:1.45}
+.app-section .heading .count{font-family:'Roboto Mono',monospace;font-size:13px;letter-spacing:.15em;color:var(--ink-dim);text-transform:uppercase;text-align:right;border-left:1px solid var(--line);padding-left:32px}
+.app-section .heading .count b{font-weight:500;color:var(--lime);font-size:32px;display:block;margin-bottom:4px;font-family:Roboto,sans-serif;font-style:italic;letter-spacing:-.02em}
+
+/* === CARD GRID === */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line-strong);position:relative;z-index:1}
+
+/* === CARD === */
+.card{background:var(--surface);padding:28px 28px 22px;display:flex;flex-direction:column;gap:14px;position:relative;cursor:pointer;transition:background .25s,transform .35s cubic-bezier(.16,1,.3,1);scroll-margin-top:24px;text-decoration:none;color:inherit}
+.card::before{content:'';position:absolute;top:0;left:0;width:0;height:100%;background:linear-gradient(90deg, rgba(109,157,48,.04), transparent 40%);transition:width .4s cubic-bezier(.16,1,.3,1);pointer-events:none}
+.card:hover{background:#fbfbfc}
+.card:hover::before{width:100%}
+.card:hover .num{font-weight:800;color:var(--green)}
+.card:hover .arrow{transform:translateX(4px);color:var(--lime)}
+.card .head{display:flex;align-items:flex-start;gap:20px}
+.card .num{font-family:Roboto,sans-serif;font-weight:200;font-style:italic;font-size:54px;line-height:1;color:var(--green-bright);letter-spacing:-.04em;flex-shrink:0;transition:font-weight .25s, color .25s;width:64px;font-variant-numeric:tabular-nums}
+.card .title{flex:1;font-family:Roboto,sans-serif;font-weight:700;font-size:22px;line-height:1.25;color:var(--ink);letter-spacing:-.01em;padding-top:8px}
+.card .summary{font-family:Roboto,sans-serif;font-weight:300;font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.card .foot{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:14px;border-top:1px dashed var(--line);margin-top:auto}
+.card .kw{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--green);background:var(--green-pale);padding:4px 9px;border:1px solid rgba(109,157,48,.2);border-radius:2px;text-transform:lowercase;font-weight:400;transition:background .25s,color .25s,border-color .25s;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card:hover .kw{background:var(--lime);color:#fff;border-color:var(--lime)}
+.card .src{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.04em;color:var(--ink-dim);text-decoration:none;text-align:right;line-height:1.3;transition:color .25s;max-width:40%}
+.card .src:hover{color:var(--lime)}
+.card .src::before{content:'fonte · '}
+.card .arrow{font-family:Roboto,sans-serif;font-size:18px;color:var(--ink-dim);position:absolute;top:24px;right:24px;transition:transform .25s,color .25s;font-weight:200}
+
+/* card stagger reveal via JS class */
+.cards .card.r{opacity:0;transform:translateY(18px)}
+
+/* === SINGLE-COL PIVOT CARD === */
+.card.wide{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;padding:34px 36px 30px}
+.card.wide .head{align-items:flex-start}
+.card.wide .num{width:auto;font-size:78px;padding-right:18px;border-right:1px solid var(--line)}
+.card.wide .right{display:flex;flex-direction:column;gap:14px}
+.card.wide .title{padding-top:6px;font-size:26px}
+.card.wide .arrow{position:static;align-self:flex-end}
+.card.wide .foot{margin-top:6px}
+
+/* === NOTA === */
+.nota-section{padding:88px 56px 120px;background:linear-gradient(180deg,#f2f2f4 0%,#e8e8ea 100%);position:relative;border-top:1px solid var(--line);overflow:hidden}
+.nota-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg, transparent, var(--amber) 30%, var(--amber) 70%, transparent);opacity:.4}
+.nota-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:start;max-width:1320px;margin:0 auto;position:relative}
+.nota-side{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.3em;color:var(--amber);text-transform:uppercase;border:1px solid var(--amber);padding:14px 18px;background:rgba(255,255,255,.5);position:relative}
+.nota-side::after{content:'NOTA · 2026-07-27';display:block;font-weight:500}
+.nota-side .stamp{display:block;font-style:italic;font-family:Roboto,sans-serif;font-weight:300;font-size:48px;line-height:1;color:var(--amber);letter-spacing:-.04em;text-transform:none;margin-top:6px;letter-spacing:-.02em}
+.nota-main{position:relative;padding:28px 32px;background:rgba(255,255,255,.65);border:1px solid var(--amber);border-left-width:4px}
+.nota-main h3{font-family:Roboto,sans-serif;font-weight:200;font-size:32px;line-height:1.18;color:var(--ink);letter-spacing:-.02em;margin-bottom:14px}
+.nota-main h3 em{font-style:italic;font-weight:700;color:var(--amber)}
+.nota-main p{font-family:Roboto,sans-serif;font-weight:300;font-size:17px;line-height:1.55;color:var(--ink-soft)}
+.nota-main p+p{margin-top:12px}
+.nota-main .sign{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--ink-dim);margin-top:20px;padding-top:14px;border-top:1px dashed rgba(180,83,9,.3);text-transform:uppercase}
+.nota-main .sign b{color:var(--amber);font-weight:500}
+
+/* === KEYBOARD HINT === */
+.kbd-hint{position:fixed;bottom:20px;right:24px;z-index:11;font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase;background:rgba(255,255,255,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:8px 12px;border:1px solid var(--line);border-radius:2px;display:flex;gap:10px;align-items:center}
+.kbd-hint .k{display:inline-block;border:1px solid var(--line-strong);padding:1px 5px;border-radius:2px;font-size:9.5px;background:#fff;color:var(--ink-soft);letter-spacing:0}
+
+@media (max-width:1100px){
+  .app-section .heading{grid-template-columns:1fr;align-items:start}
+  .app-section .heading .count{border-left:none;padding-left:0;text-align:left;margin-top:14px}
+  .nota-grid{grid-template-columns:1fr;gap:24px}
+}
+@media (max-width:900px){
+  :root{--sidebar-w:0px}
+  .sidebar{display:none}
+  main{padding-left:0}
+  .hero{padding:80px 24px}
+  .app-section{padding:64px 24px 56px}
+  .cards{grid-template-columns:1fr}
+  .card.wide{grid-column:span 1;grid-template-columns:1fr;gap:14px;padding:28px}
+  .card.wide .num{border-right:none;padding-right:0;font-size:64px}
+  .nota-section{padding:64px 24px 90px}
+  .kbd-hint{display:none}
+}
+@media (max-width:780px){
+  .hero h1{font-size:clamp(54px,13vw,96px)}
+  .counter{right:24px;top:18px;font-size:11px}
+  .hero .meta-strip{flex-direction:column}
+  .hero .meta-strip .m{border-right:none;border-bottom:1px solid var(--line)}
+  .hero .meta-strip .m:last-child{border-bottom:none}
+}
+@media (prefers-reduced-motion: reduce){
+  .r{opacity:1;transform:none;transition:none}
+  .scroll-hint .line{animation:none}
+  .card::before{display:none}
+}
+</style>
+</head>
+<body>
+
+<svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <span class="dot"></span>
+    <span class="name">Libax</span>
+    <span class="sep">·</span>
+    <span class="product">Apontamentos</span>
+  </div>
+  <nav id="sidebarNav">
+    <ul class="nav-list" id="navList">
+      <li class="nav-item" data-target="hero">
+        <a class="nav-link" href="#hero">
+          <span class="num">00</span>
+          <span class="title">Início</span>
+        </a>
+      </li>
+      <li class="nav-item open" data-target="app-seguros">
+        <a class="nav-link" href="#app-seguros">
+          <span class="num">01</span>
+          <span class="title">Seguros</span>
+          <span class="pill">8</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#t-seguros-1"><span class="vnum">01</span>Companhias</a></li>
+          <li><a href="#t-seguros-2"><span class="vnum">02</span>Apólices e Recibos</a></li>
+          <li><a href="#t-seguros-3"><span class="vnum">03</span>Prestação de Contas</a></li>
+          <li><a href="#t-seguros-4"><span class="vnum">04</span>Recibos Pendentes</a></li>
+          <li><a href="#t-seguros-5"><span class="vnum">05</span>Comissões a Parceiros</a></li>
+          <li><a href="#t-seguros-6"><span class="vnum">06</span>Parceiros e Hierarquia</a></li>
+          <li><a href="#t-seguros-7"><span class="vnum">07</span>Participações (Sinistros)</a></li>
+          <li><a href="#t-seguros-8"><span class="vnum">08</span>Documentação e Pesquisa</a></li>
+        </ul>
+      </li>
+      <li class="nav-item open" data-target="app-business">
+        <a class="nav-link" href="#app-business">
+          <span class="num">02</span>
+          <span class="title">Business</span>
+          <span class="pill">7</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#t-business-1"><span class="vnum">01</span>Entidades</a></li>
+          <li><a href="#t-business-2"><span class="vnum">02</span>Produtos</a></li>
+          <li><a href="#t-business-3"><span class="vnum">03</span>Faturação</a></li>
+          <li><a href="#t-business-4"><span class="vnum">04</span>Faturação Eletrónica</a></li>
+          <li><a href="#t-business-5"><span class="vnum">05</span>Tesouraria</a></li>
+          <li><a href="#t-business-6"><span class="vnum">06</span>Importação</a></li>
+          <li><a href="#t-business-7"><span class="vnum">07</span>API</a></li>
+        </ul>
+      </li>
+      <li class="nav-item open" data-target="app-automate">
+        <a class="nav-link" href="#app-automate">
+          <span class="num">03</span>
+          <span class="title">Automate</span>
+          <span class="pill">5</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#t-automate-1"><span class="vnum">01</span>Recibos e Cobrança</a></li>
+          <li><a href="#t-automate-2"><span class="vnum">02</span>Comissões</a></li>
+          <li><a href="#t-automate-3"><span class="vnum">03</span>RGPD</a></li>
+          <li><a href="#t-automate-4"><span class="vnum">04</span>Recibos Antigos</a></li>
+          <li><a href="#t-automate-5"><span class="vnum">05</span>Como Funciona</a></li>
+        </ul>
+      </li>
+      <li class="nav-item" data-target="nota">
+        <a class="nav-link" href="#nota">
+          <span class="num">·</span>
+          <span class="title">Nota</span>
+          <span class="pill">1</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <div class="footer">20 tópicos · 3 apps · 2026</div>
+</aside>
+
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+<div class="counter" id="counter">01 / 20</div>
+
+<main>
+
+  <!-- ============== HERO ============== -->
+  <section class="hero" id="hero">
+    <span class="badge r">B A S E   D E   C O N H E C I M E N T O   ·   I N T E R N O</span>
+    <h1 class="r d1">Libax<br><em>Apontamentos</em></h1>
+    <p class="tagline r d2">A KB organizada para consulta rápida.</p>
+    <p class="sub r d3">Seguros · Business · Automate</p>
+    <div class="meta-strip r d4">
+      <div class="m"><div class="k">Aplicações</div><div class="v"><em>3</em></div></div>
+      <div class="m"><div class="k">Tópicos</div><div class="v"><em>20</em></div></div>
+      <div class="m"><div class="k">Última revisão</div><div class="v" style="font-size:16px">27 · 07 · 2026</div></div>
+      <div class="m"><div class="k">Fonte</div><div class="v" style="font-size:13px;font-style:italic;font-weight:400">kb.libax.com</div></div>
+    </div>
+    <div class="scroll-hint r d4">Descer<span class="line"></span></div>
+  </section>
+
+  <!-- ============== SEGUROS ============== -->
+  <section class="app-section" id="app-seguros">
+    <div class="grid-overlay"></div>
+    <div class="heading r">
+      <div>
+        <div class="eyebrow">Aplicação · 01 · ERP de seguros</div>
+        <h2>Libax <em>Seguros</em></h2>
+        <p class="subtitle">ERP para mediadores e corretores de seguros.</p>
+      </div>
+      <div class="count"><b>08</b>Tópicos</div>
+    </div>
+    <div class="cards">
+
+      <a class="card r" id="t-seguros-1" href="https://kb.libax.com/seguros/companhias" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">01</div>
+          <div class="title">Companhias</div>
+        </div>
+        <p class="summary">Cada seguradora (Fidelidade, Tranquilidade, Zurich, etc.) é registada com os webservices e web service em tempo real. Os produtos vêm da companhia, não se criam do zero. Os códigos de companhias permitem agrupar parceiros com prefixos (Coordenador, Diretor, Agência).</p>
+        <div class="foot">
+          <span class="kw">companhias · webservices</span>
+          <span class="src">kb.libax.com/seguros/companhias</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-seguros-2" href="https://kb.libax.com/seguros/apolices-e-recibos" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">02</div>
+          <div class="title">Apólices e Recibos</div>
+        </div>
+        <p class="summary">Apólices e recibos sincronizam automaticamente via webservices. O recibo é a unidade de comissão — cada recibo gera a comissão quando cobrado. Regras de validação: situação 'Direto pendente' = pago à companhia mas ainda não feita prestação de contas.</p>
+        <div class="foot">
+          <span class="kw">apólices · recibos</span>
+          <span class="src">kb.libax.com/seguros/apolices-e-recibos</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-seguros-3" href="https://kb.libax.com/seguros/prestacao-de-contas" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">03</div>
+          <div class="title">Prestação de Contas</div>
+        </div>
+        <p class="summary">É o encontro de contas com a companhia. Encerra o recibo. Pode ser feita por seleção manual ou via ficheiro de importação (com sufixo /force para forçar alocação). Gera documento a favor da companhia + fatura/recibo de comissões a deduzir.</p>
+        <div class="foot">
+          <span class="kw">prestação de contas · /force</span>
+          <span class="src">kb.libax.com/seguros/prestacao-de-contas</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-seguros-4" href="https://kb.libax.com/seguros/recibos-pendentes" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">04</div>
+          <div class="title">Recibos Pendentes</div>
+        </div>
+        <p class="summary">Controlo total de vencidos e não vencidos. Cada recibo regista atividades. Permite definir 'Data de situação no agente' (quando mudou de estado internamente). Visão por canais de venda (rede de parceiros).</p>
+        <div class="foot">
+          <span class="kw">recibos pendentes · canais</span>
+          <span class="src">kb.libax.com/seguros/recibos-pendentes</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r wide" id="t-seguros-5" href="https://kb.libax.com/seguros/comissoes-a-parceiros" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">05</div>
+        </div>
+        <div class="right">
+          <div class="title">Comissões a Parceiros</div>
+          <p class="summary">Parceiro tem de ser marcado como 'comissionista'. Percentagens vivem nas INCIDÊNCIAS (matriz companhia × ramo). Após mexer nas incidências, correr 'Reformular comissões' para recalcular. Revogações automáticas precisam de 2 settings ativos (autorizar reabertura + revogações na companhia).</p>
+          <div class="foot">
+            <span class="kw">incidências · reformulação · revogações</span>
+            <span class="src">kb.libax.com/seguros/comissoes-a-parceiros</span>
+          </div>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+
+      <a class="card r" id="t-seguros-6" href="https://kb.libax.com/seguros/parceiros-e-hierarquia" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">06</div>
+          <div class="title">Parceiros e Hierarquia</div>
+        </div>
+        <p class="summary">Parceiros podem ter hierarquia (Coordenador → Diretor → Agência). Realocação em massa de apólices via filtro. Unificação de parceiros duplicados. Recibos podem ser pagos via notas de pagamento + ficheiro SEPA.</p>
+        <div class="foot">
+          <span class="kw">parceiro.comissionista · SEPA</span>
+          <span class="src">kb.libax.com/seguros/parceiros-e-hierarquia</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-seguros-7" href="https://kb.libax.com/seguros/participacoes" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">07</div>
+          <div class="title">Participações (Sinistros)</div>
+        </div>
+        <p class="summary">Etapas personalizáveis por tipo de participação. Tipos de participação configuráveis (lista base já vem pronta). Filtros combinados: tipo + data do acidente. Algumas etapas exemplo: Registado, Marcação peritagem, Veículo de substituição.</p>
+        <div class="foot">
+          <span class="kw">participações · sinistros</span>
+          <span class="src">kb.libax.com/seguros/participacoes</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-seguros-8" href="https://kb.libax.com/seguros/documentacao-e-pesquisa" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">08</div>
+          <div class="title">Documentação e Pesquisa</div>
+        </div>
+        <p class="summary">Documentos (carta verde, recibos) descarregados automaticamente da companhia. Pesquisa rápida aceita nº contribuinte, telemóvel, e-mail, nº cliente. Sufixos: /c (apólice), /u (unidade risco), /r (recibo). Referências multibanco vêm nos continuados.</p>
+        <div class="foot">
+          <span class="kw">/c · /u · /r</span>
+          <span class="src">kb.libax.com/seguros/documentacao-e-pesquisa</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ============== BUSINESS ============== -->
+  <section class="app-section" id="app-business">
+    <div class="grid-overlay"></div>
+    <div class="heading r">
+      <div>
+        <div class="eyebrow">Aplicação · 02 · Gestão comercial</div>
+        <h2>Libax <em>Business</em></h2>
+        <p class="subtitle">ERP de gestão comercial com faturação certificada para Portugal.</p>
+      </div>
+      <div class="count"><b>07</b>Tópicos</div>
+    </div>
+    <div class="cards">
+
+      <a class="card r" id="t-business-1" href="https://kb.libax.com/business/entidades" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">01</div>
+          <div class="title">Entidades (Clientes/Fornecedores)</div>
+        </div>
+        <p class="summary">Clientes, fornecedores, outros. Importação em massa via CSV. RGPD digital ou em papel com pedido de consentimento automático via Libax Automate. Validade do consentimento configurável em anos.</p>
+        <div class="foot">
+          <span class="kw">entidades · RGPD · CSV</span>
+          <span class="src">kb.libax.com/business/entidades</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-business-2" href="https://kb.libax.com/business/produtos" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">02</div>
+          <div class="title">Produtos</div>
+        </div>
+        <p class="summary">Catálogo de produtos/serviços. Importação CSV para grandes volumes. Edição em massa. Cada produto tem preço, unidade, IVA configurável.</p>
+        <div class="foot">
+          <span class="kw">produtos · IVA · catálogo</span>
+          <span class="src">kb.libax.com/business/produtos</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-business-3" href="https://kb.libax.com/business/faturacao" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">03</div>
+          <div class="title">Faturação</div>
+        </div>
+        <p class="summary">Emissão de faturas, faturas-recibo, notas de crédito, etc. Numeração por série. ATCUD automático (Portaria 195/2020). Anular: cancelar no próprio dia OU nota de crédito. Por lei não é possível editar fatura.</p>
+        <div class="foot">
+          <span class="kw">ATCUD · série · nota de crédito</span>
+          <span class="src">kb.libax.com/business/faturacao</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-business-4" href="https://kb.libax.com/business/faturacao-eletronica" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">04</div>
+          <div class="title">Faturação Eletrónica</div>
+        </div>
+        <p class="summary">Integrações SAFE (gratuito 2 anos) e DigitalSign. Assinatura e envio conforme normas fiscais PT. QR code com ATCUD incluído automaticamente.</p>
+        <div class="foot">
+          <span class="kw">SAFE · DigitalSign · QR code</span>
+          <span class="src">kb.libax.com/business/faturacao-eletronica</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r wide" id="t-business-5" href="https://kb.libax.com/business/tesouraria" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">05</div>
+        </div>
+        <div class="right">
+          <div class="title">Tesouraria</div>
+          <p class="summary">Movimentos de caixa, bancos, previsões. Liquidação de faturas. Conciliação bancária. Ligação a Recibos do Libax Seguros para movimentos conjuntos.</p>
+          <div class="foot">
+            <span class="kw">tesouraria · conciliação · liquidação</span>
+            <span class="src">kb.libax.com/business/tesouraria</span>
+          </div>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+
+      <a class="card r" id="t-business-6" href="https://kb.libax.com/business/importacao" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">06</div>
+          <div class="title">Importação</div>
+        </div>
+        <p class="summary">CSV para faturas, entidades, produtos. Templates disponíveis. Permite grandes volumes numa só operação. Validação prévia antes de processar.</p>
+        <div class="foot">
+          <span class="kw">CSV · templates · validação</span>
+          <span class="src">kb.libax.com/business/importacao</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-business-7" href="https://kb.libax.com/business/api" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">07</div>
+          <div class="title">API</div>
+        </div>
+        <p class="summary">API REST para integração com outras aplicações. Criar clientes, emitir faturas, imprimir documentos. Manual com passos para emissão, liquidação, impressão.</p>
+        <div class="foot">
+          <span class="kw">API REST · integração · manual</span>
+          <span class="src">kb.libax.com/business/api</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ============== AUTOMATE ============== -->
+  <section class="app-section" id="app-automate">
+    <div class="grid-overlay"></div>
+    <div class="heading r">
+      <div>
+        <div class="eyebrow">Aplicação · 03 · Workflow automation</div>
+        <h2>Libax <em>Automate</em></h2>
+        <p class="subtitle">Workflow automation que liga tudo.</p>
+      </div>
+      <div class="count"><b>05</b>Tópicos</div>
+    </div>
+    <div class="cards">
+
+      <a class="card r wide" id="t-automate-1" href="https://kb.libax.com/automate/recibos-e-cobranca" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">01</div>
+        </div>
+        <div class="right">
+          <div class="title">Recibos e Cobrança</div>
+          <p class="summary">Modelos automáticos para notificar clientes por e-mail/SMS sobre recibos pendentes, prazos ultrapassados, cobranças falhadas, urgência no próprio dia. Filtros personalizáveis.</p>
+          <div class="foot">
+            <span class="kw">modelos · cobrança · notificações</span>
+            <span class="src">kb.libax.com/automate/recibos-e-cobranca</span>
+          </div>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+
+      <a class="card r" id="t-automate-2" href="https://kb.libax.com/automate/comissoes" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">02</div>
+          <div class="title">Comissões</div>
+        </div>
+        <p class="summary">Reformulação automática de comissões em todos os parceiros. Útil quando se associou parceiro a apólice depois do recibo existir. Garante que todos os recibos ficam com comissões lançadas.</p>
+        <div class="foot">
+          <span class="kw">reformulação · tempo real</span>
+          <span class="src">kb.libax.com/automate/comissoes</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-automate-3" href="https://kb.libax.com/automate/rgpd" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">03</div>
+          <div class="title">RGPD</div>
+        </div>
+        <p class="summary">Encontra clientes particulares sem pedido de RGPD e envia automaticamente. Configurável por intervalo de dias ou em tempo real (cliente recebe no momento do registo).</p>
+        <div class="foot">
+          <span class="kw">RGPD · consentimento · intervalo</span>
+          <span class="src">kb.libax.com/automate/rgpd</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-automate-4" href="https://kb.libax.com/automate/recibos-antigos" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">04</div>
+          <div class="title">Recibos Antigos</div>
+        </div>
+        <p class="summary">Cancelamento automático de recibos pendentes há mais de X meses. Companhias que não enviam devoluções deixam recibos antigos eternamente pendentes — este modelo resolve.</p>
+        <div class="foot">
+          <span class="kw">cancelamento · X meses</span>
+          <span class="src">kb.libax.com/automate/recibos-antigos</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card r" id="t-automate-5" href="https://kb.libax.com/automate/como-funciona" target="_blank" rel="noopener">
+        <div class="head">
+          <div class="num">05</div>
+          <div class="title">Como Funciona</div>
+        </div>
+        <p class="summary">Modelos pré-feitos que se podem ajustar e agendar. Algumas ações em tempo real (no momento do evento). Outras agendadas (diárias, semanais). Funciona com Seguros, Business e CRM.</p>
+        <div class="foot">
+          <span class="kw">modelos · agendado · tempo real</span>
+          <span class="src">kb.libax.com/automate/como-funciona</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ============== NOTA ============== -->
+  <section class="nota-section" id="nota">
+    <div class="nota-grid r">
+      <div class="nota-side">
+        <span>NOTA · 2026-07-27</span>
+        <span class="stamp">“cola mental”</span>
+      </div>
+      <div class="nota-main">
+        <h3>Quando um cliente <em>ligar</em>, confirma sempre no software.</h3>
+        <p>Estes apontamentos foram extraídos da KB pública da Libax (kb.libax.com) e organizados em 27 de julho de 2026 como uma cola mental pessoal.</p>
+        <p>Não substituem a leitura da KB. São apenas um índice mental — para encontrar rapidamente o tópico certo antes de ir ao software confirmar.</p>
+        <div class="sign">se alguém encontrar isto · <b>Lucca · Libax</b></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="kbd-hint">
+  <span><span class="k">↑</span> <span class="k">↓</span> navegar</span>
+  <span><span class="k">/</span> procurar</span>
+</div>
+
+<script>
+// -------- progress bar --------
+const fill = document.getElementById('progressFill');
+const counter = document.getElementById('counter');
+function updateProgress(){
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  fill.style.height = pct + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+
+// -------- reveal on scroll via IntersectionObserver --------
+const revealEls = document.querySelectorAll('.r');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(el => revealObs.observe(el));
+
+// -------- staggered reveal for cards (custom delay) --------
+const cards = document.querySelectorAll('.cards .card');
+const cardObs = new IntersectionObserver((entries) => {
+  // group entries by their parent cards container
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const card = e.target;
+    const parent = card.parentElement;
+    const siblings = Array.from(parent.querySelectorAll('.card'));
+    const idx = siblings.indexOf(card);
+    card.style.transitionDelay = (idx * 70) + 'ms';
+    card.classList.add('in');
+    cardObs.unobserve(card);
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+cards.forEach(c => cardObs.observe(c));
+
+// -------- scroll-spy for sidebar --------
+const sections = [
+  document.getElementById('hero'),
+  document.getElementById('app-seguros'),
+  document.getElementById('app-business'),
+  document.getElementById('app-automate'),
+  document.getElementById('nota')
+].filter(Boolean);
+
+const topicIds = [
+  't-seguros-1','t-seguros-2','t-seguros-3','t-seguros-4','t-seguros-5','t-seguros-6','t-seguros-7','t-seguros-8',
+  't-business-1','t-business-2','t-business-3','t-business-4','t-business-5','t-business-6','t-business-7',
+  't-automate-1','t-automate-2','t-automate-3','t-automate-4','t-automate-5'
+];
+
+function setActive(sectionId, topicId){
+  document.querySelectorAll('.sidebar .nav-link').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.sidebar .nav-sub a').forEach(n => n.classList.remove('active'));
+  if (sectionId) {
+    const link = document.querySelector(`.sidebar .nav-link[href="#${sectionId}"]`);
+    if (link) link.classList.add('active');
+    const parentLi = link ? link.closest('.nav-item') : null;
+    if (parentLi) parentLi.classList.add('open');
+  }
+  if (topicId) {
+    const tLink = document.querySelector(`.sidebar .nav-sub a[href="#${topicId}"]`);
+    if (tLink) tLink.classList.add('active');
+  }
+  // counter
+  if (topicId) {
+    const idx = topicIds.indexOf(topicId) + 1;
+    if (idx > 0) {
+      counter.textContent = String(idx).padStart(2, '0') + ' / ' + String(topicIds.length).padStart(2, '0');
+    }
+  } else {
+    const map = { hero: '00', 'app-seguros': 'S', 'app-business': 'B', 'app-automate': 'A', nota: '·' };
+    counter.textContent = (map[sectionId] || '··') + ' / 20';
+  }
+}
+
+// Observe topics for granular scrollspy
+const topicObs = new IntersectionObserver((entries) => {
+  // pick the one closest to top in viewport
+  const visible = entries.filter(e => e.isIntersecting)
+    .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+  if (visible.length > 0) {
+    const id = visible[0].target.id;
+    const sectionEl = visible[0].target.closest('.app-section, .nota-section, .hero');
+    const sectionId = sectionEl ? sectionEl.id : null;
+    setActive(sectionId, id);
+  }
+}, { threshold: [0.15, 0.4], rootMargin: '-80px 0px -55% 0px' });
+document.querySelectorAll('.card[id], .nota-section').forEach(el => topicObs.observe(el));
+
+// Also observe section headers to update nav when between topics
+const sectionObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      if (id === 'hero' || id === 'nota') {
+        setActive(id, null);
+      }
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => sectionObs.observe(s));
+
+// -------- sidebar nav toggle: clicking a section toggles sub-list --------
+document.querySelectorAll('.sidebar .nav-item > .nav-link').forEach(link => {
+  link.addEventListener('click', (e) => {
+    const li = link.parentElement;
+    const hasSub = li.querySelector('.nav-sub');
+    if (hasSub) {
+      e.preventDefault();
+      li.classList.toggle('open');
+    }
+  });
+});
+
+// -------- keyboard nav: / focuses "search" (here: focuses sidebar / first topic) --------
+document.addEventListener('keydown', (e) => {
+  if (e.key === '/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
+    e.preventDefault();
+    const firstTopic = document.querySelector('.sidebar .nav-sub a');
+    if (firstTopic) firstTopic.focus();
+  }
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.sidebar .nav-item.open').forEach(n => n.classList.remove('open'));
+  }
+});
+
+// trigger initial
+window.addEventListener('load', () => {
+  setActive('hero', null);
+});
+</script>
+
+</body>
+</html>
