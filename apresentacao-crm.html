@@ -53,30 +53,6 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 .scroll-hint .line{width:1px;height:36px;background:linear-gradient(180deg,transparent,var(--green));animation:down 2.4s cubic-bezier(.65,0,.35,1) infinite}
 @keyframes down{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
 
-.overview .heading{margin-bottom:64px}
-.overview .eyebrow{font-family:Roboto;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
-.overview h2{font-family:Roboto;font-weight:300;font-size:clamp(40px,5vw,72px);line-height:1;letter-spacing:-.025em}
-.overview h2 em{font-style:italic;font-weight:700;color:var(--lime)}
-.overview .subtitle{font-weight:300;font-size:18px;color:var(--ink-soft);margin-top:18px;max-width:540px;margin-left:auto;margin-right:auto}
-
-.features{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;max-width:1180px;width:100%;background:var(--line);border:1px solid var(--line-strong)}
-.feat{grid-column:span 4;background:var(--bg-2);padding:36px 28px;text-align:left;position:relative;overflow:hidden;transition:background .5s cubic-bezier(.16,1,.3,1)}
-.feat:hover{background:var(--surface)}
-.feat .num{font-family:Roboto;font-size:10px;letter-spacing:.2em;color:var(--ink-dim);margin-bottom:32px;display:block}
-.feat .title{font-family:Roboto;font-weight:700;font-size:22px;letter-spacing:-.02em;color:var(--ink);margin-bottom:10px}
-.feat .desc{font-weight:300;font-size:14px;line-height:1.55;color:var(--ink-soft)}
-.feat .accent{position:absolute;left:0;top:0;width:1px;height:100%;background:var(--lime);transform:scaleY(0);transform-origin:bottom;transition:transform .6s cubic-bezier(.16,1,.3,1)}
-.feat:hover .accent{transform:scaleY(1)}
-.feat .icon{display:block;width:32px;height:32px;color:var(--lime);margin-bottom:18px;stroke-width:1.5}
-.feat--wide{grid-column:span 8;display:grid;grid-template-columns:1fr 1fr;gap:32px;padding:44px 36px}
-.feat--wide .num{grid-column:1/-1}
-.feat--wide .title{font-size:30px;line-height:1.05}
-.feat--wide .desc{font-size:15px}
-.feat--wide .visual{grid-row:span 2;align-self:end;justify-self:end}
-.feat--wide .visual code{display:block;font-family:Roboto;font-size:10px;color:var(--ink-soft);line-height:1.85;background:var(--bg);padding:18px 22px;border:1px solid var(--line-strong);border-radius:4px;white-space:pre;text-align:left}
-.feat--wide .visual code .k{color:var(--lime)}
-.feat--wide .visual code .v{color:var(--green-bright)}
-
 /* === TOC / INDEX === */
 .toc{color:var(--ink)}
 .toc .bg{background:linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
@@ -155,7 +131,7 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 <svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
 
 <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-<div class="counter" id="counter">01 / 10</div>
+<div class="counter" id="counter">01 / 09</div>
 
 <div class="deck" id="deck">
 
@@ -164,79 +140,9 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
     <div class="grid-overlay"></div>
     <span class="badge r">Pipeline · Contactos · Suporte</span>
     <h1 class="r delay-1">Libax<br><em>CRM</em></h1>
-    <p class="tagline r delay-2">CRM para equipas comerciais que vendem mais.</p>
+    <p class="tagline r delay-2">O seu CRM é muito complicado? Concentre-se no essencial.</p>
     <p class="sub r delay-3">Contactos · Negócios · Tickets · Tarefas</p>
     <div class="scroll-hint r delay-4">Descer<span class="line"></span></div>
-  </section>
-
-  <section class="section overview">
-    <div class="bg mesh"></div>
-    <div class="grid-overlay"></div>
-    <div class="heading r">
-      <div class="eyebrow">Visão geral</div>
-      <h2>Conheça melhor<br><em>os seus clientes.</em></h2>
-      <p class="subtitle">Ferramentas para toda a jornada de relacionamento — do primeiro contacto ao fecho do negócio.</p>
-    </div>
-    <div class="features">
-      <div class="feat feat--wide r">
-        <div>
-          <span class="num">01 / 07</span>
-          <div class="title">Gestão de<br>Contactos</div>
-          <p class="desc">Base de contactos centralizada com histórico completo por cliente — incluindo interações, emails, chamadas e tarefas.</p>
-        </div>
-        <div class="visual">
-          <code><span class="k">contacto</span>: <span class="v">"Maria Santos"</span>
-<span class="k">estado</span>:   <span class="v">"quente"</span>
-<span class="k">valor</span>:    12.500,00 €
-<span class="k">próximo</span>:  <span class="v">"ligar 14h"</span>
-<span class="k">equipa</span>:   <span class="v">"Ana R."</span></code>
-        </div>
-        <span class="accent"></span>
-      </div>
-
-      <div class="feat r">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h12l-2 4h2l-3 6h6"/></svg>
-        <span class="num">02 / 07</span>
-        <div class="title">Negócios e<br>Oportunidades</div>
-        <p class="desc">Acompanhe negócios em pipeline e converta oportunidades em vendas.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-2V8z"/><path d="M9 8v8"/></svg>
-        <span class="num">03 / 07</span>
-        <div class="title">Tickets<br>de Suporte</div>
-        <p class="desc">Gestão de pedidos de apoio com estados, prioridades e SLAs.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
-        <span class="num">04 / 07</span>
-        <div class="title">Tarefas e<br>Lembretes</div>
-        <p class="desc">Planeie follow-ups e nunca perca um compromisso.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21V12h6v9"/></svg>
-        <span class="num">05 / 07</span>
-        <div class="title">Gestão de<br>Empresas</div>
-        <p class="desc">Associe múltiplos clientes à mesma empresa e veja a conta toda.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="8" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="8" r="3"/><path d="M21 21v-1.5a2.5 2.5 0 0 0-2-2.45"/></svg>
-        <span class="num">06 / 07</span>
-        <div class="title">Equipas e<br>Atribuição</div>
-        <p class="desc">Organize equipas e atribua clientes, negócios e tickets.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 11v2a2 2 0 0 0 2 2h2l5 4V5L7 9H5a2 2 0 0 0-2 2z"/><path d="M16 8a5 5 0 0 1 0 8"/></svg>
-        <span class="num">07 / 07</span>
-        <div class="title">Campanhas<br>de marketing</div>
-        <p class="desc">Crie e gira campanhas diretamente no Libax Automate.</p>
-        <span class="accent"></span>
-      </div>
-    </div>
   </section>
 
   <section class="section toc">
