@@ -14,6 +14,7 @@
   --green-btn:#5fb000;--green-pale:#7cb731;
   --green-bright:#9bbb59;
   --lime:#6d9d30;
+  --sidebar-w:260px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -23,16 +24,15 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 
 .deck{height:100vh;overflow-y:scroll;scroll-snap-type:y proximity;scrollbar-width:none}
 .deck::-webkit-scrollbar{display:none}
-.section{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 56px;text-align:center;position:relative;overflow:hidden}
+.section{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 56px 80px calc(var(--sidebar-w) + 64px);text-align:center;position:relative;overflow:hidden}
 .section>*:not(.bg):not(.grid){position:relative;z-index:3}
 .bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-
 .bg.mesh{background:radial-gradient(ellipse 80% 60% at 15% 20%, rgba(109,157,48,.06), transparent 55%),radial-gradient(ellipse 60% 50% at 90% 80%, rgba(155,187,89,.10), transparent 60%),radial-gradient(ellipse 50% 50% at 50% 100%, rgba(124,183,49,.06), transparent 60%)}
 .grid-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;background-image:linear-gradient(to right, rgba(109,157,48,.05) 1px, transparent 1px),linear-gradient(to bottom, rgba(109,157,48,.05) 1px, transparent 1px);background-size:96px 96px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%)}
 
 .progress{position:fixed;top:0;right:0;width:3px;height:100vh;background:rgba(109,157,48,.12);z-index:10}
 .progress-fill{width:100%;background:linear-gradient(180deg,var(--green-light),var(--green));height:0;transition:height .25s cubic-bezier(.16,1,.3,1)}
-.counter{position:fixed;top:32px;right:60px;z-index:11;font-family:Roboto;font-size:11px;letter-spacing:.18em;color:var(--ink-dim)}
+.counter{position:fixed;top:32px;right:60px;z-index:11;font-family:Roboto;font-size:14.9px;letter-spacing:.18em;color:var(--ink-dim)}
 
 .r{opacity:0;transform:translateY(40px);transition:opacity 1.4s cubic-bezier(.16,1,.3,1), transform 1.4s cubic-bezier(.16,1,.3,1)}
 .r.in{opacity:1;transform:translateY(0)}
@@ -43,62 +43,145 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 
 .hero{color:var(--ink)}
 .hero .bg{background:radial-gradient(ellipse 80% 60% at 30% 30%, rgba(109,157,48,.12), transparent 55%),radial-gradient(ellipse 50% 50% at 80% 80%, rgba(109,157,48,.10), transparent 60%),linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
-.hero .badge{display:inline-flex;align-items:center;gap:10px;font-family:Roboto;font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-soft);margin-bottom:40px}
+.hero .badge{display:inline-flex;align-items:center;gap:10px;font-family:Roboto;font-size:14.9px;letter-spacing:.2em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-soft);margin-bottom:40px}
 .hero .badge::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 0 0 transparent}
-
-.hero h1{font-family:Roboto;font-weight:300;font-size:clamp(64px,8vw,140px);line-height:.92;letter-spacing:-.035em;margin-bottom:24px}
+.hero h1{font-family:Roboto;font-weight:300;font-size:clamp(86.4px,10.8vw,189px);line-height:.92;letter-spacing:-.035em;margin-bottom:24px}
 .hero h1 em{font-style:italic;font-weight:700;color:var(--lime)}
-.hero .tagline{font-weight:300;font-size:22px;color:var(--ink-soft);margin-bottom:8px}
-.hero .sub{font-family:Roboto;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);margin-bottom:56px}
-.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-family:Roboto;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);display:flex;flex-direction:column;align-items:center;gap:10px}
+.hero .tagline{font-weight:300;font-size:29.7px;color:var(--ink-soft);margin-bottom:8px}
+.hero .sub{font-family:Roboto;font-size:16.2px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);margin-bottom:56px}
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-family:Roboto;font-size:13.5px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);display:flex;flex-direction:column;align-items:center;gap:10px}
 .scroll-hint .line{width:1px;height:36px;background:linear-gradient(180deg,transparent,var(--green));animation:down 2.4s cubic-bezier(.65,0,.35,1) infinite}
 @keyframes down{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
 
-.overview .heading{margin-bottom:64px}
-.overview .eyebrow{font-family:Roboto;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
-.overview h2{font-family:Roboto;font-weight:300;font-size:clamp(40px,5vw,72px);line-height:1;letter-spacing:-.025em}
+/* === SIDEBAR === */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:rgba(255,255,255,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-right:1px solid var(--line);z-index:20;display:flex;flex-direction:column;padding:32px 0 24px;font-family:Roboto}
+.sidebar .brand{padding:0 24px 24px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+.sidebar .brand .dot{width:8px;height:8px;background:var(--green);border-radius:50%}
+.sidebar .brand .name{font-weight:700;font-size:18.9px;letter-spacing:-.01em;color:var(--ink)}
+.sidebar .brand .product{font-weight:300;font-size:17.6px;color:var(--ink-soft);font-style:italic}
+.sidebar nav{flex:1;overflow-y:auto;padding:18px 0;scrollbar-width:thin}
+.sidebar nav::-webkit-scrollbar{width:4px}
+.sidebar nav::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+.sidebar .nav-list{list-style:none}
+.sidebar .nav-item{margin-bottom:2px}
+.sidebar .nav-link{display:flex;align-items:center;gap:12px;padding:10px 24px;text-decoration:none;color:var(--ink-soft);font-size:16.2px;letter-spacing:.02em;font-weight:500;border-left:2px solid transparent;transition:background .3s,color .3s,border-color .3s;cursor:pointer}
+.sidebar .nav-link:hover{background:rgba(109,157,48,.05);color:var(--ink)}
+.sidebar .nav-link.active{background:rgba(109,157,48,.08);color:var(--ink);border-left-color:var(--lime);font-weight:700}
+.sidebar .nav-link .num{font-family:Roboto;font-size:13.5px;letter-spacing:.15em;color:var(--ink-dim);min-width:24px;font-weight:700}
+.sidebar .nav-link.active .num{color:var(--lime)}
+.sidebar .nav-link .title{flex:1}
+.sidebar .nav-link .pill{font-size:12.2px;letter-spacing:.15em;color:var(--ink-dim);text-transform:uppercase;background:var(--bg-2);padding:3px 8px;border-radius:999px}
+.sidebar .nav-link.active .pill{background:var(--lime);color:#fff}
+.sidebar .nav-sub{display:none;list-style:none;padding:4px 0 8px 0}
+.sidebar .nav-item.open .nav-sub{display:block}
+.sidebar .nav-sub a{display:flex;align-items:center;gap:10px;padding:7px 24px 7px 56px;text-decoration:none;color:var(--ink-dim);font-size:14.9px;letter-spacing:.01em;font-weight:400;transition:color .3s,background .3s;cursor:pointer;border-left:2px solid transparent}
+.sidebar .nav-sub a:hover{color:var(--ink);background:rgba(109,157,48,.04)}
+.sidebar .nav-sub a.active{color:var(--lime);font-weight:700;border-left-color:var(--lime)}
+.sidebar .nav-sub .vnum{font-size:12.2px;letter-spacing:.1em;color:var(--ink-dim);min-width:18px;text-align:center}
+.sidebar .nav-sub a.active .vnum{color:var(--lime)}
+.sidebar .nav-chevron{font-size:13.5px;color:var(--ink-dim);transition:transform .3s cubic-bezier(.16,1,.3,1),color .3s}
+.sidebar .nav-item.open .nav-link .nav-chevron{transform:rotate(90deg);color:var(--lime)}
+.sidebar .footer{padding:18px 24px 0;border-top:1px solid var(--line);font-size:13.5px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
+
+/* === OVERVIEW === */
+.overview .bg{background:linear-gradient(160deg,#fafafa 0%,#f2f2f4 100%)}
+.overview .heading{margin-bottom:36px}
+.overview .eyebrow{font-family:Roboto;font-size:13.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:14px}
+.overview h2{font-family:Roboto;font-weight:300;font-size:clamp(36px,4.4vw,62px);line-height:1.05;letter-spacing:-.02em}
 .overview h2 em{font-style:italic;font-weight:700;color:var(--lime)}
-.overview .subtitle{font-weight:300;font-size:18px;color:var(--ink-soft);margin-top:18px;max-width:560px;margin-left:auto;margin-right:auto}
-.features{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;max-width:1180px;width:100%;background:var(--line);border:1px solid var(--line-strong)}
+.overview .subtitle{font-weight:300;font-size:19.4px;color:var(--ink-soft);margin-top:18px;max-width:680px;margin:18px auto 0}
+.features{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;max-width:1180px;width:100%;margin-top:48px;background:var(--line);border:1px solid var(--line-strong)}
 .feat{grid-column:span 4;background:var(--bg-2);padding:36px 28px;text-align:left;position:relative;overflow:hidden;transition:background .5s cubic-bezier(.16,1,.3,1)}
 .feat:hover{background:var(--surface)}
-.feat .num{font-family:Roboto;font-size:10px;letter-spacing:.2em;color:var(--ink-dim);margin-bottom:32px;display:block}
+.feat .num{font-family:Roboto;font-size:14.9px;letter-spacing:.2em;color:var(--ink-dim);margin-bottom:32px;display:block}
 .feat .title{font-family:Roboto;font-weight:700;font-size:22px;letter-spacing:-.02em;color:var(--ink);margin-bottom:10px}
-.feat .desc{font-weight:300;font-size:14px;line-height:1.55;color:var(--ink-soft)}
+.feat .desc{font-weight:300;font-size:16.2px;line-height:1.55;color:var(--ink-soft)}
 .feat .accent{position:absolute;left:0;top:0;width:1px;height:100%;background:var(--lime);transform:scaleY(0);transform-origin:bottom;transition:transform .6s cubic-bezier(.16,1,.3,1)}
 .feat:hover .accent{transform:scaleY(1)}
 .feat .icon{display:block;width:32px;height:32px;color:var(--lime);margin-bottom:18px;stroke-width:1.5}
 
-.separator-section{color:var(--ink)}
-.separator-section .bg{background:radial-gradient(ellipse 60% 80% at 50% 50%, rgba(109,157,48,.06), transparent 65%),linear-gradient(180deg,#f2f2f4 0%,#e4e4e4 100%)}
-.separator-section .sep-index{font-family:Roboto;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:32px}
-.separator-section h2{font-family:Roboto;font-weight:300;font-size:clamp(56px,7vw,110px);line-height:.95;letter-spacing:-.03em}
-.separator-section h2 em{font-style:italic;font-weight:700;color:var(--lime)}
-.separator-section .sep-meta{font-family:Roboto;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);margin-top:28px;display:flex;align-items:center;gap:14px;justify-content:center}
-.separator-section .sep-meta::before,.separator-section .sep-meta::after{content:'';width:32px;height:1px;background:var(--ink-dim)}
+/* === ROADMAP === */
+.roadmap{color:var(--ink)}
+.roadmap .bg{background:linear-gradient(160deg,#f2f2f4 0%,#e8e8ea 100%)}
+.roadmap .heading{margin-bottom:48px}
+.roadmap .eyebrow{font-family:Roboto;font-size:14.9px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
+.roadmap h2{font-family:Roboto;font-weight:300;font-size:clamp(48.6px,6.1vw,86.4px);line-height:1;letter-spacing:-.025em}
+.roadmap h2 em{font-style:italic;font-weight:700;color:var(--lime)}
+.roadmap .subtitle{font-weight:300;font-size:21.6px;color:var(--ink-soft);margin-top:18px;max-width:560px;margin-left:auto;margin-right:auto}
+.roadmap-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:1px;max-width:1120px;width:100%;background:var(--line);border:1px solid var(--line-strong)}
+.roadmap-col{background:var(--bg);padding:36px 32px;text-align:left}
+.roadmap-col h3{font-family:Roboto;font-weight:700;font-size:18.9px;letter-spacing:.15em;text-transform:uppercase;color:var(--lime);margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.roadmap-col ul{list-style:none}
+.roadmap-col li{font-family:Roboto;font-weight:300;font-size:20.2px;line-height:1.5;color:var(--ink-soft);padding:10px 0;display:flex;align-items:flex-start;gap:12px}
+.roadmap-col li::before{content:'';width:6px;height:6px;background:var(--lime);border-radius:50%;margin-top:8px;flex-shrink:0;opacity:.4}
+.roadmap-col li.active::before{opacity:1}
+.roadmap-col li.active{color:var(--ink);font-weight:500}
+.roadmap-phase{display:flex;align-items:flex-start;gap:16px;padding:10px 0}
+.roadmap-phase .ph-num{font-family:Roboto;font-size:14.9px;letter-spacing:.15em;color:var(--lime);font-weight:700;min-width:56px;flex-shrink:0;padding-top:2px}
+.roadmap-phase .ph-body{flex:1}
+.roadmap-phase .ph-title{font-family:Roboto;font-weight:500;font-size:20.2px;color:var(--ink);line-height:1.4}
+.roadmap-phase .ph-eta{font-family:Roboto;font-size:14.9px;letter-spacing:.1em;color:var(--ink-dim);text-transform:uppercase;margin-top:2px}
 
-.video{color:var(--ink)}
-.video .bg{background:linear-gradient(180deg,#f2f2f4 0%,#e4e4e4 100%)}
-.video .heading{margin-bottom:48px}
-.video .eyebrow{font-family:Roboto;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);display:inline-flex;align-items:center;gap:10px;margin-bottom:18px}
-.video .eyebrow::before{content:'';width:18px;height:1px;background:var(--green-bright)}
-.video h2{font-family:Roboto;font-weight:300;font-size:clamp(36px,4.2vw,58px);line-height:1;letter-spacing:-.025em}
-.video h2 em{font-style:italic;font-weight:700;color:var(--lime)}
-.video .frame{width:100%;max-width:1080px;aspect-ratio:16/9;background:var(--bg-2);border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;position:relative;box-shadow:4px 4px 2px #e4e4e4, 0 0 0 1px rgba(168,178,159,.04)}
-.video video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
-.video .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center, rgba(109,157,48,.2), transparent 70%), var(--bg-2);font-family:Roboto;font-size:13px;letter-spacing:.15em;color:var(--ink-soft);position:relative}
-.video .fallback::before{content:'';position:absolute;inset:24px;border:1px dashed var(--line-strong);border-radius:4px}
-.video .caption{font-family:Roboto;font-size:11px;letter-spacing:.2em;color:var(--ink-dim);margin-top:24px;text-transform:uppercase}
-.video .caption span{color:var(--lime)}
+/* === TOC / INDEX === */
+.toc{color:var(--ink)}
+.toc .bg{background:linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
+.toc .heading{margin-bottom:56px}
+.toc .eyebrow{font-family:Roboto;font-size:14.9px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
+.toc h2{font-family:Roboto;font-weight:300;font-size:clamp(48.6px,6.1vw,86.4px);line-height:1;letter-spacing:-.025em}
+.toc h2 em{font-style:italic;font-weight:700;color:var(--lime)}
+.toc .subtitle{font-weight:300;font-size:21.6px;color:var(--ink-soft);margin-top:18px;max-width:520px;margin-left:auto;margin-right:auto}
+.toc-grid{display:flex;flex-direction:column;gap:1px;max-width:760px;width:100%;background:var(--line);border:1px solid var(--line-strong)}
+.toc-cat{background:var(--bg-2)}
+.toc-cat summary{list-style:none;cursor:pointer;padding:22px 28px;display:grid;grid-template-columns:48px 1fr auto auto;align-items:center;gap:20px;transition:background .3s;user-select:none}
+.toc-cat summary::-webkit-details-marker{display:none}
+.toc-cat summary:hover{background:var(--surface)}
+.toc-cat[open] summary{background:var(--surface)}
+.toc-cat[open] summary .toc-arrow{transform:rotate(90deg);color:var(--lime)}
+.toc-cat .toc-num{font-family:Roboto;font-size:14.9px;letter-spacing:.2em;color:var(--lime);font-weight:700}
+.toc-cat .toc-title{font-family:Roboto;font-weight:700;font-size:24.3px;letter-spacing:-.015em;color:var(--ink)}
+.toc-cat .toc-meta{font-family:Roboto;font-size:14.9px;letter-spacing:.15em;color:var(--ink-dim);text-transform:uppercase;white-space:nowrap}
+.toc-cat .toc-arrow{font-family:Roboto;font-size:18.9px;color:var(--ink-dim);transition:transform .3s cubic-bezier(.16,1,.3,1),color .3s}
+.toc-videos{list-style:none;background:var(--bg);border-top:1px solid var(--line)}
+.toc-videos li{display:flex;align-items:center;gap:12px;padding:14px 28px 14px 76px;font-size:17.6px;color:var(--ink-soft);border-bottom:1px solid var(--line);transition:background .25s,color .25s;cursor:pointer}
+.toc-videos li:last-child{border-bottom:none}
+.toc-videos li:hover{background:var(--bg-2);color:var(--ink)}
+.toc-videos .vnum{font-size:13.5px;letter-spacing:.1em;color:var(--lime);font-weight:700;min-width:24px}
+.toc-videos .vtitle{flex:1;font-weight:500}
+.toc-videos .vgo{font-size:18.9px;color:var(--ink-dim);transition:transform .25s,color .25s}
+.toc-videos li:hover .vgo{transform:translateX(4px);color:var(--lime)}
 
+/* === CATEGORY SECTION === */
+.cat{color:var(--ink)}
+.cat .bg{background:linear-gradient(180deg,#f2f2f4 0%,#e4e4e4 100%)}
+.cat .heading{margin-bottom:48px}
+.cat .eyebrow{font-family:Roboto;font-size:14.9px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px;display:inline-flex;align-items:center;gap:14px}
+.cat .eyebrow::before{content:'';width:24px;height:1px;background:var(--green-bright)}
+.cat .eyebrow::after{content:'';width:24px;height:1px;background:var(--green-bright)}
+.cat h2{font-family:Roboto;font-weight:300;font-size:clamp(54px,6.8vw,97.2px);line-height:1;letter-spacing:-.025em;margin-bottom:14px}
+.cat h2 em{font-style:italic;font-weight:700;color:var(--lime)}
+.cat .subtitle{font-weight:300;font-size:21.6px;color:var(--ink-soft);max-width:560px;margin:0 auto}
+.cat .video-stack{display:flex;flex-direction:column;gap:40px;max-width:1080px;width:100%;margin-top:40px}
+.video-block{text-align:left;scroll-margin-top:20px}
+.video-block .frame{width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;position:relative;box-shadow:4px 4px 2px #e4e4e4}
+.video-block video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.video-block .label{display:flex;align-items:center;gap:16px;margin-top:18px;font-family:Roboto;font-size:14.9px;letter-spacing:.2em;color:var(--ink-dim);text-transform:uppercase}
+.video-block .label .num{color:var(--lime);font-weight:500}
+.video-block .label .title{color:var(--ink);font-weight:700;letter-spacing:.02em;text-transform:none;font-size:17.6px}
+.video-block .label .sep{color:var(--line-strong)}
+
+@media (max-width:900px){
+  :root{--sidebar-w:0px}
+  .sidebar{display:none}
+  .section{padding:80px 24px}
+  .toc-videos li{padding-left:48px}
+  .toc-cat summary{grid-template-columns:32px 1fr auto;padding:18px 20px}
+  .toc-cat .toc-arrow{display:none}
+}
 @media (max-width:780px){
   .features{grid-template-columns:1fr;background:transparent;border:none;gap:1px}
   .feat{grid-column:span 1;padding:28px 24px;background:var(--bg-2);border:1px solid var(--line-strong)}
-  .hero h1{font-size:clamp(48px,11vw,80px)}
-  .section{padding:80px 24px}
-  .cornav{left:20px;top:20px;font-size:10px}
-  .counter{right:36px;top:20px;font-size:10px}
-  .separator-section h2{font-size:clamp(40px,9vw,68px)}
+  .hero h1{font-size:clamp(64.8px,14.9vw,108px)}
+  .counter{right:36px;top:20px;font-size:13.5px}
 }
 @media (prefers-reduced-motion: reduce){
   .r{opacity:1;transform:none;transition:none}
@@ -108,20 +191,134 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 .libax-brand img{height:24px;width:auto;display:block}
 .libax-brand .brand-sep{color:var(--ink-dim);margin:0 4px}
 .libax-brand .brand-name{color:rgba(109,157,48,.75);font-weight:700}
-.video .fallback{background:radial-gradient(ellipse at center, rgba(109,157,48,.06), transparent 70%), #f2f2f4;color:var(--ink-soft)}
 </style>
-
 </head>
 <body>
 <svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
 
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <span class="dot"></span>
+    <span class="name">Libax</span>
+    <span class="product">Seguros</span>
+  </div>
+  <nav id="sidebarNav">
+    <ul class="nav-list" id="navList">
+      <li class="nav-item" data-target="hero">
+        <a class="nav-link" href="#hero">
+          <span class="num">00</span>
+          <span class="title">Início</span>
+        </a>
+      </li>
+      <li class="nav-item" data-target="overview">
+        <a class="nav-link" href="#overview">
+          <span class="num">·</span>
+          <span class="title">Visão geral</span>
+        </a>
+      </li>
+      <li class="nav-item" data-target="roadmap">
+        <a class="nav-link" href="#roadmap">
+          <span class="num">·</span>
+          <span class="title">Roadmap</span>
+        </a>
+      </li>
+      <li class="nav-item" data-target="toc">
+        <a class="nav-link" href="#toc">
+          <span class="num">·</span>
+          <span class="title">Índice</span>
+        </a>
+      </li>
+      <li class="nav-item" data-target="cat-recibos">
+        <a class="nav-link" href="#cat-recibos">
+          <span class="num">01</span>
+          <span class="title">Recibos</span>
+          <span class="pill">2</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#vid-recibos-1"><span class="vnum">01</span>Obter recibo em tempo real</a></li>
+          <li><a href="#vid-recibos-2"><span class="vnum">02</span>Importação de ficheiro de carteira</a></li>
+        </ul>
+      </li>
+      <li class="nav-item" data-target="cat-clientes">
+        <a class="nav-link" href="#cat-clientes">
+          <span class="num">02</span>
+          <span class="title">Clientes</span>
+          <span class="pill">3</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#vid-clientes-1"><span class="vnum">01</span>Como registar cliente</a></li>
+          <li><a href="#vid-clientes-2"><span class="vnum">02</span>Registo manual de apólice</a></li>
+          <li><a href="#vid-clientes-3"><span class="vnum">03</span>Ficha do cliente</a></li>
+        </ul>
+      </li>
+      <li class="nav-item" data-target="cat-tesouraria">
+        <a class="nav-link" href="#cat-tesouraria">
+          <span class="num">03</span>
+          <span class="title">Tesouraria</span>
+          <span class="pill">3</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#vid-tesouraria-1"><span class="vnum">01</span>Cobrança na tesouraria</a></li>
+          <li><a href="#vid-tesouraria-2"><span class="vnum">02</span>Folha de caixa</a></li>
+          <li><a href="#vid-tesouraria-3"><span class="vnum">03</span>Depósito para banco</a></li>
+        </ul>
+      </li>
+      <li class="nav-item" data-target="cat-parceiros">
+        <a class="nav-link" href="#cat-parceiros">
+          <span class="num">04</span>
+          <span class="title">Parceiros</span>
+          <span class="pill">4</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#vid-parceiros-1"><span class="vnum">01</span>Criação e configuração do parceiro</a></li>
+          <li><a href="#vid-parceiros-2"><span class="vnum">02</span>Códigos de mediação</a></li>
+          <li><a href="#vid-parceiros-3"><span class="vnum">03</span>Novo pagamento ao parceiro</a></li>
+          <li><a href="#vid-parceiros-4"><span class="vnum">04</span>Importação de prestação de contas</a></li>
+        </ul>
+      </li>
+      <li class="nav-item" data-target="cat-analises">
+        <a class="nav-link" href="#cat-analises">
+          <span class="num">05</span>
+          <span class="title">Análises</span>
+          <span class="pill">6</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#vid-analises-1"><span class="vnum">01</span>Análise de carteira</a></li>
+          <li><a href="#vid-analises-2"><span class="vnum">02</span>Produção total</a></li>
+          <li><a href="#vid-analises-3"><span class="vnum">03</span>Produção nova</a></li>
+          <li><a href="#vid-analises-4"><span class="vnum">04</span>Variação de recibos</a></li>
+          <li><a href="#vid-analises-5"><span class="vnum">05</span>Beyondata</a></li>
+          <li><a href="#vid-analises-6"><span class="vnum">06</span>Dashboards</a></li>
+        </ul>
+      </li>
+      <li class="nav-item" data-target="cat-pesquisa">
+        <a class="nav-link" href="#cat-pesquisa">
+          <span class="num">06</span>
+          <span class="title">Pesquisa</span>
+          <span class="pill">2</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#vid-pesquisa-1"><span class="vnum">01</span>Pesquisa simples e avançada</a></li>
+          <li><a href="#vid-pesquisa-2"><span class="vnum">02</span>Controlo de informação fidedigna</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="footer">20 vídeos · 6 categorias</div>
+</aside>
+
 <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-<!-- OFFICIAL LIBAX HEADER -->
-<div class="counter" id="counter">01 / 28</div>
+<div class="counter" id="counter">01 / 11</div>
 
 <div class="deck" id="deck">
 
-  <section class="section hero">
+  <section class="section hero" id="hero">
     <div class="bg mesh"></div>
     <div class="grid-overlay"></div>
     <span class="badge r">Carteira · Mediação · Tesouraria</span>
@@ -131,9 +328,8 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
     <div class="scroll-hint r delay-4">Descer<span class="line"></span></div>
   </section>
 
-  <section class="section overview">
-    <div class="bg mesh"></div>
-    <div class="grid-overlay"></div>
+  <section class="section overview" id="overview">
+    <div class="bg"></div>
     <div class="heading r">
       <div class="eyebrow">Visão geral</div>
       <h2>Tudo o que precisa<br><em>para a sua mediação.</em></h2>
@@ -147,7 +343,6 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
         <p class="desc">Registo completo de apólices, coberturas e sinistros num só lugar.</p>
         <span class="accent"></span>
       </div>
-
       <div class="feat r">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 21V8l8-5 8 5v13M4 21h16M9 21v-7h6v7"/></svg>
         <span class="num">02 / 06</span>
@@ -186,350 +381,443 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
     </div>
   </section>
 
-  <section class="section separator-section">
-    <div class="bg"></div>
-    <div class="grid-overlay"></div>
-    <div class="sep-index r">Cap&iacute;tulo 01</div>
-    <h2 class="r delay-1">Recibos e Importação</h2>
-    <div class="sep-meta r delay-2">2 Vídeos</div>
-  </section>
-  <section class="section video">
+  <section class="section roadmap" id="roadmap">
     <div class="bg"></div>
     <div class="heading r">
-      <div class="eyebrow">Vídeo · 01</div>
-      <h2>Obter recibo em tempo real</h2>
+      <div class="eyebrow">Onde estamos · Para onde vamos</div>
+      <h2>Do que funciona hoje<br><em>ao que vem aí.</em></h2>
+      <p class="subtitle">Uma plataforma operacional para a sua mediação — agora — com um caminho claro até à análise avançada e automatização.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-recibo-tempo-real.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
+    <div class="roadmap-grid r delay-1">
+      <div class="roadmap-col">
+        <h3>A funcionar hoje</h3>
+        <ul>
+          <li class="active">Webservices com companhias e importação de carteira</li>
+          <li class="active">Gestão completa de recibos e apólices</li>
+          <li class="active">Parceiros com hierarquia, comissões e SEPA</li>
+          <li class="active">Análises de carteira, produção e dashboards</li>
+          <li class="active">Pesquisa simples e avançada com controlo de informação</li>
+        </ul>
+      </div>
+      <div class="roadmap-col">
+        <h3>Fases futuras</h3>
+        <div class="roadmap-phase"><span class="ph-num">fase 1</span><div class="ph-body"><div class="ph-title">Libax Automate integrado</div><div class="ph-eta">em breve</div></div></div>
+        <div class="roadmap-phase"><span class="ph-num">fase 2</span><div class="ph-body"><div class="ph-title">24 modelos de automatização</div><div class="ph-eta">em breve</div></div></div>
+        <div class="roadmap-phase"><span class="ph-num">fase 3</span><div class="ph-body"><div class="ph-title">Beyondata — Power BI avançado</div><div class="ph-eta">em breve</div></div></div>
+        <div class="roadmap-phase"><span class="ph-num">fase 4</span><div class="ph-body"><div class="ph-title">Integração com mais companhias</div><div class="ph-eta">a definir</div></div></div>
+        <div class="roadmap-phase"><span class="ph-num">fase 5</span><div class="ph-body"><div class="ph-title">Sinistros</div><div class="ph-eta">a definir</div></div></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>01</span> · Obter recibo em tempo real</div>
   </section>
-  <section class="section video">
+
+  <section class="section toc" id="toc">
     <div class="bg"></div>
     <div class="heading r">
-      <div class="eyebrow">Vídeo · 02</div>
-      <h2>Importação de ficheiro de carteira</h2>
+      <div class="eyebrow">O que vai ver</div>
+      <h2>Índice das <em>demonstrações</em></h2>
+      <p class="subtitle">20 vídeos curtos, organizados por capítulo. Carregue num capítulo para abrir a lista de vídeos.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-importar-carteira.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
+    <div class="toc-grid r delay-1">
+      <details class="toc-cat">
+        <summary>
+          <span class="toc-num">01</span>
+          <span class="toc-title">Recibos e Importação</span>
+          <span class="toc-meta">2 vídeos</span>
+          <span class="toc-arrow">▸</span>
+        </summary>
+        <ul class="toc-videos">
+          <li onclick="document.getElementById('vid-recibos-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Obter recibo em tempo real</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-recibos-2').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">02</span><span class="vtitle">Importação de ficheiro de carteira</span><span class="vgo">→</span></li>
+        </ul>
+      </details>
+      <details class="toc-cat">
+        <summary>
+          <span class="toc-num">02</span>
+          <span class="toc-title">Clientes e Apólices</span>
+          <span class="toc-meta">3 vídeos</span>
+          <span class="toc-arrow">▸</span>
+        </summary>
+        <ul class="toc-videos">
+          <li onclick="document.getElementById('vid-clientes-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Como registar cliente</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-clientes-2').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">02</span><span class="vtitle">Registo manual de apólice</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-clientes-3').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">03</span><span class="vtitle">Ficha do cliente</span><span class="vgo">→</span></li>
+        </ul>
+      </details>
+      <details class="toc-cat">
+        <summary>
+          <span class="toc-num">03</span>
+          <span class="toc-title">Tesouraria</span>
+          <span class="toc-meta">3 vídeos</span>
+          <span class="toc-arrow">▸</span>
+        </summary>
+        <ul class="toc-videos">
+          <li onclick="document.getElementById('vid-tesouraria-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Cobrança na tesouraria</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-tesouraria-2').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">02</span><span class="vtitle">Folha de caixa</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-tesouraria-3').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">03</span><span class="vtitle">Depósito para banco, despesas e análises</span><span class="vgo">→</span></li>
+        </ul>
+      </details>
+      <details class="toc-cat">
+        <summary>
+          <span class="toc-num">04</span>
+          <span class="toc-title">Parceiros</span>
+          <span class="toc-meta">4 vídeos</span>
+          <span class="toc-arrow">▸</span>
+        </summary>
+        <ul class="toc-videos">
+          <li onclick="document.getElementById('vid-parceiros-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Criação e configuração do parceiro</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-parceiros-2').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">02</span><span class="vtitle">Códigos de mediação no parceiro</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-parceiros-3').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">03</span><span class="vtitle">Novo pagamento ao parceiro</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-parceiros-4').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">04</span><span class="vtitle">Importação de prestação de contas</span><span class="vgo">→</span></li>
+        </ul>
+      </details>
+      <details class="toc-cat">
+        <summary>
+          <span class="toc-num">05</span>
+          <span class="toc-title">Análises</span>
+          <span class="toc-meta">6 vídeos</span>
+          <span class="toc-arrow">▸</span>
+        </summary>
+        <ul class="toc-videos">
+          <li onclick="document.getElementById('vid-analises-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Análise de carteira</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-analises-2').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">02</span><span class="vtitle">Produção total</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-analises-3').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">03</span><span class="vtitle">Produção nova</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-analises-4').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">04</span><span class="vtitle">Variação de recibos</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-analises-5').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">05</span><span class="vtitle">Beyondata</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-analises-6').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">06</span><span class="vtitle">Dashboards</span><span class="vgo">→</span></li>
+        </ul>
+      </details>
+      <details class="toc-cat">
+        <summary>
+          <span class="toc-num">06</span>
+          <span class="toc-title">Pesquisa e Controlo</span>
+          <span class="toc-meta">2 vídeos</span>
+          <span class="toc-arrow">▸</span>
+        </summary>
+        <ul class="toc-videos">
+          <li onclick="document.getElementById('vid-pesquisa-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Pesquisa simples e avançada</span><span class="vgo">→</span></li>
+          <li onclick="document.getElementById('vid-pesquisa-2').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">02</span><span class="vtitle">Controlo de informação fidedigna</span><span class="vgo">→</span></li>
+        </ul>
+      </details>
     </div>
-    <div class="caption r delay-2"><span>02</span> · Importação de ficheiro de carteira</div>
   </section>
-  <section class="section separator-section">
-    <div class="bg"></div>
-    <div class="grid-overlay"></div>
-    <div class="sep-index r">Cap&iacute;tulo 02</div>
-    <h2 class="r delay-1">Clientes e Apólices</h2>
-    <div class="sep-meta r delay-2">3 Vídeos</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 03</div>
-      <h2>Como registar cliente</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-registar-cliente.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>03</span> · Como registar cliente</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 04</div>
-      <h2>Registo manual de apólice</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-manual-apolice.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>04</span> · Registo manual de apólice</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 05</div>
-      <h2>Ficha do cliente</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-ficha-cliente.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>05</span> · Ficha do cliente</div>
-  </section>
-  <section class="section separator-section">
-    <div class="bg"></div>
-    <div class="grid-overlay"></div>
-    <div class="sep-index r">Cap&iacute;tulo 03</div>
-    <h2 class="r delay-1">Tesouraria</h2>
-    <div class="sep-meta r delay-2">3 Vídeos</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 06</div>
-      <h2>Cobrança na tesouraria</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-cobranca-tesouraria.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>06</span> · Cobrança na tesouraria</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 07</div>
-      <h2>Tesouraria — Folha de caixa</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-folha-caixa.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>07</span> · Tesouraria — Folha de caixa</div>
-  </section>
-  <section class="section video">
+
+  <section class="section cat" id="cat-recibos">
     <div class="bg"></div>
     <div class="heading r">
-      <div class="eyebrow">Vídeo · 08</div>
-      <h2>Depósito para banco, despesas e análises</h2>
+      <div class="eyebrow">Demonstração · 01</div>
+      <h2>Recibos e Importação</h2>
+      <p class="subtitle">Recibos em tempo real via webservices e importação de carteiras a partir de ficheiros.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-deposito-banco.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1" id="vid-recibos-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-recibo-tempo-real.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Obter recibo em tempo real</span></div>
+      </div>
+      <div class="video-block r delay-2" id="vid-recibos-2">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-importar-carteira.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">02</span><span class="sep">·</span><span class="title">Importação de ficheiro de carteira</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>08</span> · Depósito para banco, despesas e análises</div>
   </section>
-  <section class="section separator-section">
-    <div class="bg"></div>
-    <div class="grid-overlay"></div>
-    <div class="sep-index r">Cap&iacute;tulo 04</div>
-    <h2 class="r delay-1">Parceiros</h2>
-    <div class="sep-meta r delay-2">4 Vídeos</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 09</div>
-      <h2>Criação e configuração do parceiro</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-criar-parceiro.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>09</span> · Criação e configuração do parceiro</div>
-  </section>
-  <section class="section video">
+
+  <section class="section cat" id="cat-clientes">
     <div class="bg"></div>
     <div class="heading r">
-      <div class="eyebrow">Vídeo · 10</div>
-      <h2>Códigos de mediação no parceiro</h2>
+      <div class="eyebrow">Demonstração · 02</div>
+      <h2>Clientes e Apólices</h2>
+      <p class="subtitle">Registo de clientes, apólices manuais e ficha completa com histórico.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-codigos-mediacao.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1" id="vid-clientes-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-registar-cliente.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Como registar cliente</span></div>
+      </div>
+      <div class="video-block r delay-2" id="vid-clientes-2">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-manual-apolice.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">02</span><span class="sep">·</span><span class="title">Registo manual de apólice</span></div>
+      </div>
+      <div class="video-block r delay-3" id="vid-clientes-3">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-ficha-cliente.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">03</span><span class="sep">·</span><span class="title">Ficha do cliente</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>10</span> · Códigos de mediação no parceiro</div>
   </section>
-  <section class="section video">
+
+  <section class="section cat" id="cat-tesouraria">
     <div class="bg"></div>
     <div class="heading r">
-      <div class="eyebrow">Vídeo · 11</div>
-      <h2>Novo pagamento ao parceiro</h2>
+      <div class="eyebrow">Demonstração · 03</div>
+      <h2>Tesouraria</h2>
+      <p class="subtitle">Cobranças, folha de caixa e depósitos bancários totalmente integrados.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-pagamento-parceiro.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1" id="vid-tesouraria-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-cobranca-tesouraria.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Cobrança na tesouraria</span></div>
+      </div>
+      <div class="video-block r delay-2" id="vid-tesouraria-2">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-folha-caixa.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">02</span><span class="sep">·</span><span class="title">Folha de caixa</span></div>
+      </div>
+      <div class="video-block r delay-3" id="vid-tesouraria-3">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-deposito-banco.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">03</span><span class="sep">·</span><span class="title">Depósito para banco, despesas e análises</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>11</span> · Novo pagamento ao parceiro</div>
   </section>
-  <section class="section video">
+
+  <section class="section cat" id="cat-parceiros">
     <div class="bg"></div>
     <div class="heading r">
-      <div class="eyebrow">Vídeo · 12</div>
-      <h2>Importação de prestação de contas</h2>
+      <div class="eyebrow">Demonstração · 04</div>
+      <h2>Parceiros</h2>
+      <p class="subtitle">Configuração de parceiros, códigos de mediação, pagamentos e prestação de contas.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-importacao-contas.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1" id="vid-parceiros-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-criar-parceiro.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Criação e configuração do parceiro</span></div>
+      </div>
+      <div class="video-block r delay-2" id="vid-parceiros-2">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-codigos-mediacao.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">02</span><span class="sep">·</span><span class="title">Códigos de mediação no parceiro</span></div>
+      </div>
+      <div class="video-block r delay-3" id="vid-parceiros-3">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-pagamento-parceiro.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">03</span><span class="sep">·</span><span class="title">Novo pagamento ao parceiro</span></div>
+      </div>
+      <div class="video-block r delay-4" id="vid-parceiros-4">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-importacao-contas.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">04</span><span class="sep">·</span><span class="title">Importação de prestação de contas</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>12</span> · Importação de prestação de contas</div>
   </section>
-  <section class="section separator-section">
-    <div class="bg"></div>
-    <div class="grid-overlay"></div>
-    <div class="sep-index r">Cap&iacute;tulo 05</div>
-    <h2 class="r delay-1">Análises</h2>
-    <div class="sep-meta r delay-2">6 Vídeos</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 13</div>
-      <h2>Análises: Carteira</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-analise-carteira.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>13</span> · Análises: Carteira</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 14</div>
-      <h2>Análises: Produção total</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-analise-prod-total.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>14</span> · Análises: Produção total</div>
-  </section>
-  <section class="section video">
+
+  <section class="section cat" id="cat-analises">
     <div class="bg"></div>
     <div class="heading r">
-      <div class="eyebrow">Vídeo · 15</div>
-      <h2>Análises: Produção nova</h2>
+      <div class="eyebrow">Demonstração · 05</div>
+      <h2>Análises</h2>
+      <p class="subtitle">Análise de carteira, produção, variação de recibos, beyondata e dashboards.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-analise-prod-nova.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1" id="vid-analises-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-analise-carteira.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Análise de carteira</span></div>
+      </div>
+      <div class="video-block r delay-2" id="vid-analises-2">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-analise-prod-total.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">02</span><span class="sep">·</span><span class="title">Produção total</span></div>
+      </div>
+      <div class="video-block r delay-3" id="vid-analises-3">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-analise-prod-nova.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">03</span><span class="sep">·</span><span class="title">Produção nova</span></div>
+      </div>
+      <div class="video-block r delay-4" id="vid-analises-4">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-variacao-recibos.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">04</span><span class="sep">·</span><span class="title">Variação de recibos</span></div>
+      </div>
+      <div class="video-block r delay-4" id="vid-analises-5">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-beyondata.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">05</span><span class="sep">·</span><span class="title">Beyondata</span></div>
+      </div>
+      <div class="video-block r delay-4" id="vid-analises-6">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-dashboards.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">06</span><span class="sep">·</span><span class="title">Dashboards</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>15</span> · Análises: Produção nova</div>
   </section>
-  <section class="section video">
+
+  <section class="section cat" id="cat-pesquisa">
     <div class="bg"></div>
     <div class="heading r">
-      <div class="eyebrow">Vídeo · 16</div>
-      <h2>Variação de recibos</h2>
+      <div class="eyebrow">Demonstração · 06</div>
+      <h2>Pesquisa e Controlo</h2>
+      <p class="subtitle">Pesquisa simples e avançada com controlo de informação fidedigna.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-variacao-recibos.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1" id="vid-pesquisa-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-pesquisa-avancada.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Pesquisa simples e avançada</span></div>
+      </div>
+      <div class="video-block r delay-2" id="vid-pesquisa-2">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/seg-controlo-info.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="label"><span class="num">02</span><span class="sep">·</span><span class="title">Controlo de informação fidedigna</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>16</span> · Variação de recibos</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 17</div>
-      <h2>Beyondata</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-beyondata.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>17</span> · Beyondata</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 18</div>
-      <h2>Dashboards</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-dashboards.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>18</span> · Dashboards</div>
-  </section>
-  <section class="section separator-section">
-    <div class="bg"></div>
-    <div class="grid-overlay"></div>
-    <div class="sep-index r">Cap&iacute;tulo 06</div>
-    <h2 class="r delay-1">Pesquisa e Controlo</h2>
-    <div class="sep-meta r delay-2">2 Vídeos</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 19</div>
-      <h2>Pesquisa simples e avançada</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-pesquisa-avancada.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>19</span> · Pesquisa simples e avançada</div>
-  </section>
-  <section class="section video">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Vídeo · 20</div>
-      <h2>Controlo de informação fidedigna</h2>
-    </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/seg-controlo-info.mp4" type="video/mp4">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve</div>
-    </div>
-    <div class="caption r delay-2"><span>20</span> · Controlo de informação fidedigna</div>
   </section>
 
 </div>
+
 <script>
-const total=document.querySelectorAll('.section').length;
-document.getElementById('counter').textContent='01 / '+String(total).padStart(2,'0');
 const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.15});
 document.querySelectorAll('.r').forEach(s=>io.observe(s));
+
 const deck=document.getElementById('deck');
 const fill=document.getElementById('progressFill');
 const counter=document.getElementById('counter');
+const allSections=[...document.querySelectorAll('.section')];
+const allVideoBlocks=[...document.querySelectorAll('.video-block')];
+
 function update(){
-  const sections=[...document.querySelectorAll('.section')];
+  const sections=allSections;
   const scrollTop=deck.scrollTop;
   const m=deck.scrollHeight-deck.clientHeight;
   fill.style.height=(scrollTop/m*100)+'%';
   let idx=0;
   sections.forEach((s,i)=>{if(scrollTop+10>=s.offsetTop) idx=i;});
-  counter.textContent=String(idx+1).padStart(2,'0')+' / '+String(total).padStart(2,'0');
+  counter.textContent=String(idx+1).padStart(2,'0')+' / '+String(sections.length).padStart(2,'0');
+
+  // active section in sidebar
+  let activeId=sections[idx] ? sections[idx].id : '';
+  document.querySelectorAll('.sidebar .nav-link').forEach(a=>a.classList.remove('active'));
+  document.querySelectorAll('.sidebar .nav-sub a').forEach(a=>a.classList.remove('active'));
+  const activeItem=document.querySelector(`.sidebar .nav-item[data-target="${activeId}"]`);
+  if(activeItem){
+    activeItem.querySelector('.nav-link').classList.add('active');
+    activeItem.classList.add('open');
+  }
+
+  // active video in sidebar sub
+  const deckRect=deck.getBoundingClientRect();
+  let activeVid=null;
+  for(const vb of allVideoBlocks){
+    const r=vb.getBoundingClientRect();
+    if(r.top-deckRect.top>=0 && r.top-deckRect.top<window.innerHeight*0.5){activeVid=vb;break;}
+    if(r.top-deckRect.top<0 && r.bottom-deckRect.top>0){activeVid=vb;}
+  }
+  if(activeVid){
+    const subLink=document.querySelector(`.sidebar .nav-sub a[href="#${activeVid.id}"]`);
+    if(subLink){subLink.classList.add('active');}
+    const parentItem=subLink && subLink.closest('.nav-item');
+    if(parentItem){
+      parentItem.classList.add('open');
+      parentItem.querySelector('.nav-link').classList.add('active');
+    }
+  }
 }
 deck.addEventListener('scroll',update,{passive:true});
 update();
-document.querySelectorAll('.video video').forEach(v=>{
+
+// sidebar nav-link click: jump to section
+document.querySelectorAll('.sidebar .nav-link').forEach(a=>{
+  a.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const id=a.getAttribute('href').slice(1);
+    const target=document.getElementById(id);
+    if(target){
+      const offset=target.offsetTop;
+      deck.scrollTo({top:offset,behavior:'smooth'});
+    }
+  });
+});
+
+// sidebar nav-sub click: jump to video
+document.querySelectorAll('.sidebar .nav-sub a').forEach(a=>{
+  a.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const id=a.getAttribute('href').slice(1);
+    const target=document.getElementById(id);
+    if(target){
+      target.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
+});
+
+// toggle dropdown on sidebar nav-link click (parent only)
+document.querySelectorAll('.sidebar .nav-item').forEach(item=>{
+  const link=item.querySelector('.nav-link');
+  link.addEventListener('click',(e)=>{
+    if(item.querySelector('.nav-sub')){
+      e.preventDefault();
+      e.stopPropagation();
+      item.classList.toggle('open');
+    }
+  });
+});
+
+// legacy video error fallback
+document.querySelectorAll('.video video, .video-block video').forEach(v=>{
   const fb=v.parentElement.querySelector('.fallback');
   v.addEventListener('error',()=>{if(fb){fb.style.display='flex';v.style.display='none';}});
   if(v.readyState===4&&v.networkState===3&&fb){fb.style.display='flex';v.style.display='none';}
