@@ -8,15 +8,80 @@
 <style>
 
 
+
 :root{--ink:#1a1a1a;--muted:#6a6a6a;--line:rgba(0,0,0,.08);--soft:#f5f5f5;--accent:#6d9d30;--sidebar:280px}
 *{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;color:var(--ink);font-family:Manrope,sans-serif;background:#fff;line-height:1.6}
 body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.04;background-image:linear-gradient(rgba(0,0,0,.55) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.55) 1px,transparent 1px);background-size:32px 32px;z-index:-1}
 .sidebar{position:fixed;z-index:5;inset:0 auto 0 0;width:var(--sidebar);background:#fff;border-right:1px solid var(--line);padding:32px 22px;overflow:auto}.brand{font-weight:800;letter-spacing:-.04em;font-size:20px;margin-bottom:42px}.brand span{color:var(--accent)}.nav-section{margin:0 0 24px}.nav-section summary{cursor:pointer;list-style:none;font-size:11px;text-transform:uppercase;letter-spacing:.14em;font-weight:800;color:var(--muted);padding:8px 0}.nav-section summary::-webkit-details-marker{display:none}.nav-section summary:after{content:'+';float:right;color:var(--accent);font:16px 'JetBrains Mono'}.nav-section[open] summary:after{content:'−'}.nav-links{display:grid;gap:3px;padding-top:6px}.nav-links a{color:#555;text-decoration:none;font-size:13px;padding:7px 8px;border-radius:4px;transition:.2s}.nav-links a:hover{color:var(--accent);background:var(--soft)}.nav-links a span{font:11px 'JetBrains Mono';color:var(--accent);margin-right:8px}
 main{padding-left:var(--sidebar);min-height:100vh}.wrap{max-width:1180px;margin:auto;padding:0 52px}.hero{padding:92px 0 76px;border-bottom:1px solid var(--line)}.eyebrow{font:500 11px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}h1{font-size:clamp(42px,6vw,76px);letter-spacing:-.07em;line-height:1;margin:18px 0 20px;font-weight:800}.hero p{font-size:20px;color:var(--muted);margin:0 0 30px;font-weight:300}.meta{display:flex;flex-wrap:wrap;gap:10px 26px;color:var(--muted);font:12px 'JetBrains Mono'}.meta strong{color:var(--accent);font-weight:500}.app-section{padding:86px 0 12px}.section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:30px}.section-head h2{font-size:clamp(32px,4vw,54px);letter-spacing:-.06em;line-height:1.05;margin:12px 0 10px}.section-head h2 strong{color:var(--accent)}.subtitle{color:var(--muted);font-weight:300;margin:0;max-width:520px}.count{font:500 13px 'JetBrains Mono';color:var(--accent);white-space:nowrap}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{scroll-margin-top:80px;background:#fff;border:1px solid var(--line);padding:32px;min-height:230px;display:grid;grid-template-columns:58px 1fr;gap:22px;transition:border-color .25s,transform .25s}.card:hover{border-color:rgba(109,157,48,.55);transform:translateY(-2px)}.num{font:500 26px 'JetBrains Mono';color:var(--accent);line-height:1}.card h3{font-size:18px;letter-spacing:-.025em;margin:0 0 10px}.card p{color:var(--muted);font-size:14px;line-height:1.65;margin:0 0 22px}.tag{display:inline-block;background:var(--soft);color:#555;padding:5px 8px;font:11px 'JetBrains Mono';margin-right:10px}.source{color:var(--accent);font-size:11px;text-decoration:none}.source:hover{text-decoration:underline}.note{margin:90px 0 50px;padding:28px 32px;border-top:2px solid var(--accent);background:var(--soft)}.note b{font:500 12px 'JetBrains Mono';color:var(--accent);letter-spacing:.12em}.note p{margin:12px 0 0;color:#555;font-size:14px}.reveal{opacity:0;transform:translateY(18px);animation:reveal .65s cubic-bezier(.25,.1,.25,1) forwards}@keyframes reveal{to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none}}@media(max-width:800px){.sidebar{position:relative;width:100%;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:20px}.brand{margin-bottom:18px}.nav-section{display:inline-block;width:49%;vertical-align:top;margin-bottom:10px}main{padding-left:0}.wrap{padding:0 22px}.hero{padding:58px 0}.cards{grid-template-columns:1fr}.section-head{display:block}.count{display:block;margin-top:18px}}
 
+/* ---- card clickability ---- */
+.card{cursor:pointer;user-select:none}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---- modal overlay & panel ---- */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s cubic-bezier(.16,1,.3,1)}
+.modal-overlay.is-open{opacity:1;pointer-events:auto}
+.modal-panel{position:fixed;right:0;top:0;width:min(640px,100vw);height:100vh;background:#fff;overflow-y:auto;transform:translateX(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);box-shadow:-10px 0 40px rgba(0,0,0,.08);display:flex;flex-direction:column}
+.modal-panel.is-open{transform:translateX(0)}
+.modal-head{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);padding:24px 32px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;z-index:2}
+.modal-head .num{font:500 13px 'JetBrains Mono';color:var(--accent);letter-spacing:.13em;text-transform:uppercase;margin-bottom:6px;display:block}
+.modal-head h3{font-size:24px;letter-spacing:-.03em;margin:0 0 8px;font-weight:700;color:var(--ink)}
+.modal-head .tag{display:inline-block;background:var(--soft);color:#555;padding:5px 8px;font:11px 'JetBrains Mono';margin:0}
+.modal-close{flex-shrink:0;width:36px;height:36px;border:1px solid var(--line);background:#fff;border-radius:50%;cursor:pointer;font-size:18px;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:.2s;line-height:1;padding:0}
+.modal-close:hover{border-color:var(--accent);color:var(--accent);background:var(--soft)}
+.modal-body{padding:32px;flex:1}
+.modal-body .summary{font-size:16px;line-height:1.7;color:var(--ink);margin:0 0 28px;padding-bottom:24px;border-bottom:1px solid var(--line);font-weight:300}
+.modal-body .summary:empty{display:none}
+.modal-body .summary:empty + .modal-divider{display:none}
+.modal-divider{height:1px;background:var(--line);margin:0 0 28px}
+.modal-section{margin:0 0 26px}
+.modal-section:last-child{margin-bottom:0}
+.modal-section h4{font:500 14px 'JetBrains Mono';color:var(--accent);margin:0 0 10px;letter-spacing:.02em;display:flex;align-items:center;gap:8px}
+.modal-section h4::before{content:"▸";color:var(--accent);font-size:14px}
+.modal-section p{color:var(--ink);font-size:14px;line-height:1.7;margin:0;font-weight:300}
+.modal-empty{padding:40px 32px;text-align:center;color:var(--muted);font-size:14px;font-style:italic}
+.modal-foot{padding:24px 32px;border-top:1px solid var(--line);background:var(--soft);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.modal-foot .src{color:var(--accent);font-size:12px;text-decoration:none;font:500 11px 'JetBrains Mono';letter-spacing:.05em}
+.modal-foot .src:hover{text-decoration:underline}
+.modal-foot .kbd{font:11px 'JetBrains Mono';color:var(--muted);letter-spacing:.05em}
+
+@media (max-width:520px){
+  .modal-head{padding:20px 22px}
+  .modal-body{padding:24px 22px}
+  .modal-foot{padding:20px 22px}
+  .modal-head h3{font-size:20px}
+}
+
 /* ---- staggered reveal ---- */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
 .reveal.in{opacity:1;transform:none}
+
+/* ---- staggered reveal ---- */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+.card{cursor:pointer}
+
+/* ---- modal ---- */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-backdrop.open{opacity:1;pointer-events:auto}
+.modal-panel{position:fixed;right:0;top:0;width:min(640px,100vw);height:100vh;background:#fff;overflow-y:auto;transform:translateX(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);z-index:101;padding:0;box-shadow:-8px 0 24px rgba(0,0,0,.08);display:flex;flex-direction:column}
+.modal-panel.open{transform:translateX(0)}
+.modal-head{padding:32px 40px 24px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:2}
+.modal-close{position:absolute;top:24px;right:24px;width:36px;height:36px;border:1px solid var(--line);background:#fff;border-radius:50%;cursor:pointer;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s}
+.modal-close:hover{background:var(--soft);border-color:var(--line-strong)}
+.modal-title{font-size:28px;letter-spacing:-.03em;font-weight:800;margin:0 0 12px;padding-right:48px}
+.modal-kw{display:inline-block;background:var(--soft);color:#555;padding:5px 8px;font:11px 'JetBrains Mono';margin-right:10px}
+.modal-body{padding:24px 40px 60px;flex:1}
+.modal-summary{color:#444;font-size:15px;line-height:1.7;margin:0 0 32px;padding:16px 20px;border-left:3px solid var(--accent);background:var(--soft);font-weight:300}
+.modal-section{margin-bottom:28px}
+.modal-section h4{font:500 12px 'JetBrains Mono';color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.modal-section h4::before{content:'▸';color:var(--accent);font-size:14px}
+.modal-section p{color:var(--ink);font-size:14px;line-height:1.7;margin:0;font-weight:400}
+.modal-source{display:inline-flex;align-items:center;gap:8px;margin-top:32px;padding:12px 20px;background:var(--soft);border-radius:6px;color:var(--accent);text-decoration:none;font:500 12px 'JetBrains Mono';transition:background .2s}
+.modal-source:hover{background:rgba(109,157,48,.08)}
+.modal-empty{color:#999;font-style:italic;font-size:13px;padding:20px 0;border-top:1px solid var(--line);margin-top:20px}
 
 /* ---- staggered reveal ---- */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
@@ -109,76 +174,76 @@ main{padding-left:var(--sidebar);min-height:100vh}.wrap{max-width:1180px;margin:
       <div class="count">08 tópicos</div>
     </div>
     <div class="cards">
-      <article class="card" id="seguros-1">
+      <article class="card" id="seguros-1" data-topic="seguros-1">
         <div class="num">01</div>
         <div>
           <h3>Companhias</h3>
           <p>Cada seguradora (Fidelidade, Tranquilidade, Zurich, etc.) é registada com os webservices e web service em tempo real. Os produtos vêm da companhia, não se criam do zero. Os códigos de companhias permitem agrupar parceiros com prefixos (Coordenador, Diretor, Agência).</p>
           <span class="tag">companhias · webservices</span>
-          <a class="source" href="https://kb.libax.com/seguros/c%C3%B3digos-de-companhias" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/seguros/c%C3%B3digos-de-companhias" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="seguros-2">
+      <article class="card" id="seguros-2" data-topic="seguros-2">
         <div class="num">02</div>
         <div>
           <h3>Apólices e Recibos</h3>
           <p>Apólices e recibos sincronizam automaticamente via webservices. O recibo é a unidade de comissão — cada recibo gera a comissão quando cobrado. “Direto pendente” = pago à companhia mas ainda não feita prestação de contas.</p>
           <span class="tag">apólice · recibo</span>
-          <a class="source" href="https://kb.libax.com/seguros/cobrar-recibos-na-companhia" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/seguros/cobrar-recibos-na-companhia" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="seguros-3">
+      <article class="card" id="seguros-3" data-topic="seguros-3">
         <div class="num">03</div>
         <div>
           <h3>Prestação de Contas</h3>
           <p>Encontro de contas com a companhia. Encerra o recibo. Seleção manual ou via ficheiro de importação (sufixo /force para forçar alocação). Gera documento a favor da companhia + fatura/recibo de comissões a deduzir.</p>
           <span class="tag">prestação · /force</span>
-          <a class="source" href="https://kb.libax.com/seguros/presta%C3%A7%C3%A3o-de-contas" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/seguros/presta%C3%A7%C3%A3o-de-contas" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="seguros-4">
+      <article class="card" id="seguros-4" data-topic="seguros-4">
         <div class="num">04</div>
         <div>
           <h3>Recibos Pendentes</h3>
           <p>Controlo de vencidos e não vencidos. Cada recibo regista atividades. “Data de situação no agente” = quando mudou de estado internamente. Visão por canais de venda (rede de parceiros).</p>
           <span class="tag">pendentes · canais</span>
-          <a class="source" href="https://kb.libax.com/seguros/recibos-pendentes" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/seguros/recibos-pendentes" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="seguros-5">
+      <article class="card" id="seguros-5" data-topic="seguros-5">
         <div class="num">05</div>
         <div>
           <h3>Comissões a Parceiros</h3>
           <p>Parceiro tem de ser marcado como “comissionista”. Percentagens vivem nas INCIDÊNCIAS (matriz companhia × ramo). Após mexer nas incidências, correr “Reformular comissões”. Revogações automáticas precisam de 2 settings: autorizar reabertura + revogações na companhia.</p>
           <span class="tag">incidências · reformular</span>
-          <a class="source" href="https://kb.libax.com/seguros/pagamento-de-comiss%C3%B5es-a-parceiros" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/seguros/pagamento-de-comiss%C3%B5es-a-parceiros" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="seguros-6">
+      <article class="card" id="seguros-6" data-topic="seguros-6">
         <div class="num">06</div>
         <div>
           <h3>Parceiros e Hierarquia</h3>
           <p>Hierarquia opcional: Coordenador → Diretor → Agência. Realocação em massa de apólices via filtro. Unificação de parceiros duplicados. Pagamento aos parceiros via notas + ficheiro SEPA.</p>
           <span class="tag">parceiro · SEPA</span>
-          <a class="source" href="https://kb.libax.com/seguros/hierarquia-de-parceiros" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/seguros/hierarquia-de-parceiros" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="seguros-7">
+      <article class="card" id="seguros-7" data-topic="seguros-7">
         <div class="num">07</div>
         <div>
           <h3>Participações (Sinistros)</h3>
           <p>Etapas personalizáveis por tipo. Lista base já vem. Filtros combinados: tipo + data do acidente. Exemplo etapas: Registado, Marcação peritagem, Veículo de substituição.</p>
           <span class="tag">sinistros · etapas</span>
-          <a class="source" href="https://kb.libax.com/seguros/etapas-de-participa%C3%A7%C3%B5es" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/seguros/etapas-de-participa%C3%A7%C3%B5es" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="seguros-8">
+      <article class="card" id="seguros-8" data-topic="seguros-8">
         <div class="num">08</div>
         <div>
           <h3>Documentação e Pesquisa</h3>
           <p>Documentos (carta verde, recibos) descarregados automaticamente. Pesquisa rápida: contribuinte, telemóvel, e-mail, nº cliente. Sufixos: /c (apólice), /u (unidade risco), /r (recibo). Referências multibanco automáticas nos continuados.</p>
           <span class="tag">/c · /u · /r</span>
-          <a class="source" href="https://kb.libax.com/seguros/como-pesquisar" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/seguros/como-pesquisar" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
     </div>
@@ -194,67 +259,67 @@ main{padding-left:var(--sidebar);min-height:100vh}.wrap{max-width:1180px;margin:
       <div class="count">07 tópicos</div>
     </div>
     <div class="cards">
-      <article class="card" id="business-1">
+      <article class="card" id="business-1" data-topic="business-1">
         <div class="num">01</div>
         <div>
           <h3>Entidades (Clientes/Fornecedores)</h3>
           <p>Clientes, fornecedores, outros. Importação em massa via CSV. RGPD digital ou papel com pedido de consentimento automático via Automate. Validade do consentimento configurável em anos.</p>
           <span class="tag">entidades · RGPD</span>
-          <a class="source" href="https://kb.libax.com/business/rgpd" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/business/rgpd" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="business-2">
+      <article class="card" id="business-2" data-topic="business-2">
         <div class="num">02</div>
         <div>
           <h3>Produtos</h3>
           <p>Catálogo de produtos/serviços. Importação CSV para grandes volumes. Edição em massa. Cada produto: preço, unidade, IVA configurável.</p>
           <span class="tag">catálogo · IVA</span>
-          <a class="source" href="https://kb.libax.com/business/importa%C3%A7%C3%A3o" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/business/importa%C3%A7%C3%A3o" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="business-3">
+      <article class="card" id="business-3" data-topic="business-3">
         <div class="num">03</div>
         <div>
           <h3>Faturação</h3>
           <p>Faturas, faturas-recibo, notas de crédito. Numeração por série. ATCUD automático (Portaria 195/2020). Anular: cancelar no próprio dia OU nota de crédito. Por lei não é possível editar.</p>
           <span class="tag">fatura · ATCUD</span>
-          <a class="source" href="https://kb.libax.com/business/atcud" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/business/atcud" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="business-4">
+      <article class="card" id="business-4" data-topic="business-4">
         <div class="num">04</div>
         <div>
           <h3>Faturação Eletrónica</h3>
           <p>Integrações SAFE (grátis 2 anos) e DigitalSign. Assinatura e envio conforme normas PT. QR code com ATCUD incluído.</p>
           <span class="tag">SAFE · DigitalSign</span>
-          <a class="source" href="https://kb.libax.com/business/integra%C3%A7%C3%A3o-safe" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/business/integra%C3%A7%C3%A3o-safe" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="business-5">
+      <article class="card" id="business-5" data-topic="business-5">
         <div class="num">05</div>
         <div>
           <h3>Tesouraria</h3>
           <p>Caixa, bancos, previsões. Liquidação de faturas. Conciliação bancária. Ligação a Recibos do Libax Seguros para movimentos conjuntos.</p>
           <span class="tag">caixa · bancos</span>
-          <a class="source" href="https://kb.libax.com/business/api-do-libax-business" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/business/api-do-libax-business" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="business-6">
+      <article class="card" id="business-6" data-topic="business-6">
         <div class="num">06</div>
         <div>
           <h3>Importação</h3>
           <p>CSV para faturas, entidades, produtos. Templates. Validação prévia antes de processar.</p>
           <span class="tag">CSV · bulk</span>
-          <a class="source" href="https://kb.libax.com/business/importa%C3%A7%C3%A3o" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/business/importa%C3%A7%C3%A3o" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="business-7">
+      <article class="card" id="business-7" data-topic="business-7">
         <div class="num">07</div>
         <div>
           <h3>API</h3>
           <p>API REST para integração externa. Criar clientes, emitir faturas, imprimir documentos. Manual com passos: emissão, liquidação, impressão.</p>
           <span class="tag">API REST</span>
-          <a class="source" href="https://kb.libax.com/business/api-do-libax-business" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/business/api-do-libax-business" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
     </div>
@@ -270,220 +335,220 @@ main{padding-left:var(--sidebar);min-height:100vh}.wrap{max-width:1180px;margin:
       <div class="count">24 tópicos</div>
     </div>
     <div class="cards">
-      <article class="card" id="automate-1">
+      <article class="card" id="automate-1" data-topic="automate-1">
         <div class="num">01</div>
         <div>
           <h3>Boas-vindas a novos clientes</h3>
           <p>Envia automaticamente uma mensagem de boas-vindas sempre que um novo cliente entra na base de dados. Pode ser em tempo real (no momento do registo) ou diário (todos os clientes do dia anterior).</p>
           <span class="tag">cliente · welcome</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-2">
+      <article class="card" id="automate-2" data-topic="automate-2">
         <div class="num">02</div>
         <div>
           <h3>Aniversários</h3>
           <p>Envia uma mensagem de parabéns no dia de aniversário dos clientes ativos. Uma forma simples de manter a relação com o cliente sem esforço manual.</p>
           <span class="tag">cliente · data</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-3">
+      <article class="card" id="automate-3" data-topic="automate-3">
         <div class="num">03</div>
         <div>
           <h3>Pedido RGPD</h3>
           <p>Identifica clientes que ainda não assinaram a autorização de tratamento de dados (RGPD) e envia-lhes o pedido automaticamente. Essencial para cumprir a lei.</p>
           <span class="tag">RGPD · conformidade</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-4">
+      <article class="card" id="automate-4" data-topic="automate-4">
         <div class="num">04</div>
         <div>
           <h3>Novas tarefas</h3>
           <p>Avisa automaticamente a pessoa responsável sempre que é criada uma nova tarefa no sistema, para que nada fique esquecido.</p>
           <span class="tag">tarefa · alerta</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-5">
+      <article class="card" id="automate-5" data-topic="automate-5">
         <div class="num">05</div>
         <div>
           <h3>Vencimento de tarefas</h3>
           <p>Avisa quando uma tarefa está a chegar ao prazo limite, para que o responsável ou criador não deixe nada passar.</p>
           <span class="tag">tarefa · prazo</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-6">
+      <article class="card" id="automate-6" data-topic="automate-6">
         <div class="num">06</div>
         <div>
           <h3>Mensagem a vulso entidade</h3>
           <p>Permite enviar uma mensagem pontual a um cliente específico quando precisar, sem precisar de criar um modelo permanente. Útil para ocasiões únicas.</p>
           <span class="tag">avulso · pontual</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-7">
+      <article class="card" id="automate-7" data-topic="automate-7">
         <div class="num">07</div>
         <div>
           <h3>Emissão avisos</h3>
           <p>Envia automaticamente emails ou SMS aos clientes com recibos por pagar. Pode criar diferentes mensagens conforme o estado do recibo (pendente, fora de prazo, cobrança falhada). Inclui geração de referências multibanco para facilitar o pagamento.</p>
           <span class="tag">recibo · SMS · email</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-8">
+      <article class="card" id="automate-8" data-topic="automate-8">
         <div class="num">08</div>
         <div>
           <h3>Alteração de participação</h3>
           <p>Avisa quando há alterações numa participação de sinistro. Mantém toda a equipa actualizada sobre mudanças nos processos de sinistros.</p>
           <span class="tag">sinistro · equipa</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-9">
+      <article class="card" id="automate-9" data-topic="automate-9">
         <div class="num">09</div>
         <div>
           <h3>Alterar situação entidades</h3>
           <p>Actualiza automaticamente o estado dos clientes (activo/inactivo) conforme as apólices que têm. Um cliente sem apólices válidas passa a inactivo automaticamente, mantendo a base de dados limpa.</p>
           <span class="tag">cliente · ativo</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-10">
+      <article class="card" id="automate-10" data-topic="automate-10">
         <div class="num">10</div>
         <div>
           <h3>Boas-vindas por nova apólice</h3>
           <p>Envia uma mensagem de boas-vindas quando é emitida uma nova apólice para um cliente, dando-lhe as boas-vindas como segurado.</p>
           <span class="tag">apólice · welcome</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-11">
+      <article class="card" id="automate-11" data-topic="automate-11">
         <div class="num">11</div>
         <div>
           <h3>Apólices anuladas por falta de pagamento</h3>
           <p>Avisa automaticamente o cliente quando a sua apólice é cancelada por falta de pagamento, para que saiba que ficou sem cobertura.</p>
           <span class="tag">anular · cobertura</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-12">
+      <article class="card" id="automate-12" data-topic="automate-12">
         <div class="num">12</div>
         <div>
           <h3>Reformular comissões</h3>
           <p>Recalcula e corrige automaticamente as comissões devidas a cada parceiro/mediador, garantindo que os valores estão sempre certos.</p>
           <span class="tag">comissão · parceiro</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-13">
+      <article class="card" id="automate-13" data-topic="automate-13">
         <div class="num">13</div>
         <div>
           <h3>Emissão de notas de pagamento</h3>
           <p>Gera automaticamente as notas de pagamento para parceiros. Pode enviar primeiro um extracto provisório para o parceiro confirmar os valores antes do fecho definitivo.</p>
           <span class="tag">parceiro · nota</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-14">
+      <article class="card" id="automate-14" data-topic="automate-14">
         <div class="num">14</div>
         <div>
           <h3>Segmentação automática</h3>
           <p>Organiza os clientes em grupos automaticamente (ex: por tipo de seguro, valor de prémio, idade), facilitando campanhas direccionadas e análises de carteira.</p>
           <span class="tag">segmento · campanha</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-15">
+      <article class="card" id="automate-15" data-topic="automate-15">
         <div class="num">15</div>
         <div>
           <h3>Notificação de parceiros</h3>
           <p>Envia aos parceiros um ficheiro Excel com os recibos que estão em cobrança, para que saibam o estado dos pagamentos sem precisar de perguntar.</p>
           <span class="tag">parceiro · Excel</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-16">
+      <article class="card" id="automate-16" data-topic="automate-16">
         <div class="num">16</div>
         <div>
           <h3>Participação sem atividade</h3>
           <p>Alerta quando há sinistros (participações) abertos sem nenhum movimento há vários dias, para que nenhum processo fique esquecido.</p>
           <span class="tag">sinistro · inativo</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-17">
+      <article class="card" id="automate-17" data-topic="automate-17">
         <div class="num">17</div>
         <div>
           <h3>Simulações sem atividade</h3>
           <p>Alerta quando há simulações de seguro que não tiveram follow-up há vários dias, para que não perca potenciais vendas por esquecimento.</p>
           <span class="tag">simulação · venda</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-18">
+      <article class="card" id="automate-18" data-topic="automate-18">
         <div class="num">18</div>
         <div>
           <h3>Renovação de apólice</h3>
           <p>Avisa o cliente antes da renovação da apólice. Essencial para acidentes de trabalho: pede automaticamente a folha de férias ao cliente para que a renovação não atrase.</p>
           <span class="tag">renovação · at</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-19">
+      <article class="card" id="automate-19" data-topic="automate-19">
         <div class="num">19</div>
         <div>
           <h3>Gerar campanha</h3>
           <p>Cria listas de clientes filtrados por critérios específicos (idade, tipo de seguro, região, etc.) para enviar campanhas de marketing direccionadas. Pode agendar geração periódica.</p>
           <span class="tag">campanha · marketing</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-20">
+      <article class="card" id="automate-20" data-topic="automate-20">
         <div class="num">20</div>
         <div>
           <h3>Variação de recibos</h3>
           <p>Detecta variações anormais nos recibos (ex: aumento repentino de valor) e alerta, permitindo detectar erros ou fraudes.</p>
           <span class="tag">recibo · fraude</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-21">
+      <article class="card" id="automate-21" data-topic="automate-21">
         <div class="num">21</div>
         <div>
           <h3>Obter documentação das companhias</h3>
           <p>Descarrega automaticamente documentos das companhias seguradoras (cartas verdes, apólices, etc.) e guarda-os no Libax, sem precisar de ir buscar manualmente a cada portal.</p>
           <span class="tag">documento · carta</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-22">
+      <article class="card" id="automate-22" data-topic="automate-22">
         <div class="num">22</div>
         <div>
           <h3>Cancelar apólices</h3>
           <p>Cancela automaticamente apólices que deveriam estar inactivas mas continuam activas no sistema porque a companhia não comunicou o cancelamento. Mantém a base de dados correcta.</p>
           <span class="tag">apólice · cancelamento</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-23">
+      <article class="card" id="automate-23" data-topic="automate-23">
         <div class="num">23</div>
         <div>
           <h3>Anular recibos antigos</h3>
           <p>Limpa recibos antigos que ainda aparecem como pendentes mas já deviam estar resolvidos, mantendo os relatórios limpos e correctos.</p>
           <span class="tag">recibo · limpeza</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="automate-24">
+      <article class="card" id="automate-24" data-topic="automate-24">
         <div class="num">24</div>
         <div>
           <h3>Cobrar na companhia</h3>
           <p>Marca automaticamente os recibos como pagos na plataforma da companhia seguradora, poupando trabalho manual. Para recibos urgentes use a cobrança em tempo real.</p>
           <span class="tag">recibo · cobrança</span>
-          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/automate/modelos-dispon%C3%ADveis" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
     </div>
@@ -499,67 +564,67 @@ main{padding-left:var(--sidebar);min-height:100vh}.wrap{max-width:1180px;margin:
       <div class="count">07 tópicos</div>
     </div>
     <div class="cards">
-      <article class="card" id="crm-1">
+      <article class="card" id="crm-1" data-topic="crm-1">
         <div class="num">01</div>
         <div>
           <h3>Contactos</h3>
           <p>Base do CRM. Criar, pesquisar, atribuir cada cliente à equipa certa.</p>
           <span class="tag">clientes · equipas</span>
-          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="crm-2">
+      <article class="card" id="crm-2" data-topic="crm-2">
         <div class="num">02</div>
         <div>
           <h3>Empresas</h3>
           <p>Agrupa vários contactos a trabalhar na mesma empresa numa conta única.</p>
           <span class="tag">B2B · agrupar</span>
-          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="crm-3">
+      <article class="card" id="crm-3" data-topic="crm-3">
         <div class="num">03</div>
         <div>
           <h3>Negócios</h3>
           <p>Pipeline de oportunidades. Acompanhamento de cada negócio ao longo do funil.</p>
           <span class="tag">pipeline · funil</span>
-          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="crm-4">
+      <article class="card" id="crm-4" data-topic="crm-4">
         <div class="num">04</div>
         <div>
           <h3>Tickets</h3>
           <p>Suporte ao cliente. Acompanhamento de questões e pedidos por cliente.</p>
           <span class="tag">suporte · pedidos</span>
-          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="crm-5">
+      <article class="card" id="crm-5" data-topic="crm-5">
         <div class="num">05</div>
         <div>
           <h3>Tarefas</h3>
           <p>Tarefas individuais e de equipa. Notificações em tempo real. Acompanhamento de prazos.</p>
           <span class="tag">tasks · prazos</span>
-          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="crm-6">
+      <article class="card" id="crm-6" data-topic="crm-6">
         <div class="num">06</div>
         <div>
           <h3>Equipas</h3>
           <p>Gestão de equipas com permissões associadas. Atribuição de contactos a equipas.</p>
           <span class="tag">equipa · permissões</span>
-          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
-      <article class="card" id="crm-7">
+      <article class="card" id="crm-7" data-topic="crm-7">
         <div class="num">07</div>
         <div>
           <h3>Campanhas</h3>
           <p>Geração de campanhas de marketing com o Libax Automate. E-mail, SMS, segmentação por filtros.</p>
           <span class="tag">campanhas · marketing</span>
-          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer">fonte ↗</a>
+          <a class="source" href="https://kb.libax.com/crm" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">fonte ↗</a>
         </div>
       </article>
     </div>
@@ -571,7 +636,21 @@ main{padding-left:var(--sidebar);min-height:100vh}.wrap{max-width:1180px;margin:
     </footer>
   </div>
 </main>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modalBackdrop"></div>
+<aside class="modal-panel" id="modalPanel" aria-hidden="true">
+  <div class="modal-head">
+    <button class="modal-close" id="modalClose" aria-label="Fechar">×</button>
+    <h2 class="modal-title" id="modalTitle"></h2>
+    <span class="modal-kw" id="modalKw"></span>
+  </div>
+  <div class="modal-body" id="modalBody"></div>
+</aside>
+
 <script>
+const MODAL_DATA = {"seguros-1": {"title": "Companhias", "summary": "Cada seguradora (Fidelidade, Tranquilidade, Zurich, etc.) é registada com os webservices e web service em tempo real. Os produtos vêm da companhia, não se criam do zero. Os códigos de companhias permitem agrupar parceiros com prefixos (Coordenador, Diretor, Agência).", "kw": "companhias · webservices", "source": "https://kb.libax.com/seguros/c%C3%B3digos-de-companhias", "details": [{"heading": "Webservices em tempo real", "body": "Com algumas companhias é possível a utilização da integração em tempo real, possibilitando o acesso à informação mais rapidamente sem ter de esperar pelo dia seguinte. Permite também fazer ações na companhia sem aceder à plataforma. Caminho: Importação → Web services → escolher a companhia → escolher o método (ex: \"Obter recibo\")."}, {"heading": "Configuração Fidelidade", "body": "Para que esta funcionalidade seja possível utilizar na Fidelidade é necessário identificar o campo FIG_USER na configuração dos web services. O FIG_USER corresponde ao nº de utilizador usado para entrar no portal da companhia, normalmente começado por FMD."}, {"heading": "Códigos de companhias", "body": "Multi-level (Coordenador/Diretor/Agência) usando um esquema de códigos: 123, 123_1#, 123_2#. Importável/exportável via Excel. Para identificar o parceiro: número do parceiro – nome do parceiro."}, {"heading": "Companhias que suportam cobrança", "body": "Allianz, Fidelidade, Lusitania, Tranquilidade, Zurich. Cobrar recibos pelo Libax sem entrar nas plataformas das companhias."}, {"heading": "Limitações", "body": "Apólices de canais não consultáveis na Plataforma Comercial (ex: Vida Capitalização CGD) — o webservice tem o mesmo comportamento que a Plataforma Comercial Externa."}, {"heading": "Produtos vs Linhas de produto", "body": "Produtos vêm da sincronização com a companhia. Linhas de produto são configuração interna que agrupa produtos de várias companhias (ex: \"Automóvel\" = Auto Fidelidade + Auto Tranquilidade). Definidos em Definições → Companhias → selecionar companhia → Produtos."}]}, "seguros-2": {"title": "Apólices e Recibos", "summary": "Apólices e recibos sincronizam automaticamente via webservices. O recibo é a unidade de comissão — cada recibo gera a comissão quando cobrado. “Direto pendente” = pago à companhia mas ainda não feita prestação de contas.", "kw": "apólice · recibo", "source": "https://kb.libax.com/seguros/cobrar-recibos-na-companhia", "details": [{"heading": "Sincronização", "body": "Apólices e recibos sincronizam automaticamente via webservices diariamente. Algumas companhias apenas via ficheiro de importação (sem webservice)."}, {"heading": "Formato universal", "body": "O transporte de informação entre plataformas ou entre contas é importante para atualização da base de dados. Poupa trabalho administrativo e elimina erros humanos. Pode gerar ficheiros de clientes, apólices e recibos independentemente."}, {"heading": "Importação entre contas", "body": "Pode importar conteúdo de outra conta Libax. É necessário ter as companhias do agente/corretor registadas. Ao importar: \"Mostrar mais opções\" → \"Importar de todas as companhias da entidade comercial\" para várias companhias de uma vez."}, {"heading": "Estados do recibo", "body": "Pendente, Pago direto (pago à companhia), Pago em tesouraria (pago ao agente), Devolvido, Pago previamente (pago na companhia mas carece de registo manual em tesouraria)."}, {"heading": "Data de situação no agente", "body": "Identifica quando o recibo alterou de situação internamente no Libax. Atualizada sempre que muda de estado. \"Pago previamente\" não altera esta data — só o movimento manual de tesouraria altera."}]}, "seguros-3": {"title": "Prestação de Contas", "summary": "Encontro de contas com a companhia. Encerra o recibo. Seleção manual ou via ficheiro de importação (sufixo /force para forçar alocação). Gera documento a favor da companhia + fatura/recibo de comissões a deduzir.", "kw": "prestação · /force", "source": "https://kb.libax.com/seguros/presta%C3%A7%C3%A3o-de-contas", "details": [{"heading": "O que é", "body": "A prestação de contas fecha definitivamente o recibo. É o encontro de contas entre recibos não diretos (pagos em tesouraria do agente) e diretos (pagos diretamente à companhia), deduzindo comissões."}, {"heading": "Como saber recibos por liquidar", "body": "Recibos → procurar recibos → filtrar por \"Direto pendente\". Um recibo \"Direto pendente\" está pago à companhia mas ainda não entrou em prestação de contas."}, {"heading": "Resultado da prestação", "body": "Lançamento de documento a favor da companhia (valor a entregar pelos recibos não diretos) + fatura/recibo (comissões a deduzir). Após lançamento, pode fazer a liquidação na tesouraria."}, {"heading": "Importação para prestação", "body": "Em vez de selecionar recibos manualmente, pode elaborar uma listagem em Excel e importar. Útil quando a companhia envia ficheiro de prestação."}, {"heading": "Sufixo /force", "body": "Colocar /force após o código força a alocação da apólice conforme o código enviado. Ex: 123/force. Sem isto, se a apólice não estiver associada ao código, o processamento falha."}, {"heading": "Opção sim/i", "body": "Considera o recibo como direto apenas se a coluna \"comissão\" não seja zero. Previne marcação de recibos como pagos indevidamente."}]}, "seguros-4": {"title": "Recibos Pendentes", "summary": "Controlo de vencidos e não vencidos. Cada recibo regista atividades. “Data de situação no agente” = quando mudou de estado internamente. Visão por canais de venda (rede de parceiros).", "kw": "pendentes · canais", "source": "https://kb.libax.com/seguros/recibos-pendentes", "details": [{"heading": "Vantagens", "body": "Controlo total de todas as companhias numa única aplicação. Registo de atividades em cada recibo para saber se já está a tratar de cada caso."}, {"heading": "Pesquisa avançada", "body": "Pesquisa com vários filtros: canais de venda, situação na companhia, datas. Campo \"Data de situação no agente\" identifica quando o recibo alterou de situação internamente."}, {"heading": "Apólices com recibos em falta", "body": "Apólices marcadas como aceites mas sem recibos para o período em vigor. Ex: apólice mensal em setembro sem recibo de setembro registado."}, {"heading": "Apólices sem canal de venda", "body": "Todas as apólices devem estar associadas a um escritório ou parceiro. Para encontrar as que não estão: pesquisar com escritório e parceiro = \"não definido\"."}]}, "seguros-5": {"title": "Comissões a Parceiros", "summary": "Parceiro tem de ser marcado como “comissionista”. Percentagens vivem nas INCIDÊNCIAS (matriz companhia × ramo). Após mexer nas incidências, correr “Reformular comissões”. Revogações automáticas precisam de 2 settings: autorizar reabertura + revogações na companhia.", "kw": "incidências · reformular", "source": "https://kb.libax.com/seguros/pagamento-de-comiss%C3%B5es-a-parceiros", "details": [{"heading": "Definição de comissionista", "body": "Após registar o parceiro em Parceiros → novo parceiro, entrar em \"Configurar\" e definir o parceiro como comissionista. Sem isto, só é possível a alocação de carteira sem processamento de comissões."}, {"heading": "Incidências", "body": "Registar as incidências que entender para espelhar o que combinou com o parceiro em termos de percentagem. É aqui que se define a % por companhia/ramo — não na percentagem geral do parceiro."}, {"heading": "Lançamento automático", "body": "Com o registo de recibos (via sincronização ou manual), a comissão é automaticamente calculada e lançada em cada recibo. Ver no recibo → separador \"parceiros\" (lado direito)."}, {"heading": "Processamento / pagamento", "body": "Parceiros → Novo pagamento → selecionar parceiro → selecionar comissões → seguinte. Aconselhado enviar extrato provisório antes de finalizar."}, {"heading": "Extrato provisório", "body": "Em vez de finalizar a nota, escolher método de envio da nota provisória. Pode sair do processo (seleção fica guardada). Após conferência do parceiro, repetir o processo — seleção restaurada para ajustar."}, {"heading": "Revogações", "body": "Recibo devolvido → comissão lançada com valor inverso se já foi paga. Requer: \"autorizar reabertura de recibos\" nas configurações + \"Revogações automáticas\" na ficha da companhia. Dica: pagar só após o limite de revogação (ex: 2 meses)."}, {"heading": "Reformulação", "body": "🚨 Essencial se alterar incidências ou re-alocar apólices. Entrar na ficha do parceiro → \"Reformular comissões\". Sem isto, risco de pagar a mesma comissão aos dois parceiros."}, {"heading": "Pedido de pagamento / SEPA", "body": "Gestão organizada do pagamento com validação de documentos e geração de ficheiro SEPA para evitar transferências individuais."}]}, "seguros-6": {"title": "Parceiros e Hierarquia", "summary": "Hierarquia opcional: Coordenador → Diretor → Agência. Realocação em massa de apólices via filtro. Unificação de parceiros duplicados. Pagamento aos parceiros via notas + ficheiro SEPA.", "kw": "parceiro · SEPA", "source": "https://kb.libax.com/seguros/hierarquia-de-parceiros", "details": [{"heading": "Hierarquia", "body": "Opcionalmente pode definir uma hierarquia entre os seus parceiros para ter uma noção rigorosa de quem depende de quem. Facilita a associação de parceiros às apólices e permite navegação pela estrutura em mapas de análise."}, {"heading": "Realocação de parceiros", "body": "Realocar grande quantidade de apólices a nova estrutura via filtro por categorias. Também resolve duplicações: identificar parceiros repetidos e usar \"unificar parceiros\"."}, {"heading": "Atenção à re-importação", "body": "Ao voltar a importar o ficheiro, os canais de venda são atualizados mas também outros campos (situação da apólice, datas, valores). Nunca demorar mais que um dia para não desfazer alterações dos web services diariamente."}, {"heading": "Seguros Lite", "body": "Versão simplificada do Libax Seguros para parceiros. Gerem carteira de forma autónoma com ferramentas de colaboração com o agente principal."}, {"heading": "Códigos multi-nível", "body": "Esquema de códigos para hierarquia: Coordenador 123, Diretor 123_1#, Agência 123_2#. Exportável via Excel em Parceiros → procurar parceiros → exportar."}]}, "seguros-7": {"title": "Participações (Sinistros)", "summary": "Etapas personalizáveis por tipo. Lista base já vem. Filtros combinados: tipo + data do acidente. Exemplo etapas: Registado, Marcação peritagem, Veículo de substituição.", "kw": "sinistros · etapas", "source": "https://kb.libax.com/seguros/etapas-de-participa%C3%A7%C3%B5es", "details": [{"heading": "Etapas de participações", "body": "Cada ocorrência pode passar por diferentes etapas até sua completa resolução. Variam conforme o tipo de acidente. É possível definir uma lista de etapas personalizada para cada tipo — ao registrar uma participação, o sistema associa automaticamente a sequência correta."}, {"heading": "Tipos de participação", "body": "O Libax vem com lista pré-configurada dos tipos mais comuns. Pode editar, apagar ou criar novos tipos. Vantagem: pesquisar participações por tipo, poupando tempo administrativo. Pesquisa combinável com outros filtros (ex: data do acidente)."}, {"heading": "Exemplo de etapas (Automóvel)", "body": "Registado → Marcação de peritagem → Veículo de substituição → Aguardar reparação → Fechado."}]}, "seguros-8": {"title": "Documentação e Pesquisa", "summary": "Documentos (carta verde, recibos) descarregados automaticamente. Pesquisa rápida: contribuinte, telemóvel, e-mail, nº cliente. Sufixos: /c (apólice), /u (unidade risco), /r (recibo). Referências multibanco automáticas nos continuados.", "kw": "/c · /u · /r", "source": "https://kb.libax.com/seguros/como-pesquisar", "details": [{"heading": "Pesquisa rápida", "body": "No topo da aplicação. O sistema percebe se é número de contribuinte, telemóvel, e-mail ou número de cliente automaticamente."}, {"heading": "Sufixos de pesquisa", "body": "/c = pesquisar por nº apólice (ex: 123/c). /u = pesquisar por unidade de risco (ex: AA-00-00/u). /r = pesquisar por nº recibo (ex: 123/r)."}, {"heading": "Documentação da companhia", "body": "É possível obter ficheiros diretamente das companhias (carta verde, apólices, recibos). Poupa arquivo manual. Companhias que suportam: Fidelidade, Tranquilidade, Allianz, Zurich, Lusitania."}, {"heading": "Limitações Fidelidade", "body": "Se pedir documento errado para o tipo de recibo, obtém erro. Algumas cartas verdes só disponíveis a partir do recibo, não da apólice."}, {"heading": "Limitações Tranquilidade", "body": "Apenas transferida a documentação se o recibo estiver marcado como pago no Libax."}, {"heading": "Referência Multibanco", "body": "Algumas companhias enviam referência MB por recibo. Registo automático na importação de carteira. Apenas nos continuados. Se mudar de referência, a antiga fica inativa — colocar a nova manualmente."}, {"heading": "Power BI e beyondata", "body": "Power BI para criar relatórios e dashboards personalizados. beyondata: solução da Libax com dashboards prontos para agentes/corretores."}]}, "business-1": {"title": "Entidades (Clientes/Fornecedores)", "summary": "Clientes, fornecedores, outros. Importação em massa via CSV. RGPD digital ou papel com pedido de consentimento automático via Automate. Validade do consentimento configurável em anos.", "kw": "entidades · RGPD", "source": "https://kb.libax.com/business/rgpd", "details": [{"heading": "RGPD — Consentimento digital", "body": "Entrar na área RGPD da entidade → \"Enviar pedido de consentimento\" → escolher método. Gera código aleatório para validar autenticação. Pode editar texto em PT e EN, inserir links, definir validade em anos."}, {"heading": "RGPD — Consentimento em papel", "body": "Entidade → área RGPD → Imprimir → Pedido de consentimento. Para clientes sem registo de consentimento."}, {"heading": "RGPD — Automatização", "body": "💡 Automatizável com Libax Automate. Encontra clientes sem pedido RGPD e envia automaticamente. Por dias ou em tempo real."}, {"heading": "Importação de entidades", "body": "Importar base de dados externa via CSV. Útil quando tem clientes/fornecedores noutro sistema e precisa de integrar no Libax."}]}, "business-2": {"title": "Produtos", "summary": "Catálogo de produtos/serviços. Importação CSV para grandes volumes. Edição em massa. Cada produto: preço, unidade, IVA configurável.", "kw": "catálogo · IVA", "source": "https://kb.libax.com/business/importa%C3%A7%C3%A3o", "details": [{"heading": "Importação de produtos", "body": "Importar lista de produtos via CSV quando tem base de dados externa. Manter catálogo actualizado para faturação."}, {"heading": "Campos por produto", "body": "Preço, unidade, IVA configurável. Edição em massa disponível."}]}, "business-3": {"title": "Faturação", "summary": "Faturas, faturas-recibo, notas de crédito. Numeração por série. ATCUD automático (Portaria 195/2020). Anular: cancelar no próprio dia OU nota de crédito. Por lei não é possível editar.", "kw": "fatura · ATCUD", "source": "https://kb.libax.com/business/atcud", "details": [{"heading": "Anular fatura — 1ª forma", "body": "Cancelar a fatura no próprio dia da emissão. Business → Documentos → Comerciais → Procurar → Cancelar → Inserir razão → Confirmar. Só no próprio dia — caso contrário, incorre em incumprimento."}, {"heading": "Anular fatura — 2ª forma", "body": "Nota de crédito. Para quando já passou o dia da emissão. Por lei não é possível editar ou rectificar uma fatura."}, {"heading": "ATCUD", "body": "Código Único de Documento (Portaria 195/2020). Mínimo 8 caracteres. Incluído no código QR obrigatório em todas as faturas. Resulta da concatenação do código de validação atribuído à série + número do documento."}, {"heading": "Legibilidade do QR", "body": "A legibilidade deve ser garantida pelos emissores. Independentemente do suporte em que seja apresentado ao cliente."}]}, "business-4": {"title": "Faturação Eletrónica", "summary": "Integrações SAFE (grátis 2 anos) e DigitalSign. Assinatura e envio conforme normas PT. QR code com ATCUD incluído.", "kw": "SAFE · DigitalSign", "source": "https://kb.libax.com/business/integra%C3%A7%C3%A3o-safe", "details": [{"heading": "SAFE", "body": "Serviço de Assinatura de Faturas Eletrónicas. Integrado no Libax. Gratuito nos primeiros dois anos. Permite gerar, assinar e enviar faturas eletrónicas em conformidade com as normas fiscais PT."}, {"heading": "DigitalSign", "body": "Plataforma certificada com recursos avançados. Preços competitivos e opções de personalização. Ideal para empresas que buscam excelência em gestão documental."}]}, "business-5": {"title": "Tesouraria", "summary": "Caixa, bancos, previsões. Liquidação de faturas. Conciliação bancária. Ligação a Recibos do Libax Seguros para movimentos conjuntos.", "kw": "caixa · bancos", "source": "https://kb.libax.com/business/api-do-libax-business", "details": [{"heading": "Cobrança na tesouraria + companhia", "body": "Ao registar um movimento em caixa, pode marcar recibos como pagos na companhia sem entrar na plataforma. Deixar a opção \"Cobrar na companhia\" selecionada antes de confirmar o movimento de tesouraria."}, {"heading": "Integração com Seguros", "body": "Ligação a Recibos do Libax Seguros para movimentos conjuntos. O recibo pode ser cobrado na tesouraria e na companhia em simultâneo."}]}, "business-6": {"title": "Importação", "summary": "CSV para faturas, entidades, produtos. Templates. Validação prévia antes de processar.", "kw": "CSV · bulk", "source": "https://kb.libax.com/business/importa%C3%A7%C3%A3o", "details": [{"heading": "Importação de faturas", "body": "Lançar grandes quantidades de faturas automaticamente via CSV. Evita enganos e poupa tempo administrativo."}, {"heading": "Importação de entidades", "body": "Importar base de dados externa de clientes/fornecedores via CSV."}, {"heading": "Importação de produtos", "body": "Manter lista de produtos actualizada para faturação via CSV."}]}, "business-7": {"title": "API", "summary": "API REST para integração externa. Criar clientes, emitir faturas, imprimir documentos. Manual com passos: emissão, liquidação, impressão.", "kw": "API REST", "source": "https://kb.libax.com/business/api-do-libax-business", "details": [{"heading": "Capacidades da API", "body": "Criar clientes. Emitir faturas ou outro tipo de documentos. Realizar impressão de documentos. Manual com passos: emissão, liquidação e impressão de faturas pela API."}, {"heading": "API Seguros vs Business", "body": "API Seguros: Registar clientes, consultar apólices/recibos/participações, pesquisar comissões. API Business: Foco em faturação e gestão comercial."}]}, "automate-1": {"title": "Boas-vindas a novos clientes", "summary": "Envia automaticamente uma mensagem de boas-vindas sempre que um novo cliente entra na base de dados. Pode ser em tempo real (no momento do registo) ou diário (todos os clientes do dia anterior).", "kw": "cliente · welcome", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-2": {"title": "Aniversários", "summary": "Envia uma mensagem de parabéns no dia de aniversário dos clientes ativos. Uma forma simples de manter a relação com o cliente sem esforço manual.", "kw": "cliente · data", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-3": {"title": "Pedido RGPD", "summary": "Identifica clientes que ainda não assinaram a autorização de tratamento de dados (RGPD) e envia-lhes o pedido automaticamente. Essencial para cumprir a lei.", "kw": "RGPD · conformidade", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-4": {"title": "Novas tarefas", "summary": "Avisa automaticamente a pessoa responsável sempre que é criada uma nova tarefa no sistema, para que nada fique esquecido.", "kw": "tarefa · alerta", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-5": {"title": "Vencimento de tarefas", "summary": "Avisa quando uma tarefa está a chegar ao prazo limite, para que o responsável ou criador não deixe nada passar.", "kw": "tarefa · prazo", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-6": {"title": "Mensagem a vulso entidade", "summary": "Permite enviar uma mensagem pontual a um cliente específico quando precisar, sem precisar de criar um modelo permanente. Útil para ocasiões únicas.", "kw": "avulso · pontual", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-7": {"title": "Emissão avisos", "summary": "Envia automaticamente emails ou SMS aos clientes com recibos por pagar. Pode criar diferentes mensagens conforme o estado do recibo (pendente, fora de prazo, cobrança falhada). Inclui geração de referências multibanco para facilitar o pagamento.", "kw": "recibo · SMS · email", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-8": {"title": "Alteração de participação", "summary": "Avisa quando há alterações numa participação de sinistro. Mantém toda a equipa actualizada sobre mudanças nos processos de sinistros.", "kw": "sinistro · equipa", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-9": {"title": "Alterar situação entidades", "summary": "Actualiza automaticamente o estado dos clientes (activo/inactivo) conforme as apólices que têm. Um cliente sem apólices válidas passa a inactivo automaticamente, mantendo a base de dados limpa.", "kw": "cliente · ativo", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-10": {"title": "Boas-vindas por nova apólice", "summary": "Envia uma mensagem de boas-vindas quando é emitida uma nova apólice para um cliente, dando-lhe as boas-vindas como segurado.", "kw": "apólice · welcome", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-11": {"title": "Apólices anuladas por falta de pagamento", "summary": "Avisa automaticamente o cliente quando a sua apólice é cancelada por falta de pagamento, para que saiba que ficou sem cobertura.", "kw": "anular · cobertura", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-12": {"title": "Reformular comissões", "summary": "Recalcula e corrige automaticamente as comissões devidas a cada parceiro/mediador, garantindo que os valores estão sempre certos.", "kw": "comissão · parceiro", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-13": {"title": "Emissão de notas de pagamento", "summary": "Gera automaticamente as notas de pagamento para parceiros. Pode enviar primeiro um extracto provisório para o parceiro confirmar os valores antes do fecho definitivo.", "kw": "parceiro · nota", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-14": {"title": "Segmentação automática", "summary": "Organiza os clientes em grupos automaticamente (ex: por tipo de seguro, valor de prémio, idade), facilitando campanhas direccionadas e análises de carteira.", "kw": "segmento · campanha", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-15": {"title": "Notificação de parceiros", "summary": "Envia aos parceiros um ficheiro Excel com os recibos que estão em cobrança, para que saibam o estado dos pagamentos sem precisar de perguntar.", "kw": "parceiro · Excel", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-16": {"title": "Participação sem atividade", "summary": "Alerta quando há sinistros (participações) abertos sem nenhum movimento há vários dias, para que nenhum processo fique esquecido.", "kw": "sinistro · inativo", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-17": {"title": "Simulações sem atividade", "summary": "Alerta quando há simulações de seguro que não tiveram follow-up há vários dias, para que não perca potenciais vendas por esquecimento.", "kw": "simulação · venda", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-18": {"title": "Renovação de apólice", "summary": "Avisa o cliente antes da renovação da apólice. Essencial para acidentes de trabalho: pede automaticamente a folha de férias ao cliente para que a renovação não atrase.", "kw": "renovação · at", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-19": {"title": "Gerar campanha", "summary": "Cria listas de clientes filtrados por critérios específicos (idade, tipo de seguro, região, etc.) para enviar campanhas de marketing direccionadas. Pode agendar geração periódica.", "kw": "campanha · marketing", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-20": {"title": "Variação de recibos", "summary": "Detecta variações anormais nos recibos (ex: aumento repentino de valor) e alerta, permitindo detectar erros ou fraudes.", "kw": "recibo · fraude", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-21": {"title": "Obter documentação das companhias", "summary": "Descarrega automaticamente documentos das companhias seguradoras (cartas verdes, apólices, etc.) e guarda-os no Libax, sem precisar de ir buscar manualmente a cada portal.", "kw": "documento · carta", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-22": {"title": "Cancelar apólices", "summary": "Cancela automaticamente apólices que deveriam estar inactivas mas continuam activas no sistema porque a companhia não comunicou o cancelamento. Mantém a base de dados correcta.", "kw": "apólice · cancelamento", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-23": {"title": "Anular recibos antigos", "summary": "Limpa recibos antigos que ainda aparecem como pendentes mas já deviam estar resolvidos, mantendo os relatórios limpos e correctos.", "kw": "recibo · limpeza", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "automate-24": {"title": "Cobrar na companhia", "summary": "Marca automaticamente os recibos como pagos na plataforma da companhia seguradora, poupando trabalho manual. Para recibos urgentes use a cobrança em tempo real.", "kw": "recibo · cobrança", "source": "https://kb.libax.com/automate/modelos-dispon%C3%ADveis", "details": []}, "crm-1": {"title": "Contactos", "summary": "Base do CRM. Criar, pesquisar, atribuir cada cliente à equipa certa.", "kw": "clientes · equipas", "source": "https://kb.libax.com/crm", "details": []}, "crm-2": {"title": "Empresas", "summary": "Agrupa vários contactos a trabalhar na mesma empresa numa conta única.", "kw": "B2B · agrupar", "source": "https://kb.libax.com/crm", "details": []}, "crm-3": {"title": "Negócios", "summary": "Pipeline de oportunidades. Acompanhamento de cada negócio ao longo do funil.", "kw": "pipeline · funil", "source": "https://kb.libax.com/crm", "details": []}, "crm-4": {"title": "Tickets", "summary": "Suporte ao cliente. Acompanhamento de questões e pedidos por cliente.", "kw": "suporte · pedidos", "source": "https://kb.libax.com/crm", "details": []}, "crm-5": {"title": "Tarefas", "summary": "Tarefas individuais e de equipa. Notificações em tempo real. Acompanhamento de prazos.", "kw": "tasks · prazos", "source": "https://kb.libax.com/crm", "details": []}, "crm-6": {"title": "Equipas", "summary": "Gestão de equipas com permissões associadas. Atribuição de contactos a equipas.", "kw": "equipa · permissões", "source": "https://kb.libax.com/crm", "details": []}, "crm-7": {"title": "Campanhas", "summary": "Geração de campanhas de marketing com o Libax Automate. E-mail, SMS, segmentação por filtros.", "kw": "campanhas · marketing", "source": "https://kb.libax.com/crm", "details": []}};
+
 // Smooth scroll for sidebar links with offset
 document.querySelectorAll('.sidebar a[href^="#"]').forEach(link => {
   link.addEventListener('click', e => {
@@ -587,7 +666,63 @@ document.querySelectorAll('.sidebar a[href^="#"]').forEach(link => {
   });
 });
 
-// Staggered reveal on scroll
+// Modal logic
+const backdrop = document.getElementById('modalBackdrop');
+const panel = document.getElementById('modalPanel');
+const closeBtn = document.getElementById('modalClose');
+const titleEl = document.getElementById('modalTitle');
+const kwEl = document.getElementById('modalKw');
+const bodyEl = document.getElementById('modalBody');
+
+function escapeHtml(s) {
+  const div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+function openModal(topicId) {
+  const data = MODAL_DATA[topicId];
+  if (!data) return;
+  titleEl.textContent = data.title;
+  kwEl.textContent = data.kw;
+  let html = '<p class="modal-summary">' + escapeHtml(data.summary) + '</p>';
+  if (data.details && data.details.length > 0) {
+    data.details.forEach(d => {
+      html += '<div class="modal-section"><h4>' + escapeHtml(d.heading) + '</h4><p>' + escapeHtml(d.body) + '</p></div>';
+    });
+  } else {
+    html += '<div class="modal-empty">Detalhes adicionais não disponíveis na KB para este tópico. Consulta a fonte para mais informação.</div>';
+  }
+  html += '<a class="modal-source" href="' + data.source + '" target="_blank" rel="noreferrer">fonte ↗ kb.libax.com</a>';
+  bodyEl.innerHTML = html;
+  backdrop.classList.add('open');
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  backdrop.classList.remove('open');
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+closeBtn.addEventListener('click', closeModal);
+backdrop.addEventListener('click', closeModal);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && panel.classList.contains('open')) closeModal();
+});
+
+// Card click → open modal
+document.querySelectorAll('.card[data-topic]').forEach(card => {
+  card.addEventListener('click', () => {
+    const topicId = card.getAttribute('data-topic');
+    openModal(topicId);
+  });
+});
+
+// Staggered reveal
 const reveals = document.querySelectorAll('.reveal');
 const obs = new IntersectionObserver((entries) => {
   entries.forEach((e, i) => {
