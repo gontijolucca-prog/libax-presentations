@@ -84,6 +84,16 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 .sidebar .nav-item.open .nav-link .nav-chevron{transform:rotate(90deg);color:var(--lime)}
 .sidebar .footer{padding:18px 24px 0;border-top:1px solid var(--line);font-size:13.5px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
 
+/* === CRM EXPLAINER === */
+.crm-def{color:var(--ink)}
+.crm-def .bg{background:linear-gradient(160deg,#fafafa 0%,#f2f2f4 100%)}
+.crm-def .heading{margin-bottom:36px}
+.crm-def .eyebrow{font-family:Roboto;font-size:13.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:14px}
+.crm-def h2{font-family:Roboto;font-weight:300;font-size:clamp(36px,4.4vw,62px);line-height:1.05;letter-spacing:-.02em}
+.crm-def h2 em{font-style:italic;font-weight:700;color:var(--lime)}
+.crm-def .body{font-family:Roboto;font-weight:300;font-size:19.4px;line-height:1.55;color:var(--ink-soft);max-width:680px;margin:0 auto}
+.crm-def .body strong{font-weight:500;color:var(--ink)}
+
 /* === ROADMAP === */
 .roadmap{color:var(--ink)}
 .roadmap .bg{background:linear-gradient(160deg,#f2f2f4 0%,#e8e8ea 100%)}
@@ -209,6 +219,12 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
           <span class="title">Início</span>
         </a>
       </li>
+      <li class="nav-item" data-target="crm-def">
+        <a class="nav-link" href="#crm-def">
+          <span class="num">·</span>
+          <span class="title">O que é um CRM</span>
+        </a>
+      </li>
       <li class="nav-item" data-target="roadmap">
         <a class="nav-link" href="#roadmap">
           <span class="num">·</span>
@@ -328,6 +344,19 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
     <p class="tagline r delay-2">O seu CRM é muito complicado? Concentre-se no essencial.</p>
     <p class="sub r delay-3">Contactos · Negócios · Tickets · Tarefas</p>
     <div class="scroll-hint r delay-4">Descer<span class="line"></span></div>
+  </section>
+
+  <section class="section crm-def" id="crm-def">
+    <div class="bg"></div>
+    <div class="heading r">
+      <div class="eyebrow">Conceito</div>
+      <h2>O que é <em>um CRM</em></h2>
+    </div>
+    <div class="body r delay-1">
+      <p><strong>CRM</strong> significa <em>Customer Relationship Management</em> — Gestão da Relação com o Cliente.</p>
+      <p style="margin-top:18px">Um CRM é uma ferramenta que guarda tudo o que se passa com cada cliente — <strong>quem é</strong>, <strong>o que pediu</strong>, <strong>em que ponto está</strong> e <strong>o que falta fazer</strong>.</p>
+      <p style="margin-top:18px">Em vez de ter contactos espalhados por folhas de Excel, e-mails e post-its, o CRM junta tudo num único sítio para a equipa saber o que se passa e não deixar nada cair.</p>
+    </div>
   </section>
 
   <section class="section roadmap" id="roadmap">
