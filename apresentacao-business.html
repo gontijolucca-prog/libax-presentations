@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Libax Business — ERP na Cloud</title>
+<title>Libax Business — Faturação certificada para Portugal</title>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -12,57 +12,28 @@
   --line:#d8d8d8;--line-strong:#cccccc;
   --green:#6d9d30;--green-light:#9bbb59;--green-dark:#488500;
   --green-btn:#5fb000;--green-pale:#7cb731;
-  --green-bright:#9bbb59;
+  --green-bright:#7cb731;
   --lime:#6d9d30;
+  --sidebar-w:260px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-
-/* Atmospheric backdrop */
 .noise{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.05;mix-blend-mode:multiply}
 .vignette{position:fixed;inset:0;pointer-events:none;z-index:9;box-shadow:inset 0 0 240px 60px rgba(228,228,228,.6)}
 
-/* SCROLL SNAP DECK */
 .deck{height:100vh;overflow-y:scroll;scroll-snap-type:y proximity;scrollbar-width:none}
 .deck::-webkit-scrollbar{display:none}
-.section{
-  min-height:100vh;scroll-snap-align:start;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:80px 56px;text-align:center;position:relative;overflow:hidden;
-}
+.section{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 56px 80px calc(var(--sidebar-w) + 64px);text-align:center;position:relative;overflow:hidden}
 .section>*:not(.bg):not(.grid){position:relative;z-index:3}
-
-/* Background system */
 .bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-.bg.mesh{
-  background:
-    radial-gradient(ellipse 80% 60% at 15% 20%, rgba(109,157,48,.08), transparent 55%),
-    radial-gradient(ellipse 60% 50% at 90% 80%, rgba(61,102,0,.35), transparent 60%),
-    radial-gradient(ellipse 50% 50% at 50% 100%, rgba(155,187,89,.10), transparent 60%);
-}
-.bg.light{
-  background:
-    radial-gradient(ellipse 60% 80% at 80% 10%, rgba(109,157,48,.08), transparent 55%),
-    radial-gradient(ellipse 70% 60% at 20% 90%, rgba(61,102,0,.06), transparent 60%),
-    linear-gradient(180deg,#f2f2f4 0%, #e4e4e4 100%);
-}
-.grid-overlay{
-  position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;
-  background-image:
-    linear-gradient(to right, rgba(168,178,159,.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(168,178,159,.035) 1px, transparent 1px);
-  background-size:96px 96px;
-  mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);
-  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);
-}
+.bg.mesh{background:radial-gradient(ellipse 80% 60% at 15% 20%, rgba(109,157,48,.06), transparent 55%),radial-gradient(ellipse 60% 50% at 90% 80%, rgba(155,187,89,.10), transparent 60%),radial-gradient(ellipse 50% 50% at 50% 100%, rgba(124,183,49,.06), transparent 60%)}
+.grid-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;background-image:linear-gradient(to right, rgba(109,157,48,.05) 1px, transparent 1px),linear-gradient(to bottom, rgba(109,157,48,.05) 1px, transparent 1px);background-size:96px 96px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%)}
 
-/* PROGRESS */
 .progress{position:fixed;top:0;right:0;width:3px;height:100vh;background:rgba(109,157,48,.12);z-index:10}
 .progress-fill{width:100%;background:linear-gradient(180deg,var(--green-light),var(--green));height:0;transition:height .25s cubic-bezier(.16,1,.3,1)}
-.counter{position:fixed;top:32px;right:60px;z-index:11;font-family:Roboto;font-size:11px;letter-spacing:.18em;color:var(--ink-dim)}
+.counter{position:fixed;top:32px;right:60px;z-index:11;font-family:Roboto;font-size:14.9px;letter-spacing:.18em;color:var(--ink-dim)}
 
-/* REVEAL */
 .r{opacity:0;transform:translateY(40px);transition:opacity 1.4s cubic-bezier(.16,1,.3,1), transform 1.4s cubic-bezier(.16,1,.3,1)}
 .r.in{opacity:1;transform:translateY(0)}
 .r.delay-1{transition-delay:.08s}
@@ -70,120 +41,144 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 .r.delay-3{transition-delay:.28s}
 .r.delay-4{transition-delay:.40s}
 
-/* HERO */
 .hero{color:var(--ink)}
-.hero .bg{background:radial-gradient(ellipse 80% 60% at 30% 30%, rgba(109,157,48,.12), transparent 55%), radial-gradient(ellipse 50% 50% at 80% 80%, rgba(109,157,48,.10), transparent 60%), linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
-.hero .badge{
-  display:inline-flex;align-items:center;gap:10px;
-  font-family:Roboto;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
-  padding:8px 16px;border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-soft);
-  margin-bottom:40px;
-}
+.hero .bg{background:radial-gradient(ellipse 80% 60% at 30% 30%, rgba(109,157,48,.12), transparent 55%),radial-gradient(ellipse 50% 50% at 80% 80%, rgba(109,157,48,.10), transparent 60%),linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
+.hero .badge{display:inline-flex;align-items:center;gap:10px;font-family:Roboto;font-size:14.9px;letter-spacing:.2em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-soft);margin-bottom:40px}
 .hero .badge::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 0 0 transparent}
-.hero h1{
-  font-family:Roboto;font-weight:300;font-size:clamp(64px,8vw,140px);
-  line-height:.92;letter-spacing:-.035em;margin-bottom:24px;
-}
+.hero h1{font-family:Roboto;font-weight:300;font-size:clamp(86.4px,10.8vw,189px);line-height:.92;letter-spacing:-.035em;margin-bottom:24px}
 .hero h1 em{font-style:italic;font-weight:700;color:var(--lime)}
-.hero .tagline{font-weight:300;font-size:22px;color:var(--ink-soft);margin-bottom:8px;letter-spacing:-.005em}
-.hero .sub{font-family:Roboto;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);margin-bottom:56px}
-.scroll-hint{
-  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
-  font-family:Roboto;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-}
+.hero .tagline{font-weight:300;font-size:29.7px;color:var(--ink-soft);margin-bottom:8px}
+.hero .sub{font-family:Roboto;font-size:16.2px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);margin-bottom:56px}
+
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-family:Roboto;font-size:13.5px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);display:flex;flex-direction:column;align-items:center;gap:10px}
 .scroll-hint .line{width:1px;height:36px;background:linear-gradient(180deg,transparent,var(--green));animation:down 2.4s cubic-bezier(.65,0,.35,1) infinite}
 @keyframes down{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
 
-/* OVERVIEW (dark surface) */
-.overview .bg.mesh{opacity:.7}
-.overview .heading{margin-bottom:64px}
-.overview .eyebrow{font-family:Roboto;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
-.overview h2{
-  font-family:Roboto;font-weight:300;font-size:clamp(40px,5vw,72px);
-  line-height:1;letter-spacing:-.025em;
-}
-.overview h2 em{font-style:italic;font-weight:700;color:var(--lime)}
-.overview .subtitle{font-weight:300;font-size:18px;color:var(--ink-soft);margin-top:18px;max-width:520px;margin-left:auto;margin-right:auto}
+/* === SIDEBAR === */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:rgba(255,255,255,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-right:1px solid var(--line);z-index:20;display:flex;flex-direction:column;padding:32px 0 24px;font-family:Roboto}
+.sidebar .brand{padding:0 24px 24px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+.sidebar .brand .dot{width:8px;height:8px;background:var(--green);border-radius:50%}
+.sidebar .brand .name{font-weight:700;font-size:18.9px;letter-spacing:-.01em;color:var(--ink)}
+.sidebar .brand .product{font-weight:300;font-size:17.6px;color:var(--ink-soft);font-style:italic}
+.sidebar nav{flex:1;overflow-y:auto;padding:18px 0;scrollbar-width:thin}
+.sidebar nav::-webkit-scrollbar{width:4px}
+.sidebar nav::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+.sidebar .nav-list{list-style:none}
+.sidebar .nav-item{margin-bottom:2px}
+.sidebar .nav-link{display:flex;align-items:center;gap:12px;padding:10px 24px;text-decoration:none;color:var(--ink-soft);font-size:16.2px;letter-spacing:.02em;font-weight:500;border-left:2px solid transparent;transition:background .3s,color .3s,border-color .3s;cursor:pointer}
+.sidebar .nav-link:hover{background:rgba(109,157,48,.05);color:var(--ink)}
+.sidebar .nav-link.active{background:rgba(109,157,48,.08);color:var(--ink);border-left-color:var(--lime);font-weight:700}
+.sidebar .nav-link .num{font-family:Roboto;font-size:13.5px;letter-spacing:.15em;color:var(--ink-dim);min-width:24px;font-weight:700}
+.sidebar .nav-link.active .num{color:var(--lime)}
+.sidebar .nav-link .title{flex:1}
+.sidebar .nav-link .pill{font-size:12.2px;letter-spacing:.15em;color:var(--ink-dim);text-transform:uppercase;background:var(--bg-2);padding:3px 8px;border-radius:999px}
+.sidebar .nav-link.active .pill{background:var(--lime);color:#fff}
+.sidebar .nav-sub{display:none;list-style:none;padding:4px 0 8px 0}
+.sidebar .nav-item.open .nav-sub{display:block}
+.sidebar .nav-sub a{display:flex;align-items:center;gap:10px;padding:7px 24px 7px 56px;text-decoration:none;color:var(--ink-dim);font-size:14.9px;letter-spacing:.01em;font-weight:400;transition:color .3s,background .3s;cursor:pointer;border-left:2px solid transparent}
+.sidebar .nav-sub a:hover{color:var(--ink);background:rgba(109,157,48,.04)}
+.sidebar .nav-sub a.active{color:var(--lime);font-weight:700;border-left-color:var(--lime)}
+.sidebar .nav-sub .vnum{font-size:12.2px;letter-spacing:.1em;color:var(--ink-dim);min-width:18px;text-align:center}
+.sidebar .nav-sub a.active .vnum{color:var(--lime)}
+.sidebar .nav-chevron{font-size:13.5px;color:var(--ink-dim);transition:transform .3s cubic-bezier(.16,1,.3,1),color .3s}
+.sidebar .nav-item.open .nav-link .nav-chevron{transform:rotate(90deg);color:var(--lime)}
+.sidebar .footer{padding:18px 24px 0;border-top:1px solid var(--line);font-size:13.5px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
 
-/* ASYMMETRIC FEATURE LAYOUT — grid-breaking */
+/* === OVERVIEW === */
+.overview{color:var(--ink)}
+.overview .bg.mesh{opacity:.7}
+.overview .bg{background:linear-gradient(160deg,#fafafa 0%,#f2f2f4 100%)}
+.overview .heading{margin-bottom:56px}
+.overview .eyebrow{font-family:Roboto;font-size:14.9px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
+.overview h2{font-family:Roboto;font-weight:300;font-size:clamp(48.6px,6.1vw,86.4px);line-height:1;letter-spacing:-.025em}
+.overview h2 em{font-style:italic;font-weight:700;color:var(--lime)}
+.overview .subtitle{font-weight:300;font-size:21.6px;color:var(--ink-soft);margin-top:18px;max-width:560px;margin-left:auto;margin-right:auto}
 .features{
   display:grid;
   grid-template-columns:repeat(12,1fr);
   gap:1px;
-  max-width:1180px;width:100%;
+  max-width:1120px;width:100%;
   background:var(--line);
   border:1px solid var(--line-strong);
 }
 .feat{
   grid-column:span 4;
-  background:var(--bg-2);
-  padding:36px 28px;
+  background:var(--bg);
+  padding:36px 32px;
   text-align:left;
   position:relative;overflow:hidden;
   transition:background .5s cubic-bezier(.16,1,.3,1);
 }
-.feat:hover{background:var(--surface)}
-.feat .num{font-family:Roboto;font-size:10px;letter-spacing:.2em;color:var(--ink-dim);margin-bottom:32px;display:block}
-.feat .title{font-family:Roboto;font-weight:700;font-size:22px;letter-spacing:-.02em;color:var(--ink);margin-bottom:10px}
-.feat .desc{font-weight:300;font-size:14px;line-height:1.55;color:var(--ink-soft)}
+.feat:hover{background:var(--bg-2)}
+.feat .num{font-family:Roboto;font-size:13.5px;letter-spacing:.2em;color:var(--lime);margin-bottom:24px;display:block;font-weight:700}
+.feat .title{font-family:Roboto;font-weight:700;font-size:20.2px;letter-spacing:-.015em;color:var(--ink);margin-bottom:10px}
+.feat .desc{font-weight:300;font-size:16.2px;line-height:1.55;color:var(--ink-soft)}
+.feat .icon{display:block;width:32px;height:32px;color:var(--lime);margin-bottom:18px;stroke-width:1.5}
 .feat .accent{position:absolute;left:0;top:0;width:1px;height:100%;background:var(--lime);transform:scaleY(0);transform-origin:bottom;transition:transform .6s cubic-bezier(.16,1,.3,1)}
 .feat:hover .accent{transform:scaleY(1)}
 
-/* Highlight span — make feature 1 wider */
-.feat--wide{grid-column:span 8;display:grid;grid-template-columns:1fr 1fr;gap:32px;padding:44px 36px}
-.feat--wide .num{grid-column:1/-1}
-.feat--wide .title{font-size:32px;line-height:1.05}
-.feat--wide .desc{font-size:15px}
-.feat--wide .visual{grid-row:span 2;align-self:end;justify-self:end}
-.feat--wide .visual code{display:block;font-family:Roboto;font-size:10px;color:var(--ink-dim);line-height:1.8;background:var(--bg);padding:18px 22px;border:1px solid var(--line-strong);border-radius:4px;white-space:pre}
-.feat--wide .visual code .k{color:var(--lime)}
-.feat--wide .visual code .s{color:var(--green-bright)}
+/* === TOC / INDEX === */
+.toc{color:var(--ink)}
+.toc .bg{background:linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
+.toc .heading{margin-bottom:56px}
+.toc .eyebrow{font-family:Roboto;font-size:14.9px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
+.toc h2{font-family:Roboto;font-weight:300;font-size:clamp(48.6px,6.1vw,86.4px);line-height:1;letter-spacing:-.025em}
+.toc h2 em{font-style:italic;font-weight:700;color:var(--lime)}
+.toc .subtitle{font-weight:300;font-size:21.6px;color:var(--ink-soft);margin-top:18px;max-width:520px;margin-left:auto;margin-right:auto}
+.toc-grid{display:flex;flex-direction:column;gap:1px;max-width:760px;width:100%;background:var(--line);border:1px solid var(--line-strong)}
+.toc-cat{background:var(--bg-2)}
+.toc-cat summary{list-style:none;cursor:pointer;padding:22px 28px;display:grid;grid-template-columns:48px 1fr auto auto;align-items:center;gap:20px;transition:background .3s;user-select:none}
+.toc-cat summary::-webkit-details-marker{display:none}
+.toc-cat summary:hover{background:var(--surface)}
+.toc-cat[open] summary{background:var(--surface)}
+.toc-cat[open] summary .toc-arrow{transform:rotate(90deg);color:var(--lime)}
+.toc-cat .toc-num{font-family:Roboto;font-size:14.9px;letter-spacing:.2em;color:var(--lime);font-weight:700}
+.toc-cat .toc-title{font-family:Roboto;font-weight:700;font-size:24.3px;letter-spacing:-.015em;color:var(--ink)}
+.toc-cat .toc-meta{font-family:Roboto;font-size:14.9px;letter-spacing:.15em;color:var(--ink-dim);text-transform:uppercase;white-space:nowrap}
+.toc-cat .toc-arrow{font-family:Roboto;font-size:18.9px;color:var(--ink-dim);transition:transform .3s cubic-bezier(.16,1,.3,1),color .3s}
+.toc-videos{list-style:none;background:var(--bg);border-top:1px solid var(--line)}
+.toc-videos li{display:flex;align-items:center;gap:12px;padding:14px 28px 14px 76px;font-size:17.6px;color:var(--ink-soft);border-bottom:1px solid var(--line);transition:background .25s,color .25s;cursor:pointer}
+.toc-videos li:last-child{border-bottom:none}
+.toc-videos li:hover{background:var(--bg-2);color:var(--ink)}
+.toc-videos .vnum{font-size:13.5px;letter-spacing:.1em;color:var(--lime);font-weight:700;min-width:24px}
+.toc-videos .vtitle{flex:1;font-weight:500}
+.toc-videos .vgo{font-size:18.9px;color:var(--ink-dim);transition:transform .25s,color .25s}
+.toc-videos li:hover .vgo{transform:translateX(4px);color:var(--lime)}
 
-/* FEATURE ICONS (svg) */
-.feat .icon{display:block;width:32px;height:32px;color:var(--lime);margin-bottom:18px;stroke-width:1.5}
+/* === CATEGORY SECTION === */
+.cat{color:var(--ink)}
+.cat .bg{background:linear-gradient(180deg,#f2f2f4 0%,#e4e4e4 100%)}
+.cat .heading{margin-bottom:48px}
+.cat .eyebrow{font-family:Roboto;font-size:14.9px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px;display:inline-flex;align-items:center;gap:14px}
+.cat .eyebrow::before{content:'';width:24px;height:1px;background:var(--green-bright)}
+.cat .eyebrow::after{content:'';width:24px;height:1px;background:var(--green-bright)}
+.cat h2{font-family:Roboto;font-weight:300;font-size:clamp(54px,6.8vw,97.2px);line-height:1;letter-spacing:-.025em;margin-bottom:14px}
+.cat h2 em{font-style:italic;font-weight:700;color:var(--lime)}
+.cat .subtitle{font-weight:300;font-size:21.6px;color:var(--ink-soft);max-width:560px;margin:0 auto}
+.cat .video-stack{display:flex;flex-direction:column;gap:40px;max-width:1080px;width:100%;margin-top:40px}
+.video-block{text-align:left;scroll-margin-top:20px}
+.video-block .frame{width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;position:relative;box-shadow:4px 4px 2px #e4e4e4}
+.video-block video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.video-block .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center, rgba(109,157,48,.06), transparent 70%), #f2f2f4;color:var(--ink-soft);font-family:Roboto;font-size:17.6px;letter-spacing:.15em;position:relative}
+.video-block .fallback::before{content:'';position:absolute;inset:24px;border:1px dashed var(--line-strong);border-radius:4px}
+.video-block .label{display:flex;align-items:center;gap:16px;margin-top:18px;font-family:Roboto;font-size:14.9px;letter-spacing:.2em;color:var(--ink-dim);text-transform:uppercase}
+.video-block .label .num{color:var(--lime);font-weight:500}
+.video-block .label .title{color:var(--ink);font-weight:700;letter-spacing:.02em;text-transform:none;font-size:17.6px}
+.video-block .label .sep{color:var(--line-strong)}
 
-/* VIDEO SECTIONS */
-.video{color:var(--ink)}
-.video .bg{background:linear-gradient(180deg,#f2f2f4 0%,#e4e4e4 100%)}
-.video .heading{margin-bottom:48px}
-.video .eyebrow{font-family:Roboto;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);display:inline-flex;align-items:center;gap:10px;margin-bottom:18px}
-.video .eyebrow::before{content:'';width:18px;height:1px;background:var(--green-bright)}
-.video h2{font-family:Roboto;font-weight:300;font-size:clamp(36px,4.2vw,58px);line-height:1;letter-spacing:-.025em}
-.video h2 em{font-style:italic;font-weight:700;color:var(--lime)}
-.video .frame{
-  width:100%;max-width:1080px;aspect-ratio:16/9;
-  background:var(--bg-2);
-  border:1px solid var(--line-strong);
-  border-radius:6px;
-  overflow:hidden;
-  position:relative;
-  box-shadow:4px 4px 2px #e4e4e4, 0 0 0 1px rgba(168,178,159,.04);
-}
-.video video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
-.video .fallback{
-  width:100%;height:100%;
-  display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse at center, rgba(109,157,48,.2), transparent 70%), var(--bg-2);
-  font-family:Roboto;font-size:13px;letter-spacing:.15em;color:var(--ink-soft);
-  position:relative;
-}
-.video .fallback::before{content:'';position:absolute;inset:24px;border:1px dashed var(--line-strong);border-radius:4px}
-.video .caption{
-  font-family:Roboto;font-size:11px;letter-spacing:.2em;color:var(--ink-dim);
-  margin-top:24px;text-transform:uppercase;
-}
-.video .caption span{color:var(--lime)}
-
-@media (max-width:780px){
-  .features{grid-template-columns:1fr;background:transparent;border:none;gap:1px}
-  .feat,.feat--wide{grid-column:span 1;padding:28px 24px;background:var(--bg-2);border:1px solid var(--line-strong)}
-  .feat--wide{grid-template-columns:1fr;padding:28px 24px}
-  .feat--wide .visual{display:none}
-  .hero h1{font-size:clamp(48px,11vw,80px)}
+@media (max-width:900px){
+  :root{--sidebar-w:0px}
+  .sidebar{display:none}
   .section{padding:80px 24px}
-  .cornav{left:20px;top:20px;font-size:10px}
-  .counter{right:36px;top:20px;font-size:10px}
+  .toc-videos li{padding-left:48px}
+  .toc-cat summary{grid-template-columns:32px 1fr auto;padding:18px 20px}
+  .toc-cat .toc-arrow{display:none}
+  .features{grid-template-columns:1fr;background:transparent;border:none;gap:1px}
+  .feat{grid-column:span 1;padding:28px 24px;border:1px solid var(--line-strong)}
+}
+@media (max-width:780px){
+  .hero h1{font-size:clamp(64.8px,14.9vw,108px)}
+  .counter{right:36px;top:20px;font-size:13.5px}
 }
 @media (prefers-reduced-motion: reduce){
   .r{opacity:1;transform:none;transition:none}
@@ -193,31 +188,91 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
 .libax-brand img{height:24px;width:auto;display:block}
 .libax-brand .brand-sep{color:var(--ink-dim);margin:0 4px}
 .libax-brand .brand-name{color:rgba(109,157,48,.75);font-weight:700}
-.video .fallback{background:radial-gradient(ellipse at center, rgba(109,157,48,.06), transparent 70%), #f2f2f4;color:var(--ink-soft)}
 </style>
 </head>
 <body>
 <svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
 
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <span class="dot"></span>
+    <span class="name">Libax</span>
+    <span class="product">Business</span>
+  </div>
+  <nav id="sidebarNav">
+    <ul class="nav-list" id="navList">
+      <li class="nav-item" data-target="hero">
+        <a class="nav-link" href="#hero">
+          <span class="num">00</span>
+          <span class="title">Início</span>
+        </a>
+      </li>
+      <li class="nav-item" data-target="overview">
+        <a class="nav-link" href="#overview">
+          <span class="num">·</span>
+          <span class="title">Visão geral</span>
+        </a>
+      </li>
+      <li class="nav-item" data-target="toc">
+        <a class="nav-link" href="#toc">
+          <span class="num">·</span>
+          <span class="title">Índice</span>
+        </a>
+      </li>
+      <li class="nav-item" data-target="cat-clientes">
+        <a class="nav-link" href="#cat-clientes">
+          <span class="num">01</span>
+          <span class="title">Clientes</span>
+          <span class="pill">1</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#vid-clientes-1"><span class="vnum">01</span>Como criar cliente</a></li>
+        </ul>
+      </li>
+      <li class="nav-item" data-target="cat-faturacao">
+        <a class="nav-link" href="#cat-faturacao">
+          <span class="num">02</span>
+          <span class="title">Faturação</span>
+          <span class="pill">1</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#vid-faturacao-1"><span class="vnum">01</span>Como fazer fatura</a></li>
+        </ul>
+      </li>
+      <li class="nav-item" data-target="cat-produtos">
+        <a class="nav-link" href="#cat-produtos">
+          <span class="num">03</span>
+          <span class="title">Produtos</span>
+          <span class="pill">1</span>
+          <span class="nav-chevron">▸</span>
+        </a>
+        <ul class="nav-sub">
+          <li><a href="#vid-produtos-1"><span class="vnum">01</span>Como adicionar produto</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="footer">3 vídeos · 3 categorias</div>
+</aside>
+
 <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-<!-- OFFICIAL LIBAX HEADER -->
-<div class="counter" id="counter">01 / 05</div>
+<div class="counter" id="counter">01 / 06</div>
 
 <div class="deck" id="deck">
 
-  <!-- 1. HERO -->
-  <section class="section hero">
+  <section class="section hero" id="hero">
     <div class="bg mesh"></div>
     <div class="grid-overlay"></div>
     <span class="badge r">Software certificado AT</span>
     <h1 class="r delay-1">Libax<br><em>Business</em></h1>
-    <p class="tagline r delay-2">ERP na Cloud para empresas portuguesas.</p>
-    <p class="sub r delay-3">Gestão · Faturação · Tesouraria</p>
+    <p class="tagline r delay-2">Faturação certificada para Portugal.</p>
+    <p class="sub r delay-3">Entidades · Faturação · Tesouraria</p>
     <div class="scroll-hint r delay-4">Descer<span class="line"></span></div>
   </section>
 
-  <!-- 2. OVERVIEW -->
-  <section class="section overview">
+  <section class="section overview" id="overview">
     <div class="bg mesh"></div>
     <div class="grid-overlay"></div>
     <div class="heading r">
@@ -225,134 +280,241 @@ body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoot
       <h2>Tudo o que precisa,<br><em>num só lugar.</em></h2>
       <p class="subtitle">Módulos integrados para gerir a sua empresa — da faturação à tesouraria, do arquivo ao cliente.</p>
     </div>
-    <div class="features">
-      <div class="feat feat--wide r">
-        <div>
-          <span class="num">01 / 06</span>
-          <div class="title">Faturação<br>Certificada AT</div>
-          <p class="desc">Emissão de faturas, recibos e documentos de transporte em conformidade com a Autoridade Tributária portuguesa.</p>
-        </div>
-        <div class="visual">
-          <code><span class="k">documento</span>: <span class="s">"FT 2026/00417"</span>
-<span class="k">total</span>: 1.245,00 €
-<span class="k">estado</span>: <span class="s">"emitida"</span>
-<span class="k">at</span>: ✓ certificado
-<span class="k">cliente</span>: <span class="s">"Lda."</span></code>
-        </div>
-        <span class="accent"></span>
-      </div>
-      <div class="feat r">
+    <div class="features r delay-1">
+      <div class="feat">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M14 20a4 4 0 0 1 7 0"/></svg>
-        <span class="num">02 / 06</span>
-        <div class="title">Gestão de Clientes</div>
-        <p class="desc">Base centralizada com histórico completo de interações.</p>
+        <span class="num">01 / 06</span>
+        <div class="title">Entidades</div>
+        <p class="desc">Clientes, fornecedores e outros intervenientes com ficha completa e histórico.</p>
         <span class="accent"></span>
       </div>
-      <div class="feat r">
+      <div class="feat">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>
-        <span class="num">03 / 06</span>
-        <div class="title">Gestão de Produtos</div>
-        <p class="desc">Catálogo, stocks, preços e categorias organizados.</p>
+        <span class="num">02 / 06</span>
+        <div class="title">Produtos</div>
+        <p class="desc">Catálogo, stocks, preços, unidades e categorias organizados.</p>
         <span class="accent"></span>
       </div>
-      <div class="feat r">
+      <div class="feat">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4M8 12h8M8 16h6"/></svg>
+        <span class="num">03 / 06</span>
+        <div class="title">Faturação</div>
+        <p class="desc">Faturas, recibos, notas de crédito e documentos de transporte.</p>
+        <span class="accent"></span>
+      </div>
+      <div class="feat">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="6" width="18" height="12" rx="1"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9h.01M18 15h.01"/></svg>
         <span class="num">04 / 06</span>
-        <div class="title">Tesouraria</div>
-        <p class="desc">Recebimentos, pagamentos e movimentos bancários.</p>
+        <div class="title">Faturação Eletrónica</div>
+        <p class="desc">Comunicação obrigatória com a AT e arquivo digital conforme a lei.</p>
         <span class="accent"></span>
       </div>
-      <div class="feat r">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4M8 12h8M8 16h6"/></svg>
+      <div class="feat">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18M3 12h18M7 7h10v10H7z"/></svg>
         <span class="num">05 / 06</span>
-        <div class="title">Arquivo Digital</div>
-        <p class="desc">Documentos organizados em conformidade legal.</p>
+        <div class="title">Tesouraria</div>
+        <p class="desc">Recebimentos, pagamentos e movimentos bancários conciliados.</p>
         <span class="accent"></span>
       </div>
-      <div class="feat r">
+      <div class="feat">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>
         <span class="num">06 / 06</span>
-        <div class="title">API Aberta</div>
-        <p class="desc">Integração via REST API documentada e segura.</p>
+        <div class="title">API</div>
+        <p class="desc">Integração via REST API documentada e segura para outros sistemas.</p>
         <span class="accent"></span>
       </div>
     </div>
   </section>
 
-  <!-- 3. VIDEO 1 -->
-  <section class="section video">
+  <section class="section toc" id="toc">
+    <div class="bg"></div>
+    <div class="heading r">
+      <div class="eyebrow">O que vai ver</div>
+      <h2>Índice das <em>demonstrações</em></h2>
+      <p class="subtitle">3 vídeos curtos, organizados por categoria. Carregue numa categoria para abrir a lista.</p>
+    </div>
+    <div class="toc-grid r delay-1">
+      <details class="toc-cat" open>
+        <summary>
+          <span class="toc-num">01</span>
+          <span class="toc-title">Clientes</span>
+          <span class="toc-meta">1 vídeo</span>
+          <span class="toc-arrow">▸</span>
+        </summary>
+        <ul class="toc-videos">
+          <li onclick="document.getElementById('vid-clientes-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Como criar cliente</span><span class="vgo">→</span></li>
+        </ul>
+      </details>
+      <details class="toc-cat">
+        <summary>
+          <span class="toc-num">02</span>
+          <span class="toc-title">Faturação</span>
+          <span class="toc-meta">1 vídeo</span>
+          <span class="toc-arrow">▸</span>
+        </summary>
+        <ul class="toc-videos">
+          <li onclick="document.getElementById('vid-faturacao-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Como fazer fatura</span><span class="vgo">→</span></li>
+        </ul>
+      </details>
+      <details class="toc-cat">
+        <summary>
+          <span class="toc-num">03</span>
+          <span class="toc-title">Produtos</span>
+          <span class="toc-meta">1 vídeo</span>
+          <span class="toc-arrow">▸</span>
+        </summary>
+        <ul class="toc-videos">
+          <li onclick="document.getElementById('vid-produtos-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Como adicionar produto</span><span class="vgo">→</span></li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <section class="section cat" id="cat-clientes">
     <div class="bg"></div>
     <div class="heading r">
       <div class="eyebrow">Demonstração · 01</div>
-      <h2>Como criar <em>cliente</em></h2>
+      <h2>Clientes</h2>
+      <p class="subtitle">A base de qualquer negócio. Como criar um cliente completo no Libax Business.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/como-criar-cliente.webm" type="video/webm">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve · como-criar-cliente</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1" id="vid-clientes-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/como-criar-cliente.webm" type="video/webm">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Como criar cliente</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>01</span> · Como criar cliente</div>
   </section>
 
-  <!-- 4. VIDEO 2 -->
-  <section class="section video">
+  <section class="section cat" id="cat-faturacao">
     <div class="bg"></div>
     <div class="heading r">
       <div class="eyebrow">Demonstração · 02</div>
-      <h2>Como fazer uma <em>fatura</em></h2>
+      <h2>Faturação</h2>
+      <p class="subtitle">Emitir uma fatura certificada em conformidade com a Autoridade Tributária.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/como-fazer-fatura.webm" type="video/webm">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve · como-fazer-fatura</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1" id="vid-faturacao-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/como-fazer-fatura.webm" type="video/webm">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Como fazer fatura</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>02</span> · Como fazer uma fatura</div>
   </section>
 
-  <!-- 5. VIDEO 3 -->
-  <section class="section video">
+  <section class="section cat" id="cat-produtos">
     <div class="bg"></div>
     <div class="heading r">
       <div class="eyebrow">Demonstração · 03</div>
-      <h2>Como adicionar <em>produto</em></h2>
+      <h2>Produtos</h2>
+      <p class="subtitle">Adicionar produtos ao catálogo com preço, unidade e referências organizadas.</p>
     </div>
-    <div class="frame r delay-1">
-      <video autoplay muted loop controls>
-        <source src="video-generator/videos/como-adicionar-produto.webm" type="video/webm">
-      </video>
-      <div class="fallback" style="display:none">Vídeo em breve · como-adicionar-produto</div>
+    <div class="video-stack">
+      <div class="video-block r delay-1" id="vid-produtos-1">
+        <div class="frame">
+          <video controls preload="metadata">
+            <source src="video-generator/videos/como-adicionar-produto.webm" type="video/webm">
+          </video>
+        </div>
+        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Como adicionar produto</span></div>
+      </div>
     </div>
-    <div class="caption r delay-2"><span>03</span> · Como adicionar produto</div>
   </section>
 
 </div>
+
 <script>
-// reveal
 const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.15});
 document.querySelectorAll('.r').forEach(s=>io.observe(s));
-// progress + counter
+
 const deck=document.getElementById('deck');
 const fill=document.getElementById('progressFill');
 const counter=document.getElementById('counter');
-const total=document.querySelectorAll('.section').length;
+const navList=document.getElementById('navList');
+const allSections=[...document.querySelectorAll('.section')];
+const allVideoBlocks=[...document.querySelectorAll('.video-block')];
+
 function update(){
-  const sections=[...document.querySelectorAll('.section')];
+  const sections=allSections;
   const scrollTop=deck.scrollTop;
   const m=deck.scrollHeight-deck.clientHeight;
   fill.style.height=(scrollTop/m*100)+'%';
   let idx=0;
   sections.forEach((s,i)=>{if(scrollTop+10>=s.offsetTop) idx=i;});
-  counter.textContent=String(idx+1).padStart(2,'0')+' / '+String(total).padStart(2,'0');
+  counter.textContent=String(idx+1).padStart(2,'0')+' / '+String(sections.length).padStart(2,'0');
+
+  // active section in sidebar
+  let activeId=sections[idx].id;
+  document.querySelectorAll('.sidebar .nav-link').forEach(a=>a.classList.remove('active'));
+  document.querySelectorAll('.sidebar .nav-sub a').forEach(a=>a.classList.remove('active'));
+  const activeItem=document.querySelector(`.sidebar .nav-item[data-target="${activeId}"]`);
+  if(activeItem){
+    activeItem.querySelector('.nav-link').classList.add('active');
+    activeItem.classList.add('open');
+  }
+
+  // active video in sidebar sub
+  const deckRect=deck.getBoundingClientRect();
+  let activeVid=null;
+  for(const vb of allVideoBlocks){
+    const r=vb.getBoundingClientRect();
+    if(r.top-deckRect.top>=0 && r.top-deckRect.top<window.innerHeight*0.5){activeVid=vb;break;}
+    if(r.top-deckRect.top<0 && r.bottom-deckRect.top>0){activeVid=vb;}
+  }
+  if(activeVid){
+    const subLink=document.querySelector(`.sidebar .nav-sub a[href="#${activeVid.id}"]`);
+    if(subLink){subLink.classList.add('active');}
+    const parentItem=subLink && subLink.closest('.nav-item');
+    if(parentItem){
+      parentItem.classList.add('open');
+      parentItem.querySelector('.nav-link').classList.add('active');
+    }
+  }
 }
 deck.addEventListener('scroll',update,{passive:true});
 update();
-// video fallback
-document.querySelectorAll('.video video').forEach(v=>{
-  const fb=v.parentElement.querySelector('.fallback');
-  v.addEventListener('error',()=>{if(fb){fb.style.display='flex';v.style.display='none';}});
-  if(v.readyState===4&&v.networkState===3&&fb){fb.style.display='flex';v.style.display='none';}
+
+// sidebar nav-link click: jump to section
+document.querySelectorAll('.sidebar .nav-link').forEach(a=>{
+  a.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const id=a.getAttribute('href').slice(1);
+    const target=document.getElementById(id);
+    if(target){
+      const offset=target.offsetTop;
+      deck.scrollTo({top:offset,behavior:'smooth'});
+    }
+  });
+});
+
+// sidebar nav-sub click: jump to video
+document.querySelectorAll('.sidebar .nav-sub a').forEach(a=>{
+  a.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const id=a.getAttribute('href').slice(1);
+    const target=document.getElementById(id);
+    if(target){
+      target.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
+});
+
+// toggle dropdown on sidebar nav-link click (parent only)
+document.querySelectorAll('.sidebar .nav-item').forEach(item=>{
+  const link=item.querySelector('.nav-link');
+  link.addEventListener('click',(e)=>{
+    if(item.querySelector('.nav-sub')){
+      e.preventDefault();
+      e.stopPropagation();
+      item.classList.toggle('open');
+    }
+  });
 });
 </script>
 <div class="vignette"></div>
