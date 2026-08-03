@@ -1,522 +1,373 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-PT">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Libax Business — Faturação certificada para Portugal</title>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<title>Libax Business — Galeria de Demonstrações</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-:root{
-  --ink:#000000;--ink-soft:#444444;--ink-dim:#666666;
-  --bg:#ffffff;--bg-2:#ececed;--surface:#ffffff;
-  --line:#d8d8d8;--line-strong:#cccccc;
-  --green:#6d9d30;--green-light:#9bbb59;--green-dark:#488500;
-  --green-btn:#5fb000;--green-pale:#7cb731;
-  --green-bright:#7cb731;
-  --lime:#6d9d30;
-  --sidebar-w:260px;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:Roboto;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-.noise{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.05;mix-blend-mode:multiply}
-.vignette{position:fixed;inset:0;pointer-events:none;z-index:9;box-shadow:inset 0 0 240px 60px rgba(228,228,228,.6)}
+  :root{
+    --bg:#fafaf7;
+    --ink:#0a0a0a;
+    --ink-2:#2a2a2a;
+    --muted:#7a7a78;
+    --line:#e6e6e0;
+    --card:#ffffff;
+    --green:#7cb731;
+    --green-soft:#eaf3d8;
+    --green-deep:#4d7d1f;
+    --shadow:0 1px 0 var(--line), 0 18px 40px -22px rgba(0,0,0,.18);
+    --radius:6px;
+    --sidebar-w:240px;
+    --gutter:24px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  body{overflow:hidden;height:100vh;width:100vw}
 
-.deck{height:100vh;overflow-y:scroll;scroll-snap-type:y proximity;scrollbar-width:none}
-.deck::-webkit-scrollbar{display:none}
-.section{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 56px 80px calc(var(--sidebar-w) + 64px);text-align:center;position:relative;overflow:hidden}
-.section>*:not(.bg):not(.grid){position:relative;z-index:3}
-.bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-.bg.mesh{background:radial-gradient(ellipse 80% 60% at 15% 20%, rgba(109,157,48,.06), transparent 55%),radial-gradient(ellipse 60% 50% at 90% 80%, rgba(155,187,89,.10), transparent 60%),radial-gradient(ellipse 50% 50% at 50% 100%, rgba(124,183,49,.06), transparent 60%)}
-.grid-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;background-image:linear-gradient(to right, rgba(109,157,48,.05) 1px, transparent 1px),linear-gradient(to bottom, rgba(109,157,48,.05) 1px, transparent 1px);background-size:96px 96px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%)}
+  /* ----- Sidebar ----- */
+  aside.sidebar{
+    position:fixed;left:0;top:0;bottom:0;width:var(--sidebar-w);
+    background:#fff;border-right:1px solid var(--line);
+    display:flex;flex-direction:column;padding:24px 0 16px;z-index:10;
+  }
+  .brand{padding:0 24px 20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
+  .brand .dot{width:8px;height:8px;background:var(--green);border-radius:50%}
+  .brand .name{font-weight:700;letter-spacing:-.01em;font-size:15px}
+  .brand .product{color:var(--muted);font-size:13px;margin-left:6px}
+  .nav-meta{padding:18px 24px 10px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .nav-back{
+    display:flex;align-items:center;gap:8px;
+    margin:6px 16px 14px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--radius);
+    background:#fff;color:var(--ink);cursor:pointer;font-size:13px;font-weight:600;
+    transition:background .15s, border-color .15s;
+  }
+  .nav-back:hover{background:var(--green-soft);border-color:var(--green)}
+  .nav-back[hidden]{display:none}
+  .nav-back .arrow{font-size:14px;line-height:1}
 
-.progress{position:fixed;top:0;right:0;width:3px;height:100vh;background:rgba(109,157,48,.12);z-index:10}
-.progress-fill{width:100%;background:linear-gradient(180deg,var(--green-light),var(--green));height:0;transition:height .25s cubic-bezier(.16,1,.3,1)}
-.counter{position:fixed;top:32px;right:60px;z-index:11;font-family:Roboto;font-size:14.9px;letter-spacing:.18em;color:var(--ink-dim)}
+  .nav-list{list-style:none;padding:0;margin:0;overflow:auto}
+  .nav-list .item{
+    display:flex;align-items:center;gap:10px;padding:8px 24px;cursor:pointer;
+    font-size:13px;color:var(--ink-2);border-left:3px solid transparent;
+  }
+  .nav-list .item:hover{background:#f4f4ee}
+  .nav-list .item.active{background:var(--green-soft);border-left-color:var(--green);color:var(--green-deep);font-weight:600}
+  .nav-list .item .num{color:var(--muted);font-variant-numeric:tabular-nums;font-size:11px;width:22px;letter-spacing:.05em}
+  .nav-list .item.active .num{color:var(--green-deep)}
+  .nav-list .item .title{flex:1}
+  .nav-list .item .pill{font-size:11px;color:var(--muted);background:#f0f0ea;border-radius:10px;padding:2px 7px}
 
-.r{opacity:0;transform:translateY(40px);transition:opacity 1.4s cubic-bezier(.16,1,.3,1), transform 1.4s cubic-bezier(.16,1,.3,1)}
-.r.in{opacity:1;transform:translateY(0)}
-.r.delay-1{transition-delay:.08s}
-.r.delay-2{transition-delay:.18s}
-.r.delay-3{transition-delay:.28s}
-.r.delay-4{transition-delay:.40s}
+  .sb-foot{margin-top:auto;padding:14px 24px;border-top:1px solid var(--line);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 
-.hero{color:var(--ink)}
-.hero .bg{background:radial-gradient(ellipse 80% 60% at 30% 30%, rgba(109,157,48,.12), transparent 55%),radial-gradient(ellipse 50% 50% at 80% 80%, rgba(109,157,48,.10), transparent 60%),linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
-.hero .badge{display:inline-flex;align-items:center;gap:10px;font-family:Roboto;font-size:14.9px;letter-spacing:.2em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-soft);margin-bottom:40px}
-.hero .badge::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 0 0 transparent}
-.hero h1{font-family:Roboto;font-weight:300;font-size:clamp(86.4px,10.8vw,189px);line-height:.92;letter-spacing:-.035em;margin-bottom:24px}
-.hero h1 em{font-style:italic;font-weight:700;color:var(--lime)}
-.hero .tagline{font-weight:300;font-size:29.7px;color:var(--ink-soft);margin-bottom:8px}
-.hero .sub{font-family:Roboto;font-size:16.2px;letter-spacing:.25em;text-transform:uppercase;color:var(--green-bright);margin-bottom:56px}
+  /* ----- Main ----- */
+  main{
+    position:fixed;left:var(--sidebar-w);right:0;top:0;bottom:0;
+    display:flex;flex-direction:column;overflow:hidden;
+  }
+  header.topbar{
+    flex:none;padding:14px 32px 16px;border-bottom:1px solid var(--line);background:#fff;
+    display:flex;align-items:baseline;justify-content:space-between;gap:24px;
+  }
+  .topbar .crumb{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .topbar .crumb b{color:var(--ink);font-weight:600}
+  .topbar .crumb .sep{color:var(--line);margin:0 8px}
+  .topbar h1{margin:2px 0 0;font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+  .topbar h1 em{font-style:normal;color:var(--green)}
+  .topbar .meta{font-size:12px;color:var(--muted);text-align:right}
+  .topbar .meta .big{display:block;font-size:22px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 
-.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-family:Roboto;font-size:13.5px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);display:flex;flex-direction:column;align-items:center;gap:10px}
-.scroll-hint .line{width:1px;height:36px;background:linear-gradient(180deg,transparent,var(--green));animation:down 2.4s cubic-bezier(.65,0,.35,1) infinite}
-@keyframes down{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+  /* ----- Gallery ----- */
+  .gallery-wrap{
+    flex:1;overflow:auto;padding:20px 32px 28px;
+  }
+  .gallery{
+    display:grid;gap:18px;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
 
-/* === SIDEBAR === */
-.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:rgba(255,255,255,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-right:1px solid var(--line);z-index:20;display:flex;flex-direction:column;padding:32px 0 24px;font-family:Roboto}
-.sidebar .brand{padding:0 24px 24px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
-.sidebar .brand .dot{width:8px;height:8px;background:var(--green);border-radius:50%}
-.sidebar .brand .name{font-weight:700;font-size:18.9px;letter-spacing:-.01em;color:var(--ink)}
-.sidebar .brand .product{font-weight:300;font-size:17.6px;color:var(--ink-soft);font-style:italic}
-.sidebar nav{flex:1;overflow-y:auto;padding:18px 0;scrollbar-width:thin}
-.sidebar nav::-webkit-scrollbar{width:4px}
-.sidebar nav::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
-.sidebar .nav-list{list-style:none}
-.sidebar .nav-item{margin-bottom:2px}
-.sidebar .nav-link{display:flex;align-items:center;gap:12px;padding:10px 24px;text-decoration:none;color:var(--ink-soft);font-size:16.2px;letter-spacing:.02em;font-weight:500;border-left:2px solid transparent;transition:background .3s,color .3s,border-color .3s;cursor:pointer}
-.sidebar .nav-link:hover{background:rgba(109,157,48,.05);color:var(--ink)}
-.sidebar .nav-link.active{background:rgba(109,157,48,.08);color:var(--ink);border-left-color:var(--lime);font-weight:700}
-.sidebar .nav-link .num{font-family:Roboto;font-size:13.5px;letter-spacing:.15em;color:var(--ink-dim);min-width:24px;font-weight:700}
-.sidebar .nav-link.active .num{color:var(--lime)}
-.sidebar .nav-link .title{flex:1}
-.sidebar .nav-link .pill{font-size:12.2px;letter-spacing:.15em;color:var(--ink-dim);text-transform:uppercase;background:var(--bg-2);padding:3px 8px;border-radius:999px}
-.sidebar .nav-link.active .pill{background:var(--lime);color:#fff}
-.sidebar .nav-sub{display:none;list-style:none;padding:4px 0 8px 0}
-.sidebar .nav-item.open .nav-sub{display:block}
-.sidebar .nav-sub a{display:flex;align-items:center;gap:10px;padding:7px 24px 7px 56px;text-decoration:none;color:var(--ink-dim);font-size:14.9px;letter-spacing:.01em;font-weight:400;transition:color .3s,background .3s;cursor:pointer;border-left:2px solid transparent}
-.sidebar .nav-sub a:hover{color:var(--ink);background:rgba(109,157,48,.04)}
-.sidebar .nav-sub a.active{color:var(--lime);font-weight:700;border-left-color:var(--lime)}
-.sidebar .nav-sub .vnum{font-size:12.2px;letter-spacing:.1em;color:var(--ink-dim);min-width:18px;text-align:center}
-.sidebar .nav-sub a.active .vnum{color:var(--lime)}
-.sidebar .nav-chevron{font-size:13.5px;color:var(--ink-dim);transition:transform .3s cubic-bezier(.16,1,.3,1),color .3s}
-.sidebar .nav-item.open .nav-link .nav-chevron{transform:rotate(90deg);color:var(--lime)}
-.sidebar .footer{padding:18px 24px 0;border-top:1px solid var(--line);font-size:13.5px;letter-spacing:.18em;color:var(--ink-dim);text-transform:uppercase}
+  /* Card (chapter) */
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);overflow:hidden;cursor:pointer;
+    display:flex;flex-direction:column;
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  }
+  .card:hover{transform:translateY(-2px);box-shadow:0 1px 0 var(--line), 0 24px 50px -22px rgba(0,0,0,.22);border-color:#d6d6cf}
+  .card .thumb{
+    aspect-ratio:21/10;background:#0f0f10;position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .card .thumb video{width:100%;height:100%;object-fit:cover;display:block}
+  .card .thumb .badge{
+    position:absolute;left:12px;top:12px;background:var(--green);color:#fff;
+    font-weight:700;font-size:11px;padding:4px 8px;border-radius:4px;letter-spacing:.06em;
+  }
+  .card .thumb .count{
+    position:absolute;right:12px;bottom:12px;background:rgba(0,0,0,.55);color:#fff;
+    font-size:11px;padding:4px 8px;border-radius:4px;letter-spacing:.04em;
+  }
+  .card .body{padding:10px 14px 12px}
+  .card .body h3{margin:0 0 2px;font-size:15px;font-weight:700;letter-spacing:-.01em}
+  .card .body p{margin:0;color:var(--muted);font-size:12px;line-height:1.4}
+  .card .body .more{margin-top:6px;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--green-deep);font-weight:700}
 
-/* === OVERVIEW === */
-.overview{color:var(--ink)}
-.overview .bg.mesh{opacity:.7}
-.overview .bg{background:linear-gradient(160deg,#fafafa 0%,#f2f2f4 100%)}
-.overview .heading{margin-bottom:56px}
-.overview .eyebrow{font-family:Roboto;font-size:14.9px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
-.overview h2{font-family:Roboto;font-weight:300;font-size:clamp(48.6px,6.1vw,86.4px);line-height:1;letter-spacing:-.025em}
-.overview h2 em{font-style:italic;font-weight:700;color:var(--lime)}
-.overview .subtitle{font-weight:300;font-size:21.6px;color:var(--ink-soft);margin-top:18px;max-width:560px;margin-left:auto;margin-right:auto}
-.features{
-  display:grid;
-  grid-template-columns:repeat(12,1fr);
-  gap:1px;
-  max-width:1120px;width:100%;
-  background:var(--line);
-  border:1px solid var(--line-strong);
-}
-.feat{
-  grid-column:span 4;
-  background:var(--bg);
-  padding:36px 32px;
-  text-align:left;
-  position:relative;overflow:hidden;
-  transition:background .5s cubic-bezier(.16,1,.3,1);
-}
-.feat:hover{background:var(--bg-2)}
-.feat .num{font-family:Roboto;font-size:13.5px;letter-spacing:.2em;color:var(--lime);margin-bottom:24px;display:block;font-weight:700}
-.feat .title{font-family:Roboto;font-weight:700;font-size:20.2px;letter-spacing:-.015em;color:var(--ink);margin-bottom:10px}
-.feat .desc{font-weight:300;font-size:16.2px;line-height:1.55;color:var(--ink-soft)}
-.feat .icon{display:block;width:32px;height:32px;color:var(--lime);margin-bottom:18px;stroke-width:1.5}
-.feat .accent{position:absolute;left:0;top:0;width:1px;height:100%;background:var(--lime);transform:scaleY(0);transform-origin:bottom;transition:transform .6s cubic-bezier(.16,1,.3,1)}
-.feat:hover .accent{transform:scaleY(1)}
+  /* Card (video) */
+  .card.video .thumb{aspect-ratio:16/9;background:#000}
+  .card.video .body .vnum{color:var(--muted);font-variant-numeric:tabular-nums;font-size:11px;letter-spacing:.06em;display:block;margin-bottom:4px}
 
-/* === TOC / INDEX === */
-.toc{color:var(--ink)}
-.toc .bg{background:linear-gradient(160deg,#f2f2f4 0%,#e4e4e4 100%)}
-.toc .heading{margin-bottom:56px}
-.toc .eyebrow{font-family:Roboto;font-size:14.9px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px}
-.toc h2{font-family:Roboto;font-weight:300;font-size:clamp(48.6px,6.1vw,86.4px);line-height:1;letter-spacing:-.025em}
-.toc h2 em{font-style:italic;font-weight:700;color:var(--lime)}
-.toc .subtitle{font-weight:300;font-size:21.6px;color:var(--ink-soft);margin-top:18px;max-width:520px;margin-left:auto;margin-right:auto}
-.toc-grid{display:flex;flex-direction:column;gap:1px;max-width:760px;width:100%;background:var(--line);border:1px solid var(--line-strong)}
-.toc-cat{background:var(--bg-2)}
-.toc-cat summary{list-style:none;cursor:pointer;padding:22px 28px;display:grid;grid-template-columns:48px 1fr auto auto;align-items:center;gap:20px;transition:background .3s;user-select:none}
-.toc-cat summary::-webkit-details-marker{display:none}
-.toc-cat summary:hover{background:var(--surface)}
-.toc-cat[open] summary{background:var(--surface)}
-.toc-cat[open] summary .toc-arrow{transform:rotate(90deg);color:var(--lime)}
-.toc-cat .toc-num{font-family:Roboto;font-size:14.9px;letter-spacing:.2em;color:var(--lime);font-weight:700}
-.toc-cat .toc-title{font-family:Roboto;font-weight:700;font-size:24.3px;letter-spacing:-.015em;color:var(--ink)}
-.toc-cat .toc-meta{font-family:Roboto;font-size:14.9px;letter-spacing:.15em;color:var(--ink-dim);text-transform:uppercase;white-space:nowrap}
-.toc-cat .toc-arrow{font-family:Roboto;font-size:18.9px;color:var(--ink-dim);transition:transform .3s cubic-bezier(.16,1,.3,1),color .3s}
-.toc-videos{list-style:none;background:var(--bg);border-top:1px solid var(--line)}
-.toc-videos li{display:flex;align-items:center;gap:12px;padding:14px 28px 14px 76px;font-size:17.6px;color:var(--ink-soft);border-bottom:1px solid var(--line);transition:background .25s,color .25s;cursor:pointer}
-.toc-videos li:last-child{border-bottom:none}
-.toc-videos li:hover{background:var(--bg-2);color:var(--ink)}
-.toc-videos .vnum{font-size:13.5px;letter-spacing:.1em;color:var(--lime);font-weight:700;min-width:24px}
-.toc-videos .vtitle{flex:1;font-weight:500}
-.toc-videos .vgo{font-size:18.9px;color:var(--ink-dim);transition:transform .25s,color .25s}
-.toc-videos li:hover .vgo{transform:translateX(4px);color:var(--lime)}
+  /* ----- Chapter header inside videos view ----- */
+  .ch-head{padding:0 32px 8px}
+  .ch-head h2{margin:0;font-size:36px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+  .ch-head .ch-sub{margin:6px 0 0;color:var(--muted);font-size:14px}
 
-/* === CATEGORY SECTION === */
-.cat{color:var(--ink)}
-.cat .bg{background:linear-gradient(180deg,#f2f2f4 0%,#e4e4e4 100%)}
-.cat .heading{margin-bottom:48px}
-.cat .eyebrow{font-family:Roboto;font-size:14.9px;letter-spacing:.3em;text-transform:uppercase;color:var(--green-bright);margin-bottom:18px;display:inline-flex;align-items:center;gap:14px}
-.cat .eyebrow::before{content:'';width:24px;height:1px;background:var(--green-bright)}
-.cat .eyebrow::after{content:'';width:24px;height:1px;background:var(--green-bright)}
-.cat h2{font-family:Roboto;font-weight:300;font-size:clamp(54px,6.8vw,97.2px);line-height:1;letter-spacing:-.025em;margin-bottom:14px}
-.cat h2 em{font-style:italic;font-weight:700;color:var(--lime)}
-.cat .subtitle{font-weight:300;font-size:21.6px;color:var(--ink-soft);max-width:560px;margin:0 auto}
-.cat .video-stack{display:flex;flex-direction:column;gap:40px;max-width:1080px;width:100%;margin-top:40px}
-.video-block{text-align:left;scroll-margin-top:20px}
-.video-block .frame{width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;position:relative;box-shadow:4px 4px 2px #e4e4e4}
-.video-block video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
-.video-block .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center, rgba(109,157,48,.06), transparent 70%), #f2f2f4;color:var(--ink-soft);font-family:Roboto;font-size:17.6px;letter-spacing:.15em;position:relative}
-.video-block .fallback::before{content:'';position:absolute;inset:24px;border:1px dashed var(--line-strong);border-radius:4px}
-.video-block .label{display:flex;align-items:center;gap:16px;margin-top:18px;font-family:Roboto;font-size:14.9px;letter-spacing:.2em;color:var(--ink-dim);text-transform:uppercase}
-.video-block .label .num{color:var(--lime);font-weight:500}
-.video-block .label .title{color:var(--ink);font-weight:700;letter-spacing:.02em;text-transform:none;font-size:17.6px}
-.video-block .label .sep{color:var(--line-strong)}
+  /* Empty/loading state */
+  .empty{padding:60px;text-align:center;color:var(--muted);font-size:14px}
 
-@media (max-width:900px){
-  :root{--sidebar-w:0px}
-  .sidebar{display:none}
-  .section{padding:80px 24px}
-  .toc-videos li{padding-left:48px}
-  .toc-cat summary{grid-template-columns:32px 1fr auto;padding:18px 20px}
-  .toc-cat .toc-arrow{display:none}
-  .features{grid-template-columns:1fr;background:transparent;border:none;gap:1px}
-  .feat{grid-column:span 1;padding:28px 24px;border:1px solid var(--line-strong)}
-}
-@media (max-width:780px){
-  .hero h1{font-size:clamp(64.8px,14.9vw,108px)}
-  .counter{right:36px;top:20px;font-size:13.5px}
-}
-@media (prefers-reduced-motion: reduce){
-  .r{opacity:1;transform:none;transition:none}
-  .scroll-hint .line{animation:none}
-}
-.libax-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.libax-brand img{height:24px;width:auto;display:block}
-.libax-brand .brand-sep{color:var(--ink-dim);margin:0 4px}
-.libax-brand .brand-name{color:rgba(109,157,48,.75);font-weight:700}
+  @media (max-width:900px){
+    :root{--sidebar-w:0px}
+    aside.sidebar{display:none}
+    main{left:0}
+    .topbar{padding:14px 18px}
+    .gallery-wrap{padding:18px}
+  }
 </style>
 </head>
 <body>
-<svg class="noise" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .9 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .9 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
 
-<aside class="sidebar" id="sidebar">
-  <div class="brand">
-    <span class="dot"></span>
-    <span class="name">Libax</span>
-    <span class="product">Business</span>
-  </div>
-  <nav id="sidebarNav">
-    <ul class="nav-list" id="navList">
-      <li class="nav-item" data-target="hero">
-        <a class="nav-link" href="#hero">
-          <span class="num">00</span>
-          <span class="title">Início</span>
-        </a>
-      </li>
-      <li class="nav-item" data-target="overview">
-        <a class="nav-link" href="#overview">
-          <span class="num">·</span>
-          <span class="title">Visão geral</span>
-        </a>
-      </li>
-      <li class="nav-item" data-target="toc">
-        <a class="nav-link" href="#toc">
-          <span class="num">·</span>
-          <span class="title">Índice</span>
-        </a>
-      </li>
-      <li class="nav-item" data-target="cat-clientes">
-        <a class="nav-link" href="#cat-clientes">
-          <span class="num">01</span>
-          <span class="title">Clientes</span>
-          <span class="pill">1</span>
-          <span class="nav-chevron">▸</span>
-        </a>
-        <ul class="nav-sub">
-          <li><a href="#vid-clientes-1"><span class="vnum">01</span>Como registar cliente</a></li>
-        </ul>
-      </li>
-      <li class="nav-item" data-target="cat-faturacao">
-        <a class="nav-link" href="#cat-faturacao">
-          <span class="num">02</span>
-          <span class="title">Faturação</span>
-          <span class="pill">1</span>
-          <span class="nav-chevron">▸</span>
-        </a>
-        <ul class="nav-sub">
-          <li><a href="#vid-faturacao-1"><span class="vnum">01</span>Como fazer fatura</a></li>
-        </ul>
-      </li>
-      <li class="nav-item" data-target="cat-produtos">
-        <a class="nav-link" href="#cat-produtos">
-          <span class="num">03</span>
-          <span class="title">Produtos</span>
-          <span class="pill">1</span>
-          <span class="nav-chevron">▸</span>
-        </a>
-        <ul class="nav-sub">
-          <li><a href="#vid-produtos-1"><span class="vnum">01</span>Como adicionar produto</a></li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
-  <div class="footer">3 vídeos · 3 categorias</div>
+<aside class="sidebar" aria-label="Navegação">
+  <div class="brand"><span class="dot"></span><span class="name">Libax</span><span class="product">Business</span></div>
+  <div class="nav-meta">Galeria</div>
+  <button class="nav-back" id="back-btn" hidden>
+    <span class="arrow">←</span><span>Voltar aos tópicos</span>
+  </button>
+  <ul class="nav-list" id="nav-list"></ul>
+  <div class="sb-foot" id="sb-foot">3 Vídeos · 3 Categorias</div>
 </aside>
 
-<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-<div class="counter" id="counter">01 / 06</div>
+<main>
+  <header class="topbar">
+    <div>
+      <div class="crumb"><span id="crumb-1">Galeria</span><span class="sep">/</span><b id="crumb-2">Tópicos</b></div>
+      <h1 id="page-title">Demonstrações <em>Libax Seguros</em></h1>
+    </div>
+    <div class="meta">
+      <span id="meta-label">Tópicos</span>
+      <span class="big" id="meta-big">6</span>
+    </div>
+  </header>
 
-<div class="deck" id="deck">
-
-  <section class="section hero" id="hero">
-    <div class="bg mesh"></div>
-    <div class="grid-overlay"></div>
-    <span class="badge r">Software certificado AT</span>
-    <h1 class="r delay-1">Libax<br><em>Business</em></h1>
-    <p class="tagline r delay-2">Faturação certificada para Portugal.</p>
-    <p class="sub r delay-3">Entidades · Faturação · Tesouraria</p>
-    <div class="scroll-hint r delay-4">Descer<span class="line"></span></div>
-  </section>
-
-  <section class="section overview" id="overview">
-    <div class="bg mesh"></div>
-    <div class="grid-overlay"></div>
-    <div class="heading r">
-      <div class="eyebrow">Visão geral</div>
-      <h2>Tudo o que precisa,<br><em>num só lugar.</em></h2>
-      <p class="subtitle">Módulos integrados para gerir a sua empresa — da faturação à tesouraria, do arquivo ao cliente.</p>
-    </div>
-    <div class="features r delay-1">
-      <div class="feat">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M14 20a4 4 0 0 1 7 0"/></svg>
-        <span class="num">01 / 06</span>
-        <div class="title">Entidades</div>
-        <p class="desc">Clientes, fornecedores e outros intervenientes com ficha completa e histórico.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>
-        <span class="num">02 / 06</span>
-        <div class="title">Produtos</div>
-        <p class="desc">Catálogo, stocks, preços, unidades e categorias organizados.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4M8 12h8M8 16h6"/></svg>
-        <span class="num">03 / 06</span>
-        <div class="title">Faturação</div>
-        <p class="desc">Faturas, recibos, notas de crédito e documentos de transporte.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="6" width="18" height="12" rx="1"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9h.01M18 15h.01"/></svg>
-        <span class="num">04 / 06</span>
-        <div class="title">Faturação Eletrónica</div>
-        <p class="desc">Comunicação obrigatória com a AT e arquivo digital conforme a lei.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18M3 12h18M7 7h10v10H7z"/></svg>
-        <span class="num">05 / 06</span>
-        <div class="title">Tesouraria</div>
-        <p class="desc">Recebimentos, pagamentos e movimentos bancários conciliados.</p>
-        <span class="accent"></span>
-      </div>
-      <div class="feat">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>
-        <span class="num">06 / 06</span>
-        <div class="title">API</div>
-        <p class="desc">Integração via REST API documentada e segura para outros sistemas.</p>
-        <span class="accent"></span>
-      </div>
-    </div>
-  </section>
-
-  <section class="section toc" id="toc">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">O que vai ver</div>
-      <h2>Índice das <em>demonstrações</em></h2>
-      <p class="subtitle">3 vídeos curtos, organizados por categoria. Carregue numa categoria para abrir a lista.</p>
-    </div>
-    <div class="toc-grid r delay-1">
-      <details class="toc-cat" open>
-        <summary>
-          <span class="toc-num">01</span>
-          <span class="toc-title">Clientes</span>
-          <span class="toc-meta">1 vídeo</span>
-          <span class="toc-arrow">▸</span>
-        </summary>
-        <ul class="toc-videos">
-          <li onclick="document.getElementById('vid-clientes-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Como registar cliente</span><span class="vgo">→</span></li>
-        </ul>
-      </details>
-      <details class="toc-cat">
-        <summary>
-          <span class="toc-num">02</span>
-          <span class="toc-title">Faturação</span>
-          <span class="toc-meta">1 vídeo</span>
-          <span class="toc-arrow">▸</span>
-        </summary>
-        <ul class="toc-videos">
-          <li onclick="document.getElementById('vid-faturacao-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Como fazer fatura</span><span class="vgo">→</span></li>
-        </ul>
-      </details>
-      <details class="toc-cat">
-        <summary>
-          <span class="toc-num">03</span>
-          <span class="toc-title">Produtos</span>
-          <span class="toc-meta">1 vídeo</span>
-          <span class="toc-arrow">▸</span>
-        </summary>
-        <ul class="toc-videos">
-          <li onclick="document.getElementById('vid-produtos-1').scrollIntoView({behavior:'smooth',block:'start'})"><span class="vnum">01</span><span class="vtitle">Como adicionar produto</span><span class="vgo">→</span></li>
-        </ul>
-      </details>
-    </div>
-  </section>
-
-  <section class="section cat" id="cat-clientes">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Demonstração · 01</div>
-      <h2>Clientes</h2>
-      <p class="subtitle">A base de qualquer negócio. Como criar um cliente completo no Libax Business.</p>
-    </div>
-    <div class="video-stack">
-      <div class="video-block r delay-1" id="vid-clientes-1">
-        <div class="frame">
-          <video controls preload="metadata">
-            <source src="video-generator/videos/biz-como-registar-cliente.mp4" type="video/webm">
-          </video>
-        </div>
-        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Como registar cliente</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section cat" id="cat-faturacao">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Demonstração · 02</div>
-      <h2>Faturação</h2>
-      <p class="subtitle">Emitir uma fatura certificada em conformidade com a Autoridade Tributária.</p>
-    </div>
-    <div class="video-stack">
-      <div class="video-block r delay-1" id="vid-faturacao-1">
-        <div class="frame">
-          <video controls preload="metadata">
-            <source src="video-generator/videos/biz-como-fazer-fatura.mp4" type="video/webm">
-          </video>
-        </div>
-        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Como fazer fatura</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section cat" id="cat-produtos">
-    <div class="bg"></div>
-    <div class="heading r">
-      <div class="eyebrow">Demonstração · 03</div>
-      <h2>Produtos</h2>
-      <p class="subtitle">Adicionar produtos ao catálogo com preço, unidade e referências organizadas.</p>
-    </div>
-    <div class="video-stack">
-      <div class="video-block r delay-1" id="vid-produtos-1">
-        <div class="frame">
-          <video controls preload="metadata">
-            <source src="video-generator/videos/biz-como-adicionar-produto.mp4" type="video/webm">
-          </video>
-        </div>
-        <div class="label"><span class="num">01</span><span class="sep">·</span><span class="title">Como adicionar produto</span></div>
-      </div>
-    </div>
-  </section>
-
-</div>
+  <div class="gallery-wrap" id="viewport">
+    <!-- content injected by JS -->
+  </div>
+</main>
 
 <script>
-const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.15});
-document.querySelectorAll('.r').forEach(s=>io.observe(s));
+/* ---------- Data ---------- */
+const CHAPTERS = [
+  {
+    id:"clientes", num:"01", title:"Clientes",
+    sub:"Registo completo de pessoas e empresas.",
+    cover:"video-generator/videos/biz-como-registar-cliente.mp4",
+    videos:[
+      {src:"video-generator/videos/biz-como-registar-cliente.mp4", title:"Como registar cliente"},
+    ],
+  },
+  {
+    id:"faturacao", num:"02", title:"Faturação",
+    sub:"Criar, consultar e gerir faturas.",
+    cover:"video-generator/videos/biz-como-fazer-fatura.mp4",
+    videos:[
+      {src:"video-generator/videos/biz-como-fazer-fatura.mp4", title:"Como fazer fatura"},
+    ],
+  },
+  {
+    id:"produtos", num:"03", title:"Produtos",
+    sub:"Adicionar e organizar produtos e serviços.",
+    cover:"video-generator/videos/biz-como-adicionar-produto.mp4",
+    videos:[
+      {src:"video-generator/videos/biz-como-adicionar-produto.mp4", title:"Como adicionar produto"},
+    ],
+  },
+];
 
-const deck=document.getElementById('deck');
-const fill=document.getElementById('progressFill');
-const counter=document.getElementById('counter');
-const navList=document.getElementById('navList');
-const allSections=[...document.querySelectorAll('.section')];
-const allVideoBlocks=[...document.querySelectorAll('.video-block')];
+const totalVideos = CHAPTERS.reduce((s,c)=>s+c.videos.length,0);
 
-function update(){
-  const sections=allSections;
-  const scrollTop=deck.scrollTop;
-  const m=deck.scrollHeight-deck.clientHeight;
-  fill.style.height=(scrollTop/m*100)+'%';
-  let idx=0;
-  sections.forEach((s,i)=>{if(scrollTop+10>=s.offsetTop) idx=i;});
-  counter.textContent=String(idx+1).padStart(2,'0')+' / '+String(sections.length).padStart(2,'0');
+/* ---------- State ---------- */
+let view = "topics";   // "topics" | "chapter:<id>"
+let currentChapter = null;
 
-  // active section in sidebar
-  let activeId=sections[idx].id;
-  document.querySelectorAll('.sidebar .nav-link').forEach(a=>a.classList.remove('active'));
-  document.querySelectorAll('.sidebar .nav-sub a').forEach(a=>a.classList.remove('active'));
-  const activeItem=document.querySelector(`.sidebar .nav-item[data-target="${activeId}"]`);
-  if(activeItem){
-    activeItem.querySelector('.nav-link').classList.add('active');
-    activeItem.classList.add('open');
+/* ---------- DOM helpers ---------- */
+const $nav     = document.getElementById("nav-list");
+const $vp      = document.getElementById("viewport");
+const $back    = document.getElementById("back-btn");
+const $crumb1  = document.getElementById("crumb-1");
+const $crumb2  = document.getElementById("crumb-2");
+const $title   = document.getElementById("page-title");
+const $metaLbl = document.getElementById("meta-label");
+const $metaBig = document.getElementById("meta-big");
+const $foot    = document.getElementById("sb-foot");
+
+function el(tag, attrs={}, ...children){
+  const e = document.createElement(tag);
+  for (const [k,v] of Object.entries(attrs)){
+    if (k==="class") e.className = v;
+    else if (k==="html") e.innerHTML = v;
+    else if (k.startsWith("on") && typeof v === "function") e.addEventListener(k.slice(2), v);
+    else if (v === true) e.setAttribute(k,"");
+    else if (v === false || v == null) {}
+    else e.setAttribute(k, v);
   }
-
-  // active video in sidebar sub
-  const deckRect=deck.getBoundingClientRect();
-  let activeVid=null;
-  for(const vb of allVideoBlocks){
-    const r=vb.getBoundingClientRect();
-    if(r.top-deckRect.top>=0 && r.top-deckRect.top<window.innerHeight*0.5){activeVid=vb;break;}
-    if(r.top-deckRect.top<0 && r.bottom-deckRect.top>0){activeVid=vb;}
+  for (const c of children.flat()){
+    if (c == null || c === false) continue;
+    e.append(c instanceof Node ? c : document.createTextNode(String(c)));
   }
-  if(activeVid){
-    const subLink=document.querySelector(`.sidebar .nav-sub a[href="#${activeVid.id}"]`);
-    if(subLink){subLink.classList.add('active');}
-    const parentItem=subLink && subLink.closest('.nav-item');
-    if(parentItem){
-      parentItem.classList.add('open');
-      parentItem.querySelector('.nav-link').classList.add('active');
+  return e;
+}
+
+/* ---------- Render sidebar ---------- */
+function renderNav(){
+  $nav.innerHTML = "";
+  if (view === "topics"){
+    // show all chapters as nav items (highlighting none — gallery is the index)
+    for (const c of CHAPTERS){
+      const it = el("li", {class:"item", role:"button", tabindex:"0",
+        onclick:()=>openChapter(c.id),
+        onkeydown:(e)=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();openChapter(c.id);} }
+      },
+        el("span", {class:"num"}, c.num),
+        el("span", {class:"title"}, c.title),
+        el("span", {class:"pill"}, String(c.videos.length)),
+      );
+      $nav.append(it);
     }
+    $foot.textContent = `${totalVideos} Vídeos · ${CHAPTERS.length} Categorias`;
+  } else {
+    // chapter view: sidebar lists the videos of the current chapter
+    currentChapter.videos.forEach((v,i)=>{
+      const it = el("li", {class:"item", role:"button", tabindex:"0",
+        onclick:()=>{
+          const card = document.getElementById(`vid-card-${i}`);
+          if (card){ card.scrollIntoView({behavior:"smooth", block:"center"}); card.querySelector("video")?.play().catch(()=>{}); }
+        }
+      },
+        el("span", {class:"num"}, String(i+1).padStart(2,"0")),
+        el("span", {class:"title"}, v.title),
+      );
+      $nav.append(it);
+    });
+    $foot.textContent = `${currentChapter.videos.length} Vídeos · ${currentChapter.title}`;
   }
 }
-deck.addEventListener('scroll',update,{passive:true});
-update();
 
-// sidebar nav-link click: jump to section
-document.querySelectorAll('.sidebar .nav-link').forEach(a=>{
-  a.addEventListener('click',(e)=>{
-    e.preventDefault();
-    const id=a.getAttribute('href').slice(1);
-    const target=document.getElementById(id);
-    if(target){
-      const offset=target.offsetTop;
-      deck.scrollTo({top:offset,behavior:'smooth'});
-    }
+/* ---------- Render topbar ---------- */
+function renderTopbar(){
+  if (view === "topics"){
+    $crumb1.textContent = "Galeria";
+    $crumb2.textContent = "Tópicos";
+    $title.innerHTML = `Demonstrações <em>Libax Business</em>`;
+    $metaLbl.textContent = "Tópicos";
+    $metaBig.textContent = String(CHAPTERS.length);
+    $back.hidden = true;
+  } else {
+    $crumb1.textContent = "Galeria";
+    $crumb2.textContent = currentChapter.title;
+    $title.innerHTML = `${currentChapter.num} <em>${currentChapter.title}</em>`;
+    $metaLbl.textContent = "Vídeos";
+    $metaBig.textContent = String(currentChapter.videos.length);
+    $back.hidden = false;
+  }
+}
+
+/* ---------- Render gallery: topics ---------- */
+function renderTopics(){
+  $vp.innerHTML = "";
+  const grid = el("div", {class:"gallery"});
+  for (const c of CHAPTERS){
+    const card = el("article", {class:"card", tabindex:"0", role:"button",
+      onclick:()=>openChapter(c.id),
+      onkeydown:(e)=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();openChapter(c.id);} }
+    },
+      el("div", {class:"thumb"},
+        el("video", {src:c.cover, muted:"", playsinline:"", preload:"metadata", "aria-hidden":"true"}),
+        el("span", {class:"badge"}, c.num),
+        el("span", {class:"count"}, `${c.videos.length} vídeo${c.videos.length>1?"s":""}`),
+      ),
+      el("div", {class:"body"},
+        el("h3", {}, c.title),
+        el("p", {}, c.sub),
+        el("div", {class:"more"}, "Ver vídeos →"),
+      ),
+    );
+    grid.append(card);
+  }
+  $vp.append(grid);
+}
+
+/* ---------- Render gallery: chapter (videos) ---------- */
+function renderChapter(){
+  $vp.innerHTML = "";
+  $vp.append(el("div", {class:"ch-head"},
+    el("h2", {}, currentChapter.title),
+    el("div", {class:"ch-sub"}, currentChapter.sub),
+  ));
+  const grid = el("div", {class:"gallery"});
+  currentChapter.videos.forEach((v,i)=>{
+    const card = el("article", {class:"card video", id:`vid-card-${i}`},
+      el("div", {class:"thumb"},
+        el("video", {src:v.src, controls:"", preload:"metadata", playsinline:""}),
+        el("span", {class:"badge"}, currentChapter.num + " · " + String(i+1).padStart(2,"0")),
+      ),
+      el("div", {class:"body"},
+        el("span", {class:"vnum"}, String(i+1).padStart(2,"0")),
+        el("h3", {}, v.title),
+      ),
+    );
+    grid.append(card);
   });
+  $vp.append(grid);
+}
+
+/* ---------- View transitions ---------- */
+function openChapter(id){
+  const c = CHAPTERS.find(x=>x.id===id);
+  if (!c) return;
+  currentChapter = c;
+  view = `chapter:${id}`;
+  renderTopbar();
+  renderNav();
+  renderChapter();
+  $vp.scrollTop = 0;
+  history.replaceState(null, "", `#${id}`);
+}
+
+function openTopics(){
+  currentChapter = null;
+  view = "topics";
+  renderTopbar();
+  renderNav();
+  renderTopics();
+  $vp.scrollTop = 0;
+  history.replaceState(null, "", "#");
+}
+
+/* ---------- Wire up ---------- */
+$back.addEventListener("click", openTopics);
+
+document.addEventListener("keydown",(e)=>{
+  if (e.key === "Escape" && view !== "topics") openTopics();
+  if (e.key === "ArrowRight" && view === "topics"){
+    const idx = 0; // first chapter
+    openChapter(CHAPTERS[idx].id);
+  }
 });
 
-// sidebar nav-sub click: jump to video
-document.querySelectorAll('.sidebar .nav-sub a').forEach(a=>{
-  a.addEventListener('click',(e)=>{
-    e.preventDefault();
-    const id=a.getAttribute('href').slice(1);
-    const target=document.getElementById(id);
-    if(target){
-      target.scrollIntoView({behavior:'smooth',block:'start'});
-    }
-  });
-});
-
-// toggle dropdown on sidebar nav-link click (parent only)
-document.querySelectorAll('.sidebar .nav-item').forEach(item=>{
-  const link=item.querySelector('.nav-link');
-  link.addEventListener('click',(e)=>{
-    if(item.querySelector('.nav-sub')){
-      e.preventDefault();
-      e.stopPropagation();
-      item.classList.toggle('open');
-    }
-  });
-});
+/* ---------- Boot from hash ---------- */
+function boot(){
+  const h = (location.hash || "").replace(/^#/,"");
+  if (h && CHAPTERS.find(c=>c.id===h)) openChapter(h);
+  else openTopics();
+}
+boot();
 </script>
-<div class="vignette"></div>
 </body>
 </html>
